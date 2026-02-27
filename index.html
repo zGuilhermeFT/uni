@@ -1,839 +1,1479 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>UNI — Escola de Educação Infantil</title>
+<title>UNI Escola de Educação Infantil</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500;600&family=Caveat:wght@600&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,300;1,9..144,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 <style>
   :root {
     --lilac-50: #f5f0ff;
-    --lilac-100: #ede5ff;
-    --lilac-200: #d8c8ff;
-    --lilac-300: #bf9eff;
-    --lilac-400: #a370ff;
-    --lilac-500: #8a4fff;
-    --lilac-600: #7335e8;
-    --lilac-700: #5e23c5;
-    --lilac-800: #4c1da0;
-    --lilac-900: #3d1880;
-    --green-50: #edfdf4;
-    --green-100: #d1fae5;
-    --green-200: #a0f0c8;
-    --green-300: #5ddba0;
-    --green-400: #2ec87e;
-    --green-500: #10b862;
-    --green-600: #059650;
-    --green-700: #047840;
-    --green-800: #065f34;
-    --green-900: #064e2c;
-    --cream: #fdf9f3;
-    --dark: #1a0a2e;
-    --font-display: 'Playfair Display', serif;
-    --font-body: 'DM Sans', sans-serif;
-    --font-accent: 'Caveat', cursive;
+    --lilac-100: #ede0ff;
+    --lilac-200: #d8c0ff;
+    --lilac-300: #be96ff;
+    --lilac-400: #a066ff;
+    --lilac-500: #8833ff;
+    --lilac-600: #7a22ef;
+    --lilac-700: #6518cc;
+    --lilac-800: #5214a8;
+    --lilac-900: #3d0e7a;
+    --green-50: #f0faf0;
+    --green-100: #dcf5dc;
+    --green-200: #b4ecb4;
+    --green-300: #7ddc7d;
+    --green-400: #4dc94d;
+    --green-500: #2db52d;
+    --green-600: #1e9e1e;
+    --green-700: #187518;
+    --green-800: #145514;
+    --green-900: #0e3d0e;
+    --cream: #fffdf5;
+    --warm-white: #fdfbf7;
+    --text-dark: #1a0a2e;
+    --text-mid: #4a3570;
+    --text-light: #8b7aaa;
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
-  
+
   html { scroll-behavior: smooth; }
-  
+
   body {
-    font-family: var(--font-body);
-    background: var(--cream);
-    color: var(--dark);
+    font-family: 'DM Sans', sans-serif;
+    background: var(--warm-white);
+    color: var(--text-dark);
     overflow-x: hidden;
+    cursor: none;
   }
 
-  /* ── NAV ── */
+  /* CUSTOM CURSOR */
+  .cursor {
+    width: 16px; height: 16px;
+    background: var(--lilac-500);
+    border-radius: 50%;
+    position: fixed; top: 0; left: 0;
+    pointer-events: none; z-index: 9999;
+    transition: transform 0.15s ease, background 0.3s ease;
+    mix-blend-mode: multiply;
+  }
+  .cursor-follower {
+    width: 40px; height: 40px;
+    border: 2px solid var(--lilac-400);
+    border-radius: 50%;
+    position: fixed; top: 0; left: 0;
+    pointer-events: none; z-index: 9998;
+    transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.3s ease;
+    opacity: 0.6;
+  }
+
+  /* SCROLLBAR */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--lilac-50); }
+  ::-webkit-scrollbar-thumb { background: var(--lilac-400); border-radius: 3px; }
+
+  /* FLOATING SHAPES BACKGROUND */
+  .bg-shapes {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    pointer-events: none; z-index: 0; overflow: hidden;
+  }
+  .bg-shape {
+    position: absolute; border-radius: 50%;
+    opacity: 0.06; animation: floatShape linear infinite;
+  }
+  @keyframes floatShape {
+    0% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-30px) rotate(180deg); }
+    100% { transform: translateY(0) rotate(360deg); }
+  }
+
+  /* NAVBAR */
   nav {
     position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+    padding: 0 2rem;
+    height: 80px;
     display: flex; align-items: center; justify-content: space-between;
-    padding: 1rem 2.5rem;
-    background: rgba(253,249,243,0.85);
-    backdrop-filter: blur(16px);
-    border-bottom: 1px solid rgba(163,112,255,0.15);
-    transition: all 0.3s;
+    transition: all 0.4s ease;
   }
   nav.scrolled {
-    padding: 0.6rem 2.5rem;
-    background: rgba(253,249,243,0.97);
-    box-shadow: 0 2px 30px rgba(122,53,232,0.1);
+    background: rgba(255,253,247,0.92);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--lilac-100);
+    box-shadow: 0 4px 40px rgba(136,51,255,0.08);
+    height: 70px;
   }
   .nav-logo {
-    font-family: var(--font-display);
-    font-size: 2rem;
-    font-weight: 900;
-    color: var(--lilac-700);
-    letter-spacing: -1px;
+    display: flex; align-items: center; gap: 12px;
     text-decoration: none;
   }
-  .nav-logo span { color: var(--green-500); }
-  .nav-links {
-    display: flex; gap: 0.2rem; list-style: none; align-items: center;
+  .logo-mark {
+    width: 48px; height: 48px;
+    background: linear-gradient(135deg, var(--lilac-500), var(--green-500));
+    border-radius: 16px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Fraunces', serif;
+    font-weight: 700; font-size: 22px; color: white;
+    box-shadow: 0 8px 24px rgba(136,51,255,0.35);
+    position: relative; overflow: hidden;
+    transition: transform 0.3s ease;
   }
-  .nav-links a {
-    font-size: 0.82rem; font-weight: 500; letter-spacing: 0.04em;
-    color: var(--dark); text-decoration: none;
-    padding: 0.45rem 0.75rem; border-radius: 99px;
-    transition: all 0.2s;
-    text-transform: uppercase;
+  .logo-mark::after {
+    content: '';
+    position: absolute; top: -50%; left: -50%;
+    width: 200%; height: 200%;
+    background: linear-gradient(45deg, transparent 40%, rgba(255,255,255,0.2) 50%, transparent 60%);
+    animation: shimmer 3s infinite;
   }
-  .nav-links a:hover { background: var(--lilac-100); color: var(--lilac-700); }
-  .nav-cta {
-    background: var(--lilac-600) !important;
-    color: white !important;
-    padding: 0.5rem 1.2rem !important;
+  @keyframes shimmer {
+    0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+    100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
   }
-  .nav-cta:hover { background: var(--lilac-700) !important; transform: translateY(-1px); }
-  .hamburger {
-    display: none; flex-direction: column; gap: 5px; cursor: pointer;
-    padding: 4px;
+  .logo-mark:hover { transform: rotate(-5deg) scale(1.05); }
+  .logo-text {
+    display: flex; flex-direction: column;
   }
-  .hamburger span {
-    width: 24px; height: 2px;
-    background: var(--lilac-700); border-radius: 2px;
-    transition: all 0.3s;
-    display: block;
+  .logo-name {
+    font-family: 'Fraunces', serif;
+    font-size: 24px; font-weight: 700;
+    color: var(--text-dark);
+    line-height: 1;
+  }
+  .logo-sub {
+    font-size: 10px; color: var(--text-light);
+    letter-spacing: 0.15em; text-transform: uppercase;
+    font-weight: 500;
   }
 
-  /* ── HERO ── */
-  .hero {
+  .nav-links {
+    display: flex; align-items: center; gap: 0.25rem;
+    list-style: none;
+  }
+  .nav-links a {
+    text-decoration: none; color: var(--text-mid);
+    font-size: 14px; font-weight: 500;
+    padding: 8px 14px; border-radius: 12px;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+  }
+  .nav-links a:hover {
+    background: var(--lilac-50);
+    color: var(--lilac-600);
+  }
+
+  .nav-cta {
+    background: linear-gradient(135deg, var(--lilac-500), var(--lilac-700)) !important;
+    color: white !important;
+    padding: 10px 22px !important;
+    border-radius: 50px !important;
+    box-shadow: 0 4px 20px rgba(136,51,255,0.35);
+    font-weight: 600 !important;
+    transition: transform 0.2s ease, box-shadow 0.2s ease !important;
+  }
+  .nav-cta:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 8px 30px rgba(136,51,255,0.5) !important;
+    background: linear-gradient(135deg, var(--lilac-500), var(--lilac-700)) !important;
+  }
+
+  .hamburger {
+    display: none;
+    flex-direction: column; gap: 5px;
+    cursor: pointer; padding: 8px;
+    border: none; background: none;
+  }
+  .hamburger span {
+    display: block; width: 24px; height: 2px;
+    background: var(--text-dark);
+    border-radius: 2px;
+    transition: all 0.3s ease;
+  }
+
+  /* MOBILE NAV */
+  .mobile-nav {
+    position: fixed; top: 0; right: -100%; width: 300px; height: 100vh;
+    background: white;
+    z-index: 999; padding: 100px 2rem 2rem;
+    transition: right 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    box-shadow: -10px 0 60px rgba(0,0,0,0.1);
+    display: flex; flex-direction: column; gap: 0.5rem;
+  }
+  .mobile-nav.open { right: 0; }
+  .mobile-nav a {
+    display: block; padding: 14px 20px;
+    color: var(--text-mid); text-decoration: none;
+    font-weight: 500; font-size: 16px;
+    border-radius: 16px;
+    transition: all 0.2s ease;
+  }
+  .mobile-nav a:hover {
+    background: var(--lilac-50); color: var(--lilac-600);
+  }
+  .mobile-overlay {
+    position: fixed; inset: 0; background: rgba(0,0,0,0.4);
+    z-index: 998; opacity: 0; pointer-events: none;
+    transition: opacity 0.3s ease;
+    backdrop-filter: blur(4px);
+  }
+  .mobile-overlay.open { opacity: 1; pointer-events: all; }
+
+  /* HERO */
+  #home {
     min-height: 100vh;
-    display: grid; grid-template-columns: 1fr 1fr;
-    align-items: center;
-    padding: 8rem 2.5rem 4rem;
+    display: flex; align-items: center;
+    padding: 120px 2rem 4rem;
     position: relative; overflow: hidden;
   }
   .hero-bg {
-    position: absolute; inset: 0; z-index: 0;
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 80% 60% at 70% 40%, var(--lilac-100) 0%, transparent 60%),
+                radial-gradient(ellipse 50% 50% at 20% 80%, var(--green-100) 0%, transparent 50%),
+                var(--warm-white);
   }
-  .hero-blob {
-    position: absolute;
-    border-radius: 50%;
-    filter: blur(80px);
-    opacity: 0.35;
-    animation: floatBlob 8s ease-in-out infinite;
+  .hero-inner {
+    max-width: 1280px; margin: 0 auto; width: 100%;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 4rem;
+    align-items: center; position: relative; z-index: 1;
   }
-  .blob1 { width: 500px; height: 500px; background: var(--lilac-300); top: -100px; right: -100px; }
-  .blob2 { width: 350px; height: 350px; background: var(--green-200); bottom: 50px; left: -80px; animation-delay: 3s; }
-  .blob3 { width: 250px; height: 250px; background: var(--lilac-200); top: 200px; right: 300px; animation-delay: 5s; }
-  @keyframes floatBlob {
-    0%,100% { transform: translate(0,0) scale(1); }
-    33% { transform: translate(20px,-15px) scale(1.05); }
-    66% { transform: translate(-10px,20px) scale(0.95); }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--lilac-50); border: 1px solid var(--lilac-200);
+    padding: 8px 18px; border-radius: 50px; margin-bottom: 1.5rem;
+    font-size: 13px; color: var(--lilac-700); font-weight: 600;
+    letter-spacing: 0.05em; text-transform: uppercase;
+    animation: fadeSlideUp 0.8s ease forwards;
   }
-  .hero-content { position: relative; z-index: 1; max-width: 600px; }
-  .hero-tag {
-    display: inline-flex; align-items: center; gap: 0.5rem;
-    background: var(--lilac-100); border: 1px solid var(--lilac-200);
-    color: var(--lilac-700); font-size: 0.75rem; font-weight: 600;
-    letter-spacing: 0.08em; text-transform: uppercase;
-    padding: 0.4rem 0.9rem; border-radius: 99px;
-    margin-bottom: 1.5rem;
-    animation: fadeUp 0.6s ease both;
+  .hero-badge-dot {
+    width: 8px; height: 8px; background: var(--green-400);
+    border-radius: 50%; animation: pulse 2s infinite;
   }
-  .hero-tag::before { content: '✦'; font-size: 0.6rem; }
-  .hero h1 {
-    font-family: var(--font-display);
-    font-size: clamp(3rem, 6vw, 5.5rem);
-    font-weight: 900; line-height: 1.0;
-    color: var(--dark);
-    margin-bottom: 1rem;
-    animation: fadeUp 0.6s 0.15s ease both;
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.3); opacity: 0.7; }
   }
-  .hero h1 em { color: var(--lilac-600); font-style: italic; }
+  .hero-title {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(3.2rem, 6vw, 5.5rem);
+    font-weight: 700; line-height: 1.05;
+    color: var(--text-dark);
+    animation: fadeSlideUp 0.8s 0.1s ease both;
+  }
+  .hero-title em {
+    font-style: italic; color: var(--lilac-500);
+    position: relative;
+  }
+  .hero-title em::after {
+    content: '';
+    position: absolute; left: 0; bottom: 4px; right: 0;
+    height: 4px; background: var(--green-400);
+    border-radius: 2px;
+    transform: scaleX(0); transform-origin: left;
+    animation: underlineGrow 0.8s 0.9s ease forwards;
+  }
+  @keyframes underlineGrow { to { transform: scaleX(1); } }
   .hero-slogan {
-    font-family: var(--font-accent);
-    font-size: 1.4rem; color: var(--green-600);
-    margin-bottom: 1.8rem; line-height: 1.5;
-    animation: fadeUp 0.6s 0.3s ease both;
+    font-family: 'Fraunces', serif;
+    font-size: 16px; color: var(--text-light);
+    font-style: italic; margin: 1.2rem 0 2rem;
+    line-height: 1.6; font-weight: 400;
+    animation: fadeSlideUp 0.8s 0.2s ease both;
+    border-left: 3px solid var(--green-400);
+    padding-left: 16px;
   }
   .hero-desc {
-    font-size: 1rem; color: #5a4a7a; line-height: 1.7;
-    margin-bottom: 2.5rem; max-width: 480px;
-    animation: fadeUp 0.6s 0.45s ease both;
+    font-size: 17px; color: var(--text-mid);
+    line-height: 1.75; margin-bottom: 2.5rem;
+    animation: fadeSlideUp 0.8s 0.3s ease both;
+    max-width: 480px;
   }
-  .hero-btns {
+  .hero-actions {
     display: flex; gap: 1rem; flex-wrap: wrap;
-    animation: fadeUp 0.6s 0.6s ease both;
+    animation: fadeSlideUp 0.8s 0.4s ease both;
   }
   .btn-primary {
-    background: var(--lilac-600); color: white;
-    padding: 0.85rem 2rem; border-radius: 99px;
-    font-weight: 600; font-size: 0.9rem;
-    text-decoration: none; border: none; cursor: pointer;
-    transition: all 0.25s;
-    box-shadow: 0 4px 20px rgba(115,53,232,0.35);
-  }
-  .btn-primary:hover { background: var(--lilac-700); transform: translateY(-2px); box-shadow: 0 8px 30px rgba(115,53,232,0.45); }
-  .btn-secondary {
-    background: transparent; color: var(--lilac-700);
-    padding: 0.85rem 2rem; border-radius: 99px;
-    font-weight: 600; font-size: 0.9rem;
-    text-decoration: none; border: 2px solid var(--lilac-300);
-    cursor: pointer; transition: all 0.25s;
-  }
-  .btn-secondary:hover { background: var(--lilac-50); border-color: var(--lilac-500); }
-  .hero-visual {
-    position: relative; z-index: 1;
-    display: flex; justify-content: center; align-items: center;
-    animation: fadeUp 0.8s 0.3s ease both;
-  }
-  .hero-card-main {
-    width: 380px; height: 460px;
-    background: linear-gradient(135deg, var(--lilac-500) 0%, var(--lilac-700) 100%);
-    border-radius: 40px 40px 40px 10px;
-    display: flex; flex-direction: column;
-    justify-content: flex-end; padding: 2rem;
-    box-shadow: 0 30px 80px rgba(94,35,197,0.35);
+    display: inline-flex; align-items: center; gap: 8px;
+    background: linear-gradient(135deg, var(--lilac-500), var(--lilac-700));
+    color: white; text-decoration: none;
+    padding: 16px 32px; border-radius: 50px;
+    font-weight: 700; font-size: 16px;
+    box-shadow: 0 8px 30px rgba(136,51,255,0.4);
+    transition: all 0.3s ease;
     position: relative; overflow: hidden;
+    cursor: none;
   }
-  .hero-card-main::before {
+  .btn-primary::before {
     content: '';
-    position: absolute; top: -60px; right: -60px;
-    width: 200px; height: 200px;
-    background: rgba(255,255,255,0.1);
-    border-radius: 50%;
+    position: absolute; inset: 0;
+    background: linear-gradient(135deg, var(--lilac-400), var(--lilac-600));
+    opacity: 0; transition: opacity 0.3s ease;
   }
-  .hero-card-emoji {
-    font-size: 5rem; position: absolute; top: 2rem; left: 2rem;
-    animation: bounce 2s ease-in-out infinite;
+  .btn-primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 16px 50px rgba(136,51,255,0.5);
   }
-  @keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
-  .hero-card-main h3 {
-    font-family: var(--font-display); color: white;
-    font-size: 1.5rem; margin-bottom: 0.5rem;
-  }
-  .hero-card-main p { color: rgba(255,255,255,0.75); font-size: 0.85rem; }
-  .hero-stat {
-    position: absolute; background: white;
-    border-radius: 18px; padding: 1rem 1.3rem;
-    box-shadow: 0 10px 40px rgba(0,0,0,0.12);
-  }
-  .stat-tl { top: 20px; left: -30px; }
-  .stat-br { bottom: 60px; right: -30px; }
-  .hero-stat .num {
-    font-family: var(--font-display); font-weight: 900;
-    font-size: 1.8rem; color: var(--lilac-600);
-  }
-  .hero-stat .lbl { font-size: 0.72rem; color: #7a6a9a; font-weight: 500; }
+  .btn-primary:hover::before { opacity: 1; }
+  .btn-primary span { position: relative; z-index: 1; }
 
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(24px); }
+  .btn-secondary {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: transparent; color: var(--text-mid);
+    text-decoration: none;
+    padding: 16px 32px; border-radius: 50px;
+    font-weight: 600; font-size: 16px;
+    border: 2px solid var(--lilac-200);
+    transition: all 0.3s ease;
+    cursor: none;
+  }
+  .btn-secondary:hover {
+    border-color: var(--lilac-400);
+    color: var(--lilac-600);
+    background: var(--lilac-50);
+    transform: translateY(-3px);
+  }
+
+  .hero-stats {
+    display: flex; gap: 2rem; margin-top: 3rem;
+    animation: fadeSlideUp 0.8s 0.5s ease both;
+  }
+  .stat {
+    display: flex; flex-direction: column;
+  }
+  .stat-num {
+    font-family: 'Fraunces', serif;
+    font-size: 2.2rem; font-weight: 700;
+    color: var(--lilac-600); line-height: 1;
+  }
+  .stat-label {
+    font-size: 12px; color: var(--text-light);
+    font-weight: 500; text-transform: uppercase; letter-spacing: 0.08em;
+  }
+
+  /* HERO VISUAL */
+  .hero-visual {
+    position: relative;
+    animation: fadeSlideRight 1s 0.3s ease both;
+  }
+  @keyframes fadeSlideRight {
+    from { opacity: 0; transform: translateX(60px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+  .hero-img-wrap {
+    position: relative; border-radius: 40px; overflow: hidden;
+    aspect-ratio: 4/5;
+    box-shadow: 0 40px 120px rgba(136,51,255,0.2), 0 0 0 1px rgba(136,51,255,0.1);
+  }
+  .hero-img-wrap img {
+    width: 100%; height: 100%; object-fit: cover;
+    transition: transform 6s ease;
+  }
+  .hero-img-wrap:hover img { transform: scale(1.04); }
+  .hero-img-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(136,51,255,0.3) 0%, transparent 50%);
+  }
+  .hero-float-card {
+    position: absolute;
+    background: white;
+    border-radius: 20px;
+    padding: 16px 20px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.12);
+    display: flex; align-items: center; gap: 12px;
+    animation: floatCard 4s ease-in-out infinite;
+  }
+  @keyframes floatCard {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+  }
+  .hero-float-card:nth-child(2) { top: 10%; right: -60px; animation-delay: 0s; }
+  .hero-float-card:nth-child(3) { bottom: 20%; left: -60px; animation-delay: 1.5s; }
+  .float-icon {
+    width: 48px; height: 48px; border-radius: 14px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px; flex-shrink: 0;
+  }
+  .float-text strong { display: block; font-size: 15px; color: var(--text-dark); font-weight: 700; }
+  .float-text span { font-size: 12px; color: var(--text-light); }
+
+  .hero-shapes {
+    position: absolute; inset: -20%; pointer-events: none; z-index: -1;
+  }
+  .hero-shape {
+    position: absolute; border-radius: 50%;
+    animation: floatCard 5s ease-in-out infinite;
+  }
+
+  @keyframes fadeSlideUp {
+    from { opacity: 0; transform: translateY(30px); }
     to { opacity: 1; transform: translateY(0); }
   }
 
-  /* ── SECTION BASE ── */
-  section { padding: 6rem 2.5rem; }
+  /* SECTION COMMONS */
+  section { position: relative; z-index: 1; }
+  .section-inner {
+    max-width: 1280px; margin: 0 auto;
+    padding: 6rem 2rem;
+  }
   .section-tag {
-    display: inline-flex; align-items: center; gap: 0.4rem;
-    font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em;
-    text-transform: uppercase; color: var(--green-600);
-    margin-bottom: 0.8rem;
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--green-50); border: 1px solid var(--green-200);
+    padding: 6px 16px; border-radius: 50px;
+    font-size: 12px; color: var(--green-700); font-weight: 700;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    margin-bottom: 1rem;
   }
-  .section-tag::before { content: ''; width: 20px; height: 2px; background: var(--green-400); border-radius: 2px; }
   .section-title {
-    font-family: var(--font-display);
-    font-size: clamp(2rem, 4vw, 3.2rem);
-    font-weight: 800; line-height: 1.15;
-    color: var(--dark); margin-bottom: 1rem;
+    font-family: 'Fraunces', serif;
+    font-size: clamp(2.2rem, 4vw, 3.5rem);
+    font-weight: 700; line-height: 1.1;
+    color: var(--text-dark); margin-bottom: 1rem;
   }
-  .section-title em { color: var(--lilac-600); font-style: italic; }
-  .section-sub {
-    font-size: 1rem; color: #6a5a8a; line-height: 1.7;
-    max-width: 560px;
+  .section-subtitle {
+    font-size: 17px; color: var(--text-mid);
+    line-height: 1.75; max-width: 560px;
   }
-  .container { max-width: 1200px; margin: 0 auto; }
 
-  /* ── MARQUEE ── */
-  .marquee-wrap {
-    background: var(--lilac-700); overflow: hidden;
-    padding: 1rem 0;
+  /* LEVELS SECTION */
+  #educacao {
+    background: var(--warm-white);
   }
-  .marquee-track {
-    display: flex; gap: 3rem; align-items: center;
-    animation: marquee 20s linear infinite;
-    white-space: nowrap;
+  .levels-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem;
+    margin-top: 3.5rem;
   }
-  .marquee-track span {
-    color: var(--lilac-200); font-size: 0.85rem; font-weight: 500;
-    letter-spacing: 0.05em; flex-shrink: 0;
+  .level-card {
+    position: relative; border-radius: 28px; overflow: hidden;
+    aspect-ratio: 3/4; cursor: none;
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
   }
-  .marquee-track .dot { color: var(--green-400); font-size: 1.2rem; }
-  @keyframes marquee { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+  .level-card:hover { transform: scale(1.02) translateY(-8px); }
+  .level-card img {
+    width: 100%; height: 100%; object-fit: cover;
+    transition: transform 0.6s ease;
+  }
+  .level-card:hover img { transform: scale(1.08); }
+  .level-card-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(26,10,46,0.9) 0%, rgba(26,10,46,0.2) 50%, transparent 100%);
+    display: flex; flex-direction: column; justify-content: flex-end;
+    padding: 2rem;
+    transition: all 0.3s ease;
+  }
+  .level-age {
+    display: inline-block;
+    background: rgba(255,255,255,0.15); backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.2);
+    padding: 6px 14px; border-radius: 50px;
+    font-size: 12px; color: white; font-weight: 600;
+    margin-bottom: 0.8rem; letter-spacing: 0.08em; text-transform: uppercase;
+    width: fit-content;
+  }
+  .level-name {
+    font-family: 'Fraunces', serif;
+    font-size: 1.8rem; font-weight: 700; color: white; line-height: 1.1;
+    margin-bottom: 0.5rem;
+  }
+  .level-desc {
+    font-size: 14px; color: rgba(255,255,255,0.8);
+    line-height: 1.6; opacity: 0;
+    transform: translateY(16px);
+    transition: all 0.3s ease;
+  }
+  .level-card:hover .level-desc {
+    opacity: 1; transform: translateY(0);
+  }
+  .level-arrow {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 44px; height: 44px;
+    background: linear-gradient(135deg, var(--lilac-500), var(--green-500));
+    border-radius: 50%; color: white; font-size: 18px;
+    position: absolute; top: 1.5rem; right: 1.5rem;
+    opacity: 0; transform: scale(0.6);
+    transition: all 0.3s ease;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+  }
+  .level-card:hover .level-arrow {
+    opacity: 1; transform: scale(1);
+  }
 
-  /* ── INSTITUCIONAL ── */
-  #institucional { background: white; }
-  .inst-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; }
-  .inst-img-wrap { position: relative; }
-  .inst-img-main {
-    width: 100%; aspect-ratio: 4/5;
-    background: linear-gradient(160deg, var(--lilac-200) 0%, var(--green-100) 100%);
-    border-radius: 30px 30px 30px 5px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 8rem;
-    box-shadow: 0 20px 60px rgba(122,53,232,0.2);
-    overflow: hidden;
-  }
-  .inst-bubble {
-    position: absolute; background: var(--green-400);
-    color: white; border-radius: 20px; padding: 1rem 1.4rem;
-    font-weight: 700; font-size: 0.85rem;
-  }
-  .inst-bubble.b1 { bottom: -20px; left: -20px; background: var(--lilac-600); }
-  .inst-bubble.b2 { top: -20px; right: -20px; background: var(--green-500); }
-  .inst-values { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 2rem; }
-  .inst-val {
-    background: var(--lilac-50); border: 1px solid var(--lilac-100);
-    border-radius: 16px; padding: 1.2rem;
-    transition: all 0.25s;
-  }
-  .inst-val:hover { background: var(--lilac-100); transform: translateY(-3px); }
-  .inst-val .icon { font-size: 1.8rem; margin-bottom: 0.5rem; }
-  .inst-val h4 { font-weight: 700; font-size: 0.9rem; color: var(--lilac-700); margin-bottom: 0.3rem; }
-  .inst-val p { font-size: 0.8rem; color: #7a6a9a; line-height: 1.5; }
-
-  /* ── EDUCAÇÃO CARDS ── */
-  #educacao { background: var(--lilac-50); }
-  .edu-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-top: 3rem; }
-  .edu-card {
-    border-radius: 24px; padding: 2rem;
-    position: relative; overflow: hidden;
-    transition: all 0.3s;
-    cursor: pointer;
-  }
-  .edu-card:hover { transform: translateY(-8px); box-shadow: 0 20px 50px rgba(0,0,0,0.12); }
-  .edu-card.creche { background: linear-gradient(135deg, #fde8ff 0%, #e8d5ff 100%); border: 1px solid #e0c0ff; }
-  .edu-card.pre { background: linear-gradient(135deg, #d5f5e8 0%, #c0eedc 100%); border: 1px solid #a0e0c0; }
-  .edu-card.special { background: linear-gradient(135deg, var(--lilac-600) 0%, var(--lilac-800) 100%); border: none; color: white; }
-  .edu-card .age {
-    font-family: var(--font-display); font-size: 3.5rem; font-weight: 900;
-    opacity: 0.15; position: absolute; top: 1rem; right: 1.5rem;
-    line-height: 1;
-  }
-  .edu-card .emoji { font-size: 2.5rem; margin-bottom: 1rem; }
-  .edu-card h3 { font-family: var(--font-display); font-size: 1.5rem; font-weight: 800; margin-bottom: 0.5rem; }
-  .edu-card .sub { font-size: 0.78rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; opacity: 0.7; margin-bottom: 0.8rem; }
-  .edu-card p { font-size: 0.87rem; line-height: 1.65; opacity: 0.85; }
-  .edu-card .tag-list { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 1rem; }
-  .edu-card .tag {
-    background: rgba(255,255,255,0.4); font-size: 0.72rem;
-    font-weight: 600; padding: 0.25rem 0.7rem; border-radius: 99px;
-  }
-  .edu-card.special .tag { background: rgba(255,255,255,0.2); color: white; }
-
-  /* ── PRINCÍPIOS ── */
-  #principios { background: white; }
-  .princ-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; margin-top: 3rem; }
-  .princ-card {
-    text-align: center; padding: 2.5rem 1.5rem;
-    border-radius: 24px;
-    background: var(--cream); border: 1px solid rgba(163,112,255,0.15);
-    transition: all 0.3s;
+  /* PRINCIPLES */
+  #principios {
+    background: linear-gradient(135deg, var(--lilac-900) 0%, var(--text-dark) 50%, #0e3d1e 100%);
     position: relative; overflow: hidden;
   }
-  .princ-card::before {
+  #principios::before {
     content: '';
-    position: absolute; bottom: -40px; right: -40px;
-    width: 100px; height: 100px;
-    background: var(--lilac-100); border-radius: 50%;
-    transition: all 0.4s;
+    position: absolute; inset: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
   }
-  .princ-card:hover::before { width: 200px; height: 200px; }
-  .princ-card:hover { transform: translateY(-5px); border-color: var(--lilac-300); }
-  .princ-icon {
+  .principles-header { text-align: center; margin-bottom: 4rem; }
+  .principles-header .section-tag {
+    background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.15);
+    color: var(--green-300);
+  }
+  .principles-header .section-title { color: white; }
+  .principles-header .section-subtitle { color: rgba(255,255,255,0.65); margin: 0 auto; }
+  .principles-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem;
+  }
+  .principle-card {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 24px; padding: 2.5rem;
+    transition: all 0.4s ease;
+    backdrop-filter: blur(10px);
+    position: relative; overflow: hidden;
+  }
+  .principle-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 3px;
+    background: linear-gradient(90deg, var(--lilac-400), var(--green-400));
+    transform: scaleX(0); transform-origin: left;
+    transition: transform 0.4s ease;
+  }
+  .principle-card:hover { background: rgba(255,255,255,0.1); transform: translateY(-8px); }
+  .principle-card:hover::before { transform: scaleX(1); }
+  .principle-icon {
     width: 64px; height: 64px; border-radius: 20px;
     display: flex; align-items: center; justify-content: center;
-    font-size: 1.8rem; margin: 0 auto 1.2rem;
+    font-size: 30px; margin-bottom: 1.5rem;
   }
-  .pi1 { background: linear-gradient(135deg, var(--lilac-100), var(--lilac-200)); }
-  .pi2 { background: linear-gradient(135deg, var(--green-100), var(--green-200)); }
-  .pi3 { background: linear-gradient(135deg, #ffecd2, #ffd6a5); }
-  .pi4 { background: linear-gradient(135deg, #fce4ec, #f8bbd0); }
-  .princ-card h4 { font-family: var(--font-display); font-weight: 800; font-size: 1.1rem; margin-bottom: 0.6rem; color: var(--dark); position: relative; z-index: 1; }
-  .princ-card p { font-size: 0.83rem; color: #7a6a9a; line-height: 1.6; position: relative; z-index: 1; }
+  .principle-name {
+    font-family: 'Fraunces', serif;
+    font-size: 1.3rem; font-weight: 600; color: white;
+    margin-bottom: 0.75rem;
+  }
+  .principle-desc {
+    font-size: 14px; color: rgba(255,255,255,0.6);
+    line-height: 1.7;
+  }
 
-  /* ── PROJETOS ── */
-  #projetos { background: var(--dark); color: white; overflow: hidden; }
-  #projetos .section-title { color: white; }
-  #projetos .section-sub { color: rgba(255,255,255,0.6); }
-  .proj-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.5rem; margin-top: 3rem; }
-  .proj-card {
-    border-radius: 20px; overflow: hidden;
-    background: rgba(255,255,255,0.05);
-    border: 1px solid rgba(255,255,255,0.1);
-    transition: all 0.3s; cursor: pointer;
+  /* TOUR 360 */
+  #tour {
+    background: var(--lilac-50);
+    overflow: hidden;
   }
-  .proj-card:hover { transform: scale(1.02); border-color: var(--lilac-400); }
-  .proj-img {
-    height: 180px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 4rem;
+  .tour-inner {
+    max-width: 1280px; margin: 0 auto;
+    padding: 6rem 2rem;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 5rem;
+    align-items: center;
   }
-  .proj-img.p1 { background: linear-gradient(135deg, var(--lilac-700), var(--lilac-500)); }
-  .proj-img.p2 { background: linear-gradient(135deg, var(--green-700), var(--green-500)); }
-  .proj-img.p3 { background: linear-gradient(135deg, #b45309, #d97706); }
-  .proj-img.p4 { background: linear-gradient(135deg, #0e7490, #06b6d4); }
-  .proj-img.p5 { background: linear-gradient(135deg, #be185d, #ec4899); }
-  .proj-img.p6 { background: linear-gradient(135deg, var(--lilac-800), var(--dark)); }
-  .proj-body { padding: 1.3rem; }
-  .proj-cat { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--green-400); margin-bottom: 0.4rem; }
-  .proj-body h4 { font-family: var(--font-display); font-weight: 700; font-size: 1.1rem; margin-bottom: 0.4rem; }
-  .proj-body p { font-size: 0.8rem; color: rgba(255,255,255,0.55); line-height: 1.6; }
-
-  /* ── BLOG ── */
-  #blog { background: var(--lilac-50); }
-  .blog-grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 1.5rem; margin-top: 3rem; }
-  .blog-card {
-    background: white; border-radius: 20px; overflow: hidden;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.06);
-    transition: all 0.3s;
-  }
-  .blog-card:hover { transform: translateY(-5px); box-shadow: 0 12px 40px rgba(122,53,232,0.15); }
-  .blog-img {
-    height: 180px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 3.5rem;
-  }
-  .blog-card.featured .blog-img { height: 240px; font-size: 5rem; }
-  .bi1 { background: linear-gradient(135deg, var(--lilac-100), var(--lilac-200)); }
-  .bi2 { background: linear-gradient(135deg, var(--green-50), var(--green-100)); }
-  .bi3 { background: linear-gradient(135deg, #fff3cd, #ffe0a0); }
-  .blog-body { padding: 1.4rem; }
-  .blog-tag { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--lilac-600); margin-bottom: 0.5rem; }
-  .blog-body h4 { font-family: var(--font-display); font-weight: 800; font-size: 1.1rem; margin-bottom: 0.5rem; color: var(--dark); line-height: 1.3; }
-  .blog-card.featured .blog-body h4 { font-size: 1.4rem; }
-  .blog-body p { font-size: 0.82rem; color: #7a6a9a; line-height: 1.6; margin-bottom: 1rem; }
-  .blog-meta { display: flex; align-items: center; gap: 0.5rem; font-size: 0.75rem; color: #a08abb; }
-  .blog-avatar { width: 28px; height: 28px; border-radius: 50%; background: var(--lilac-200); display: flex; align-items: center; justify-content: center; font-size: 0.8rem; }
-
-  /* ── TOUR 360 ── */
-  #tour { background: white; }
-  .tour-wrap {
-    background: linear-gradient(135deg, var(--lilac-700) 0%, var(--dark) 100%);
-    border-radius: 32px; padding: 4rem;
-    display: grid; grid-template-columns: 1fr 1fr; gap: 3rem;
-    align-items: center; color: white; margin-top: 3rem;
-  }
-  .tour-wrap h2 { font-family: var(--font-display); font-size: 2.5rem; font-weight: 900; margin-bottom: 1rem; }
-  .tour-wrap p { color: rgba(255,255,255,0.7); line-height: 1.7; margin-bottom: 2rem; }
   .tour-visual {
-    aspect-ratio: 4/3;
-    background: rgba(255,255,255,0.1);
-    border-radius: 20px;
-    border: 2px dashed rgba(255,255,255,0.3);
-    display: flex; flex-direction: column;
-    align-items: center; justify-content: center;
-    gap: 1rem; cursor: pointer;
-    transition: all 0.3s;
+    position: relative;
+  }
+  .tour-frame {
+    border-radius: 32px; overflow: hidden;
+    aspect-ratio: 1;
+    position: relative;
+    box-shadow: 0 40px 100px rgba(136,51,255,0.2);
+  }
+  .tour-frame img {
+    width: 100%; height: 100%; object-fit: cover;
+  }
+  .tour-play-btn {
+    position: absolute; top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90px; height: 90px;
+    background: white;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 30px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+    cursor: none;
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    text-decoration: none;
+  }
+  .tour-play-btn:hover { transform: translate(-50%, -50%) scale(1.1); }
+  .tour-play-btn::before {
+    content: '';
+    position: absolute; inset: -8px;
+    border: 2px solid rgba(136,51,255,0.3);
+    border-radius: 50%;
+    animation: ripple 2s infinite;
+  }
+  @keyframes ripple {
+    0% { transform: scale(0.9); opacity: 1; }
+    100% { transform: scale(1.3); opacity: 0; }
+  }
+  .tour-badge-360 {
+    position: absolute; bottom: -20px; right: -20px;
+    width: 100px; height: 100px;
+    background: linear-gradient(135deg, var(--lilac-500), var(--green-500));
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    flex-direction: column;
+    color: white; font-weight: 800; font-size: 14px;
+    box-shadow: 0 10px 40px rgba(136,51,255,0.4);
+    animation: spin360 8s linear infinite;
+  }
+  .tour-badge-360 .deg { font-size: 22px; font-weight: 900; line-height: 1; }
+  @keyframes spin360 {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+  .tour-rooms {
+    display: flex; flex-wrap: wrap; gap: 10px; margin-top: 2rem;
+  }
+  .tour-room-chip {
+    padding: 8px 16px; background: white;
+    border: 1px solid var(--lilac-200); border-radius: 50px;
+    font-size: 13px; color: var(--text-mid); font-weight: 500;
+    cursor: none; transition: all 0.2s ease;
+  }
+  .tour-room-chip:hover {
+    background: var(--lilac-500); color: white;
+    border-color: var(--lilac-500);
+  }
+
+  /* PROJECTS */
+  #projetos {
+    background: var(--warm-white);
+  }
+  .projects-header {
+    display: flex; justify-content: space-between;
+    align-items: flex-end; margin-bottom: 3rem;
+    flex-wrap: wrap; gap: 1rem;
+  }
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    grid-template-rows: auto;
+    gap: 1.2rem;
+  }
+  .project-card {
+    border-radius: 24px; overflow: hidden;
+    position: relative; cursor: none;
+    min-height: 280px;
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  .project-card:hover { transform: scale(1.02) translateY(-4px); }
+  .project-card:nth-child(1) { grid-column: span 7; }
+  .project-card:nth-child(2) { grid-column: span 5; }
+  .project-card:nth-child(3) { grid-column: span 4; }
+  .project-card:nth-child(4) { grid-column: span 8; }
+
+  .project-card img {
+    width: 100%; height: 100%; object-fit: cover;
+    transition: transform 0.6s ease;
+  }
+  .project-card:hover img { transform: scale(1.08); }
+  .project-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(26,10,46,0.85) 0%, transparent 60%);
+    padding: 2rem;
+    display: flex; flex-direction: column; justify-content: flex-end;
+  }
+  .project-tag {
+    display: inline-block;
+    background: var(--green-400); color: white;
+    padding: 4px 12px; border-radius: 50px;
+    font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+    margin-bottom: 0.5rem; width: fit-content;
+  }
+  .project-name {
+    font-family: 'Fraunces', serif;
+    font-size: 1.4rem; font-weight: 700; color: white;
+  }
+
+  /* BLOG */
+  #blog {
+    background: linear-gradient(to bottom, var(--lilac-50), var(--warm-white));
+  }
+  .blog-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem;
+    margin-top: 3.5rem;
+  }
+  .blog-card {
+    background: white; border-radius: 24px; overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+    transition: all 0.4s ease;
+    cursor: none;
+    border: 1px solid var(--lilac-100);
+  }
+  .blog-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 60px rgba(136,51,255,0.15);
+    border-color: var(--lilac-300);
+  }
+  .blog-img {
+    aspect-ratio: 16/9; overflow: hidden;
+  }
+  .blog-img img {
+    width: 100%; height: 100%; object-fit: cover;
+    transition: transform 0.5s ease;
+  }
+  .blog-card:hover .blog-img img { transform: scale(1.07); }
+  .blog-body { padding: 1.75rem; }
+  .blog-cat {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 11px; color: var(--lilac-600); font-weight: 700;
+    letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.75rem;
+  }
+  .blog-cat-dot { width: 6px; height: 6px; background: var(--green-400); border-radius: 50%; }
+  .blog-title {
+    font-family: 'Fraunces', serif;
+    font-size: 1.2rem; font-weight: 600; color: var(--text-dark);
+    line-height: 1.35; margin-bottom: 0.75rem;
+  }
+  .blog-excerpt {
+    font-size: 14px; color: var(--text-light); line-height: 1.65;
+    margin-bottom: 1.25rem;
+  }
+  .blog-meta {
+    display: flex; align-items: center; gap: 10px;
+  }
+  .blog-avatar {
+    width: 36px; height: 36px; border-radius: 50%; object-fit: cover;
+    border: 2px solid var(--lilac-200);
+  }
+  .blog-author { font-size: 13px; font-weight: 600; color: var(--text-mid); }
+  .blog-date { font-size: 12px; color: var(--text-light); }
+
+  /* INSTITUTIONAL */
+  #institucional {
+    background: var(--warm-white);
+    overflow: hidden;
+  }
+  .inst-inner {
+    max-width: 1280px; margin: 0 auto;
+    padding: 6rem 2rem;
+  }
+  .inst-grid {
+    display: grid; grid-template-columns: 1fr 1.2fr; gap: 5rem;
+    align-items: center; margin-top: 4rem;
+  }
+  .inst-images {
+    position: relative; height: 540px;
+  }
+  .inst-img-main {
+    position: absolute; width: 72%; aspect-ratio: 3/4;
+    border-radius: 32px; overflow: hidden;
+    right: 0; top: 0;
+    box-shadow: 0 30px 80px rgba(136,51,255,0.2);
+  }
+  .inst-img-main img { width: 100%; height: 100%; object-fit: cover; }
+  .inst-img-secondary {
+    position: absolute; width: 55%; aspect-ratio: 1;
+    border-radius: 24px; overflow: hidden;
+    left: 0; bottom: 0;
+    box-shadow: 0 20px 60px rgba(45,181,45,0.2);
+    border: 6px solid var(--warm-white);
+  }
+  .inst-img-secondary img { width: 100%; height: 100%; object-fit: cover; }
+  .inst-badge {
+    position: absolute; top: 30%; left: -20px;
+    background: white; border-radius: 20px; padding: 16px 20px;
+    box-shadow: 0 16px 50px rgba(0,0,0,0.12);
+    display: flex; align-items: center; gap: 12px;
+    z-index: 10;
+  }
+  .inst-badge-icon {
+    width: 50px; height: 50px; background: linear-gradient(135deg, var(--lilac-400), var(--green-400));
+    border-radius: 15px; display: flex; align-items: center; justify-content: center;
+    font-size: 22px;
+  }
+  .inst-values { display: flex; flex-direction: column; gap: 1.5rem; margin-top: 2rem; }
+  .inst-value {
+    display: flex; gap: 1rem; align-items: flex-start;
+  }
+  .inst-value-icon {
+    width: 48px; height: 48px; border-radius: 16px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px; flex-shrink: 0;
+  }
+  .inst-value-text strong {
+    display: block; font-size: 16px; color: var(--text-dark); font-weight: 700; margin-bottom: 4px;
+  }
+  .inst-value-text span { font-size: 14px; color: var(--text-light); line-height: 1.6; }
+
+  /* SOCIAL PROOF */
+  .social-proof {
+    background: var(--lilac-50);
+    border-top: 1px solid var(--lilac-100);
+    border-bottom: 1px solid var(--lilac-100);
+  }
+  .social-inner {
+    max-width: 1280px; margin: 0 auto;
+    padding: 4rem 2rem;
     text-align: center;
   }
-  .tour-visual:hover { background: rgba(255,255,255,0.15); border-color: var(--green-400); }
-  .tour-360 {
-    width: 80px; height: 80px; border-radius: 50%;
-    background: var(--green-400);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 1.8rem; font-weight: 900; color: white;
-    font-family: var(--font-display);
-    animation: spin360 4s linear infinite;
+  .social-label {
+    font-size: 13px; color: var(--text-light); font-weight: 500;
+    letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 2rem;
   }
-  @keyframes spin360 { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
-  .tour-visual p { color: rgba(255,255,255,0.7); font-size: 0.9rem; margin: 0; }
-  .tour-rooms { display: grid; grid-template-columns: 1fr 1fr; gap: 0.7rem; }
-  .tour-room {
-    background: rgba(255,255,255,0.1); border-radius: 12px;
-    padding: 0.8rem 1rem;
-    display: flex; align-items: center; gap: 0.6rem;
-    font-size: 0.82rem; cursor: pointer; transition: all 0.2s;
+  .testimonials {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem;
+    margin-top: 3rem;
   }
-  .tour-room:hover { background: rgba(255,255,255,0.2); }
-  .tour-room .icon { font-size: 1.2rem; }
+  .testi-card {
+    background: white; border-radius: 24px; padding: 2rem;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+    border: 1px solid var(--lilac-100);
+    text-align: left; position: relative;
+    transition: all 0.3s ease;
+  }
+  .testi-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 16px 50px rgba(136,51,255,0.12);
+  }
+  .testi-stars { display: flex; gap: 3px; margin-bottom: 1rem; }
+  .testi-star { color: #fbbf24; font-size: 16px; }
+  .testi-text {
+    font-family: 'Fraunces', serif;
+    font-size: 15px; color: var(--text-dark); line-height: 1.7;
+    font-style: italic; margin-bottom: 1.5rem;
+  }
+  .testi-author { display: flex; align-items: center; gap: 10px; }
+  .testi-avatar {
+    width: 44px; height: 44px; border-radius: 50%; object-fit: cover;
+    border: 2px solid var(--lilac-200);
+  }
+  .testi-name { font-size: 14px; font-weight: 700; color: var(--text-dark); }
+  .testi-role { font-size: 12px; color: var(--text-light); }
+  .quote-icon {
+    position: absolute; top: 1.5rem; right: 1.5rem;
+    font-size: 3rem; line-height: 1;
+    font-family: 'Fraunces', serif;
+    color: var(--lilac-200);
+  }
 
-  /* ── CONTATO ── */
-  #contato { background: var(--lilac-50); }
-  .contato-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; margin-top: 3rem; }
-  .contato-info h3 { font-family: var(--font-display); font-size: 1.8rem; font-weight: 800; margin-bottom: 1.5rem; }
-  .info-item { display: flex; gap: 1rem; margin-bottom: 1.5rem; align-items: flex-start; }
-  .info-icon {
-    width: 48px; height: 48px; border-radius: 14px;
-    background: var(--lilac-100); display: flex; align-items: center;
-    justify-content: center; font-size: 1.3rem; flex-shrink: 0;
+  /* SOCIAL MEDIA */
+  #redes {
+    background: var(--warm-white);
   }
-  .info-item h4 { font-weight: 700; font-size: 0.85rem; color: var(--lilac-700); margin-bottom: 0.2rem; }
-  .info-item p { font-size: 0.88rem; color: #7a6a9a; }
-  .social-row { display: flex; gap: 0.8rem; margin-top: 2rem; }
-  .social-btn {
-    width: 44px; height: 44px; border-radius: 12px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 1.2rem; text-decoration: none;
-    transition: all 0.25s;
+  .social-channels {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.2rem;
+    margin-top: 3rem;
   }
-  .sb-ig { background: linear-gradient(135deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); color: white; }
-  .sb-fb { background: #1877f2; color: white; }
-  .sb-yt { background: #ff0000; color: white; }
-  .sb-wa { background: #25d366; color: white; }
-  .sb-tt { background: #000; color: white; }
-  .social-btn:hover { transform: scale(1.15) translateY(-3px); box-shadow: 0 8px 20px rgba(0,0,0,0.2); }
-  .form-card {
-    background: white; border-radius: 24px; padding: 2.5rem;
-    box-shadow: 0 8px 40px rgba(122,53,232,0.1);
+  .social-channel {
+    border-radius: 24px; padding: 2.5rem 2rem;
+    display: flex; flex-direction: column; align-items: center;
+    text-align: center; gap: 1rem;
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    cursor: none; position: relative; overflow: hidden;
+    text-decoration: none;
   }
-  .form-group { margin-bottom: 1.2rem; }
-  .form-group label { display: block; font-size: 0.8rem; font-weight: 600; color: var(--lilac-700); margin-bottom: 0.4rem; letter-spacing: 0.05em; text-transform: uppercase; }
-  .form-group input, .form-group textarea, .form-group select {
-    width: 100%; padding: 0.75rem 1rem;
-    border: 2px solid var(--lilac-100); border-radius: 12px;
-    font-family: var(--font-body); font-size: 0.9rem;
-    color: var(--dark); background: var(--cream);
-    transition: all 0.2s; outline: none;
+  .social-channel::before {
+    content: '';
+    position: absolute; inset: 0;
+    opacity: 0; transition: opacity 0.3s ease;
   }
-  .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
-    border-color: var(--lilac-400); background: white;
-    box-shadow: 0 0 0 4px rgba(163,112,255,0.15);
+  .social-channel:hover { transform: translateY(-10px) scale(1.02); }
+  .social-channel:hover::before { opacity: 1; }
+  .sc-instagram { background: linear-gradient(135deg, #fdf2f8, #fce7f3); border: 1px solid #fbcfe8; }
+  .sc-instagram::before { background: linear-gradient(135deg, rgba(253,242,248,0.5), rgba(252,231,243,0.5)); }
+  .sc-youtube { background: linear-gradient(135deg, #fef2f2, #fee2e2); border: 1px solid #fecaca; }
+  .sc-youtube::before { background: linear-gradient(135deg, rgba(254,242,242,0.5), rgba(254,226,226,0.5)); }
+  .sc-facebook { background: linear-gradient(135deg, #eff6ff, #dbeafe); border: 1px solid #bfdbfe; }
+  .sc-facebook::before { background: linear-gradient(135deg, rgba(239,246,255,0.5), rgba(219,234,254,0.5)); }
+  .sc-whatsapp { background: linear-gradient(135deg, #f0fdf4, #dcfce7); border: 1px solid #bbf7d0; }
+  .sc-whatsapp::before { background: linear-gradient(135deg, rgba(240,253,244,0.5), rgba(220,252,231,0.5)); }
+  .social-icon { font-size: 3rem; }
+  .social-name { font-size: 18px; font-weight: 700; color: var(--text-dark); }
+  .social-handle { font-size: 14px; color: var(--text-light); }
+  .social-followers {
+    font-size: 13px; font-weight: 600; color: var(--text-mid);
+    background: rgba(255,255,255,0.7); padding: 4px 12px; border-radius: 20px;
   }
-  .form-group textarea { height: 120px; resize: vertical; }
-  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
 
-  /* ── FOOTER ── */
+  /* CONTACT */
+  #contato {
+    background: linear-gradient(135deg, var(--lilac-900), var(--text-dark));
+    overflow: hidden;
+    position: relative;
+  }
+  #contato::after {
+    content: '';
+    position: absolute; bottom: -30%; right: -10%;
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(45,181,45,0.15) 0%, transparent 60%);
+    border-radius: 50%;
+  }
+  .contact-inner {
+    max-width: 1280px; margin: 0 auto;
+    padding: 6rem 2rem;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 5rem;
+    align-items: center;
+  }
+  .contact-left .section-tag {
+    background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.15);
+    color: var(--green-300);
+  }
+  .contact-left .section-title { color: white; }
+  .contact-left .section-subtitle { color: rgba(255,255,255,0.65); }
+  .contact-infos { margin-top: 2.5rem; display: flex; flex-direction: column; gap: 1.5rem; }
+  .contact-info {
+    display: flex; gap: 1rem; align-items: flex-start;
+  }
+  .ci-icon {
+    width: 52px; height: 52px; border-radius: 16px;
+    background: rgba(255,255,255,0.1);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px; flex-shrink: 0;
+  }
+  .ci-text strong { display: block; color: white; font-size: 15px; margin-bottom: 3px; }
+  .ci-text span { color: rgba(255,255,255,0.6); font-size: 14px; }
+
+  /* CONTACT FORM */
+  .contact-form {
+    background: rgba(255,255,255,0.07); backdrop-filter: blur(20px);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 32px; padding: 2.5rem;
+  }
+  .form-title {
+    font-family: 'Fraunces', serif;
+    font-size: 1.5rem; color: white; margin-bottom: 1.5rem; font-weight: 600;
+  }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+  .form-group { display: flex; flex-direction: column; gap: 6px; }
+  .form-group.full { grid-column: span 2; }
+  .form-label { font-size: 13px; color: rgba(255,255,255,0.7); font-weight: 500; }
+  .form-input, .form-select, .form-textarea {
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 14px; padding: 14px 18px;
+    color: white; font-size: 15px; font-family: 'DM Sans', sans-serif;
+    outline: none; transition: all 0.2s ease; width: 100%;
+  }
+  .form-input::placeholder, .form-textarea::placeholder { color: rgba(255,255,255,0.4); }
+  .form-input:focus, .form-select:focus, .form-textarea:focus {
+    border-color: var(--lilac-400);
+    background: rgba(255,255,255,0.12);
+    box-shadow: 0 0 0 3px rgba(160,102,255,0.2);
+  }
+  .form-select option { background: var(--lilac-900); color: white; }
+  .form-textarea { resize: vertical; min-height: 120px; }
+  .form-btn {
+    width: 100%; padding: 16px;
+    background: linear-gradient(135deg, var(--lilac-500), var(--green-500));
+    color: white; border: none; border-radius: 14px;
+    font-size: 16px; font-weight: 700; font-family: 'DM Sans', sans-serif;
+    cursor: none; transition: all 0.3s ease;
+    margin-top: 0.5rem;
+    box-shadow: 0 8px 30px rgba(136,51,255,0.4);
+  }
+  .form-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 16px 50px rgba(136,51,255,0.5);
+  }
+
+  /* FOOTER */
   footer {
-    background: var(--dark); color: white;
-    padding: 5rem 2.5rem 2rem;
+    background: var(--text-dark);
+    padding: 4rem 2rem 2rem;
+    position: relative;
   }
-  .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 3rem; margin-bottom: 4rem; }
-  .footer-brand .logo { font-family: var(--font-display); font-size: 2.5rem; font-weight: 900; color: white; }
-  .footer-brand .logo span { color: var(--green-400); }
-  .footer-brand p { color: rgba(255,255,255,0.5); font-size: 0.87rem; line-height: 1.7; margin: 1rem 0; }
-  .footer-col h5 { font-weight: 700; font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--lilac-300); margin-bottom: 1.2rem; }
-  .footer-col a { display: block; color: rgba(255,255,255,0.55); text-decoration: none; font-size: 0.87rem; margin-bottom: 0.6rem; transition: color 0.2s; }
-  .footer-col a:hover { color: white; }
+  .footer-inner {
+    max-width: 1280px; margin: 0 auto;
+  }
+  .footer-top {
+    display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 3rem;
+    margin-bottom: 3rem;
+  }
+  .footer-brand .logo-name { color: white; }
+  .footer-brand .logo-sub { color: rgba(255,255,255,0.4); }
+  .footer-slogan {
+    font-family: 'Fraunces', serif;
+    font-size: 14px; color: rgba(255,255,255,0.5); font-style: italic;
+    margin: 1rem 0; line-height: 1.6;
+  }
+  .footer-socials { display: flex; gap: 10px; margin-top: 1.5rem; }
+  .footer-social {
+    width: 40px; height: 40px;
+    background: rgba(255,255,255,0.08); border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px; text-decoration: none;
+    transition: all 0.2s ease; cursor: none;
+  }
+  .footer-social:hover { background: var(--lilac-500); transform: translateY(-3px); }
+  .footer-col h4 {
+    font-size: 13px; color: rgba(255,255,255,0.9); font-weight: 700;
+    letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 1.25rem;
+  }
+  .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+  .footer-col ul a {
+    font-size: 14px; color: rgba(255,255,255,0.5);
+    text-decoration: none; transition: color 0.2s ease;
+  }
+  .footer-col ul a:hover { color: var(--lilac-300); }
   .footer-bottom {
     border-top: 1px solid rgba(255,255,255,0.08);
-    padding-top: 1.5rem;
+    padding-top: 2rem;
     display: flex; justify-content: space-between; align-items: center;
+    flex-wrap: wrap; gap: 1rem;
   }
-  .footer-bottom p { color: rgba(255,255,255,0.35); font-size: 0.8rem; }
+  .footer-copy { font-size: 13px; color: rgba(255,255,255,0.35); }
+  .footer-love { font-size: 13px; color: rgba(255,255,255,0.35); }
+  .footer-love span { color: #e45; }
 
-  /* ── MOBILE MENU ── */
-  .mobile-menu {
-    display: none; position: fixed; inset: 0; z-index: 999;
-    background: white; padding: 6rem 2rem 2rem;
-    flex-direction: column; gap: 0.5rem;
+  /* FLOATING ACTIONS */
+  .fab-group {
+    position: fixed; bottom: 2rem; right: 2rem;
+    display: flex; flex-direction: column; gap: 12px;
+    z-index: 900;
   }
-  .mobile-menu.open { display: flex; }
-  .mobile-menu a {
-    font-size: 1.1rem; font-weight: 600; color: var(--dark);
-    text-decoration: none; padding: 0.8rem 1rem;
-    border-radius: 12px; transition: all 0.2s;
+  .fab {
+    width: 56px; height: 56px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px; box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+    cursor: none; text-decoration: none;
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
   }
-  .mobile-menu a:hover { background: var(--lilac-50); color: var(--lilac-700); }
+  .fab:hover { transform: scale(1.15) translateY(-4px); }
+  .fab-whatsapp { background: #25d366; color: white; }
+  .fab-up { background: white; color: var(--text-dark); border: 1px solid var(--lilac-200); }
 
-  /* ── SCROLL REVEAL ── */
+  /* PROGRESS BAR */
+  .progress-bar {
+    position: fixed; top: 0; left: 0; height: 3px;
+    background: linear-gradient(90deg, var(--lilac-500), var(--green-400));
+    z-index: 2000; width: 0%;
+    transition: width 0.1s ease;
+  }
+
+  /* SCROLL REVEAL */
   .reveal {
-    opacity: 0; transform: translateY(30px);
-    transition: all 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    opacity: 0; transform: translateY(40px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
   }
-  .reveal.visible { opacity: 1; transform: translateY(0); }
+  .reveal.visible {
+    opacity: 1; transform: translateY(0);
+  }
   .reveal-delay-1 { transition-delay: 0.1s; }
   .reveal-delay-2 { transition-delay: 0.2s; }
   .reveal-delay-3 { transition-delay: 0.3s; }
   .reveal-delay-4 { transition-delay: 0.4s; }
 
-  /* ── RESPONSIVE ── */
-  @media (max-width: 1024px) {
-    .edu-grid { grid-template-columns: 1fr 1fr; }
-    .princ-grid { grid-template-columns: 1fr 1fr; }
-    .proj-grid { grid-template-columns: 1fr 1fr; }
-    .footer-grid { grid-template-columns: 1fr 1fr; }
+  /* TICKER */
+  .ticker-wrap {
+    overflow: hidden;
+    background: linear-gradient(135deg, var(--lilac-500), var(--green-500));
+    padding: 14px 0;
   }
+  .ticker {
+    display: flex; gap: 3rem;
+    animation: ticker 25s linear infinite;
+    white-space: nowrap;
+  }
+  .ticker:hover { animation-play-state: paused; }
+  @keyframes ticker {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+  .ticker-item {
+    display: flex; align-items: center; gap: 12px;
+    font-size: 14px; color: white; font-weight: 600;
+    letter-spacing: 0.05em;
+  }
+  .ticker-dot { font-size: 8px; opacity: 0.6; }
+
+  /* RESPONSIVE */
+  @media (max-width: 1024px) {
+    .hero-inner { grid-template-columns: 1fr; }
+    .hero-visual { display: none; }
+    .levels-grid { grid-template-columns: 1fr 1fr; }
+    .principles-grid { grid-template-columns: 1fr 1fr; }
+    .tour-inner { grid-template-columns: 1fr; }
+    .contact-inner { grid-template-columns: 1fr; }
+    .footer-top { grid-template-columns: 1fr 1fr; }
+    .inst-grid { grid-template-columns: 1fr; }
+    .inst-images { display: none; }
+    .social-channels { grid-template-columns: 1fr 1fr; }
+    .testimonials { grid-template-columns: 1fr; }
+    .blog-grid { grid-template-columns: 1fr 1fr; }
+  }
+
   @media (max-width: 768px) {
-    nav { padding: 1rem 1.5rem; }
     .nav-links { display: none; }
     .hamburger { display: flex; }
-    .hero { grid-template-columns: 1fr; padding: 7rem 1.5rem 4rem; text-align: center; }
-    .hero-visual { display: none; }
-    .hero-btns { justify-content: center; }
-    .hero-slogan { font-size: 1.1rem; }
-    section { padding: 4rem 1.5rem; }
-    .inst-grid { grid-template-columns: 1fr; gap: 2rem; }
-    .inst-img-wrap { display: none; }
-    .edu-grid { grid-template-columns: 1fr; }
-    .princ-grid { grid-template-columns: 1fr 1fr; }
-    .proj-grid { grid-template-columns: 1fr; }
+    .hero-actions { flex-direction: column; }
+    .hero-stats { gap: 1.5rem; }
+    .levels-grid { grid-template-columns: 1fr; }
+    .principles-grid { grid-template-columns: 1fr; }
+    .projects-grid { grid-template-columns: 1fr; }
+    .project-card { grid-column: span 1 !important; }
     .blog-grid { grid-template-columns: 1fr; }
-    .tour-wrap { grid-template-columns: 1fr; padding: 2rem; }
-    .contato-grid { grid-template-columns: 1fr; gap: 2rem; }
-    .footer-grid { grid-template-columns: 1fr; gap: 2rem; }
-    .footer-bottom { flex-direction: column; gap: 0.5rem; text-align: center; }
+    .social-channels { grid-template-columns: 1fr 1fr; }
+    .testimonials { grid-template-columns: 1fr; }
+    .footer-top { grid-template-columns: 1fr; }
     .form-row { grid-template-columns: 1fr; }
+    .form-group.full { grid-column: span 1; }
+    .cursor, .cursor-follower { display: none; }
+    body { cursor: auto; }
+    a, button { cursor: pointer; }
+    .hero-float-card { display: none; }
   }
+
   @media (max-width: 480px) {
-    .princ-grid { grid-template-columns: 1fr; }
-    .hero h1 { font-size: 2.5rem; }
+    .section-inner { padding: 4rem 1.25rem; }
+    .hero-stats { flex-wrap: wrap; }
   }
 </style>
 </head>
 <body>
 
-<!-- NAV -->
+<!-- CURSOR -->
+<div class="cursor" id="cursor"></div>
+<div class="cursor-follower" id="cursorFollower"></div>
+
+<!-- PROGRESS BAR -->
+<div class="progress-bar" id="progressBar"></div>
+
+<!-- BG SHAPES -->
+<div class="bg-shapes">
+  <div class="bg-shape" style="width:600px;height:600px;background:var(--lilac-300);top:-200px;right:-100px;animation-duration:20s;"></div>
+  <div class="bg-shape" style="width:400px;height:400px;background:var(--green-300);bottom:20%;left:-100px;animation-duration:15s;animation-delay:-7s;"></div>
+  <div class="bg-shape" style="width:300px;height:300px;background:var(--lilac-400);top:50%;left:40%;animation-duration:18s;animation-delay:-3s;"></div>
+</div>
+
+<!-- MOBILE NAV -->
+<div class="mobile-overlay" id="mobileOverlay" onclick="closeMobileNav()"></div>
+<div class="mobile-nav" id="mobileNav">
+  <a href="#home" onclick="closeMobileNav()">🏠 Início</a>
+  <a href="#educacao" onclick="closeMobileNav()">📚 Educação</a>
+  <a href="#principios" onclick="closeMobileNav()">⭐ Princípios</a>
+  <a href="#tour" onclick="closeMobileNav()">🎥 Tour 360°</a>
+  <a href="#projetos" onclick="closeMobileNav()">🎨 Projetos</a>
+  <a href="#blog" onclick="closeMobileNav()">📰 Blog</a>
+  <a href="#institucional" onclick="closeMobileNav()">🏛️ Institucional</a>
+  <a href="#redes" onclick="closeMobileNav()">📱 Redes Sociais</a>
+  <a href="#contato" onclick="closeMobileNav()">✉️ Contato</a>
+</div>
+
+<!-- NAVBAR -->
 <nav id="navbar">
-  <a href="#" class="nav-logo">UNI<span>.</span></a>
+  <a href="#home" class="nav-logo">
+    <div class="logo-mark">U</div>
+    <div class="logo-text">
+      <span class="logo-name">UNI</span>
+      <span class="logo-sub">Educação Infantil</span>
+    </div>
+  </a>
   <ul class="nav-links">
-    <li><a href="#institucional">Institucional</a></li>
     <li><a href="#educacao">Educação</a></li>
     <li><a href="#principios">Princípios</a></li>
+    <li><a href="#tour">Tour 360°</a></li>
     <li><a href="#projetos">Projetos</a></li>
     <li><a href="#blog">Blog</a></li>
-    <li><a href="#tour">Tour 360°</a></li>
-    <li><a href="#contato" class="nav-cta">Contato</a></li>
+    <li><a href="#institucional">Institucional</a></li>
+    <li><a href="#redes">Redes</a></li>
+    <li><a href="#contato" class="nav-cta">Fale Conosco</a></li>
   </ul>
-  <div class="hamburger" id="hamburger" onclick="toggleMenu()">
-    <span></span><span></span><span></span>
-  </div>
+  <button class="hamburger" onclick="toggleMobileNav()" aria-label="Menu">
+    <span id="h1"></span>
+    <span id="h2"></span>
+    <span id="h3"></span>
+  </button>
 </nav>
 
-<!-- MOBILE MENU -->
-<div class="mobile-menu" id="mobileMenu">
-  <a href="#institucional" onclick="toggleMenu()">Institucional</a>
-  <a href="#educacao" onclick="toggleMenu()">Educação Infantil</a>
-  <a href="#principios" onclick="toggleMenu()">Princípios</a>
-  <a href="#projetos" onclick="toggleMenu()">Projetos</a>
-  <a href="#blog" onclick="toggleMenu()">Blog</a>
-  <a href="#tour" onclick="toggleMenu()">Tour 360°</a>
-  <a href="#contato" onclick="toggleMenu()">Contato</a>
-</div>
-
 <!-- HERO -->
-<section class="hero" id="hero">
-  <div class="hero-bg">
-    <div class="hero-blob blob1"></div>
-    <div class="hero-blob blob2"></div>
-    <div class="hero-blob blob3"></div>
-  </div>
-  <div class="hero-content">
-    <div class="hero-tag">Escola de Educação Infantil</div>
-    <h1>Onde cada<br><em>infância</em> floresce</h1>
-    <p class="hero-slogan">"Cuidar é compromisso, aprender é prazer<br>e ensinar é propósito"</p>
-    <p class="hero-desc">Na UNI, acreditamos que os primeiros anos são a base de tudo. Um ambiente acolhedor, estimulante e cheio de amor para que cada criança se desenvolva com liberdade e alegria.</p>
-    <div class="hero-btns">
-      <a href="#contato" class="btn-primary">Agende uma visita</a>
-      <a href="#tour" class="btn-secondary">Conheça nossa escola</a>
+<section id="home">
+  <div class="hero-bg"></div>
+  <div class="hero-inner">
+    <div class="hero-content">
+      <div class="hero-badge">
+        <span class="hero-badge-dot"></span>
+        Matrículas Abertas 2025
+      </div>
+      <h1 class="hero-title">
+        Onde cada<br>
+        criança <em>floresce</em>
+      </h1>
+      <p class="hero-slogan">
+        "Cuidar é compromisso, aprender é prazer<br>e ensinar é propósito."
+      </p>
+      <p class="hero-desc">
+        Na UNI, acreditamos que os primeiros anos de vida são a base de tudo. Criamos ambientes cheios de amor, estímulo e descoberta para que cada criança desenvolva seu máximo potencial.
+      </p>
+      <div class="hero-actions">
+        <a href="#contato" class="btn-primary">
+          <span>🌟 Agende uma visita</span>
+        </a>
+        <a href="#educacao" class="btn-secondary">
+          Conheça a escola →
+        </a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat">
+          <span class="stat-num">12+</span>
+          <span class="stat-label">Anos de experiência</span>
+        </div>
+        <div class="stat">
+          <span class="stat-num">350+</span>
+          <span class="stat-label">Famílias felizes</span>
+        </div>
+        <div class="stat">
+          <span class="stat-num">98%</span>
+          <span class="stat-label">Satisfação das famílias</span>
+        </div>
+      </div>
     </div>
-  </div>
-  <div class="hero-visual">
-    <div class="hero-stat stat-tl">
-      <div class="num">15+</div>
-      <div class="lbl">Anos de história</div>
-    </div>
-    <div class="hero-card-main">
-      <div class="hero-card-emoji">🌱</div>
-      <h3>Aprender com alegria</h3>
-      <p>Metodologia lúdica e afetuosa</p>
-    </div>
-    <div class="hero-stat stat-br">
-      <div class="num">98%</div>
-      <div class="lbl">Satisfação das famílias</div>
+    <div class="hero-visual">
+      <div class="hero-img-wrap">
+        <img src="https://plus.unsplash.com/premium_photo-1681842143575-03bf1be4c11c" alt="Crianças felizes na escola UNI">
+        <div class="hero-img-overlay"></div>
+      </div>
+      <div class="hero-float-card" style="top:10%;right:-55px;">
+        <div class="float-icon" style="background:linear-gradient(135deg,var(--lilac-100),var(--lilac-200));">🎨</div>
+        <div class="float-text">
+          <strong>Arte & Criatividade</strong>
+          <span>Aulas todos os dias</span>
+        </div>
+      </div>
+      <div class="hero-float-card" style="bottom:20%;left:-55px;">
+        <div class="float-icon" style="background:linear-gradient(135deg,var(--green-100),var(--green-200));">🌱</div>
+        <div class="float-text">
+          <strong>Horta Orgânica</strong>
+          <span>As crianças plantam!</span>
+        </div>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- MARQUEE -->
-<div class="marquee-wrap">
-  <div class="marquee-track">
-    <span>🌟 Educação com propósito</span><span class="dot">✦</span>
-    <span>🌱 Infância plena</span><span class="dot">✦</span>
-    <span>💜 Cuidado genuíno</span><span class="dot">✦</span>
-    <span>🎨 Criatividade em cada dia</span><span class="dot">✦</span>
-    <span>🧩 Desenvolvimento integral</span><span class="dot">✦</span>
-    <span>🌈 Diversidade e inclusão</span><span class="dot">✦</span>
-    <span>🏫 Ambiente seguro e acolhedor</span><span class="dot">✦</span>
-    <span>📚 Metodologia ativa</span><span class="dot">✦</span>
-    <!-- duplicar para looping infinito -->
-    <span>🌟 Educação com propósito</span><span class="dot">✦</span>
-    <span>🌱 Infância plena</span><span class="dot">✦</span>
-    <span>💜 Cuidado genuíno</span><span class="dot">✦</span>
-    <span>🎨 Criatividade em cada dia</span><span class="dot">✦</span>
-    <span>🧩 Desenvolvimento integral</span><span class="dot">✦</span>
-    <span>🌈 Diversidade e inclusão</span><span class="dot">✦</span>
-    <span>🏫 Ambiente seguro e acolhedor</span><span class="dot">✦</span>
-    <span>📚 Metodologia ativa</span><span class="dot">✦</span>
+<!-- TICKER -->
+<div class="ticker-wrap">
+  <div class="ticker">
+    <span class="ticker-item"><span>🌟</span> Educação de excelência</span>
+    <span class="ticker-dot">◆</span>
+    <span class="ticker-item"><span>🎨</span> Arte e criatividade</span>
+    <span class="ticker-dot">◆</span>
+    <span class="ticker-item"><span>🌱</span> Desenvolvimento integral</span>
+    <span class="ticker-dot">◆</span>
+    <span class="ticker-item"><span>💜</span> Amor em cada detalhe</span>
+    <span class="ticker-dot">◆</span>
+    <span class="ticker-item"><span>🎭</span> Teatro e expressão</span>
+    <span class="ticker-dot">◆</span>
+    <span class="ticker-item"><span>🎵</span> Música e movimento</span>
+    <span class="ticker-dot">◆</span>
+    <span class="ticker-item"><span>📚</span> Leitura e letramento</span>
+    <span class="ticker-dot">◆</span>
+    <span class="ticker-item"><span>🏃</span> Esporte e bem-estar</span>
+    <span class="ticker-dot">◆</span>
+    <!-- repeat for seamless loop -->
+    <span class="ticker-item"><span>🌟</span> Educação de excelência</span>
+    <span class="ticker-dot">◆</span>
+    <span class="ticker-item"><span>🎨</span> Arte e criatividade</span>
+    <span class="ticker-dot">◆</span>
+    <span class="ticker-item"><span>🌱</span> Desenvolvimento integral</span>
+    <span class="ticker-dot">◆</span>
+    <span class="ticker-item"><span>💜</span> Amor em cada detalhe</span>
+    <span class="ticker-dot">◆</span>
+    <span class="ticker-item"><span>🎭</span> Teatro e expressão</span>
+    <span class="ticker-dot">◆</span>
+    <span class="ticker-item"><span>🎵</span> Música e movimento</span>
+    <span class="ticker-dot">◆</span>
+    <span class="ticker-item"><span>📚</span> Leitura e letramento</span>
+    <span class="ticker-dot">◆</span>
+    <span class="ticker-item"><span>🏃</span> Esporte e bem-estar</span>
+    <span class="ticker-dot">◆</span>
   </div>
 </div>
 
-<!-- INSTITUCIONAL -->
-<section id="institucional">
-  <div class="container">
-    <div class="inst-grid">
-      <div class="inst-img-wrap reveal">
-        <div class="inst-img-main">🏫</div>
-        <div class="inst-bubble b1">💜 Fundada em 2008</div>
-        <div class="inst-bubble b2">✅ MEC Aprovado</div>
-      </div>
-      <div>
-        <div class="section-tag reveal">Quem somos</div>
-        <h2 class="section-title reveal reveal-delay-1">Uma escola pensada <em>para crianças</em></h2>
-        <p class="section-sub reveal reveal-delay-2">A UNI nasceu do sonho de criar um espaço onde cada criança é vista como um ser único, capaz, curioso e cheio de potencial. Nossa equipe multidisciplinar é apaixonada pelo que faz e acredita que os primeiros anos são os mais importantes da vida.</p>
-        <div class="inst-values reveal reveal-delay-3">
-          <div class="inst-val">
-            <div class="icon">💜</div>
-            <h4>Missão</h4>
-            <p>Oferecer educação infantil de excelência com afeto, segurança e estímulo ao desenvolvimento integral.</p>
-          </div>
-          <div class="inst-val">
-            <div class="icon">🌟</div>
-            <h4>Visão</h4>
-            <p>Ser referência em educação infantil, reconhecida pela qualidade pedagógica e pelo vínculo com as famílias.</p>
-          </div>
-          <div class="inst-val">
-            <div class="icon">🌱</div>
-            <h4>Valores</h4>
-            <p>Respeito, afetividade, inclusão, criatividade e compromisso com cada família que confia em nós.</p>
-          </div>
-          <div class="inst-val">
-            <div class="icon">🤝</div>
-            <h4>Família</h4>
-            <p>Parceria real e transparente com as famílias, porque educação se faz em conjunto.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- EDUCAÇÃO INFANTIL -->
+<!-- EDUCAÇÃO -->
 <section id="educacao">
-  <div class="container">
-    <div class="section-tag reveal">Nossos segmentos</div>
-    <h2 class="section-title reveal reveal-delay-1">Educação para <em>cada etapa</em></h2>
-    <p class="section-sub reveal reveal-delay-2">Cada fase do desenvolvimento merece cuidado e atenção específica. Nossa proposta pedagógica é construída para cada faixa etária.</p>
-    <div class="edu-grid">
-      <div class="edu-card creche reveal">
-        <div class="age">0-3</div>
-        <div class="emoji">🍼</div>
-        <div class="sub">Berçário & Creche</div>
-        <h3>Primeiros Passos</h3>
-        <p>Do berçário ao maternal, oferecemos um ambiente seguro, amoroso e estimulante para os bebês explorarem o mundo com confiança e afeto.</p>
-        <div class="tag-list">
-          <span class="tag">0–12 meses</span>
-          <span class="tag">Maternal I</span>
-          <span class="tag">Maternal II</span>
+  <div class="section-inner">
+    <div style="text-align:center;margin-bottom:0;">
+      <div class="section-tag reveal">🎓 Educação para a Infância</div>
+      <h2 class="section-title reveal reveal-delay-1">Cada fase, <em style="color:var(--lilac-500);font-style:italic;font-family:'Fraunces',serif;">uma jornada</em></h2>
+      <p class="section-subtitle reveal reveal-delay-2" style="margin:0 auto;">
+        Do berço à pré-escola, cada etapa é pensada com carinho, ciência e amor para garantir o desenvolvimento pleno da sua criança.
+      </p>
+    </div>
+    <div class="levels-grid">
+      <div class="level-card reveal">
+        <img src="https://images.unsplash.com/photo-1533483595632-c5f0e57a1936?w=600&q=80" alt="Berçário">
+        <div class="level-card-overlay">
+          <div class="level-age">0 a 1 ano</div>
+          <div class="level-name">Berçário</div>
+          <div class="level-desc">Ambiente seguro e acolhedor para os primeiros sorrisos. Estimulação sensorial e vínculos afetivos são nossa prioridade.</div>
         </div>
+        <div class="level-arrow">→</div>
       </div>
-      <div class="edu-card pre reveal reveal-delay-1">
-        <div class="age">4-5</div>
-        <div class="emoji">📚</div>
-        <div class="sub">Pré-Escola</div>
-        <h3>Descobrindo o Mundo</h3>
-        <p>Na pré-escola, a criança aprofunda sua curiosidade, desenvolve a autonomia e prepara-se de forma lúdica e prazerosa para os próximos desafios.</p>
-        <div class="tag-list">
-          <span class="tag">Jardim I</span>
-          <span class="tag">Jardim II</span>
-          <span class="tag">Alfabetização</span>
+      <div class="level-card reveal reveal-delay-1">
+        <img src="https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?w=600&q=80" alt="Maternal">
+        <div class="level-card-overlay">
+          <div class="level-age">1 a 3 anos</div>
+          <div class="level-name">Maternal</div>
+          <div class="level-desc">A fase das descobertas! Brincadeiras, música e arte estimulam a linguagem, a coordenação e a socialização.</div>
         </div>
+        <div class="level-arrow">→</div>
       </div>
-      <div class="edu-card special reveal reveal-delay-2">
-        <div class="age">✦</div>
-        <div class="emoji">🎯</div>
-        <div class="sub">Diferenciais UNI</div>
-        <h3>Nossa Metodologia</h3>
-        <p>Aprendizagem baseada em projetos, pedagogia Reggio Emilia e metodologias ativas que colocam a criança no centro do processo de aprendizagem.</p>
-        <div class="tag-list">
-          <span class="tag">Bilíngue</span>
-          <span class="tag">Reggio Emilia</span>
-          <span class="tag">STEM</span>
+      <div class="level-card reveal reveal-delay-2">
+        <img src="https://images.unsplash.com/photo-1653126533498-c75d678e0b91?w=600&q=80" alt="Pré-Escola">
+        <div class="level-card-overlay">
+          <div class="level-age">4 a 6 anos</div>
+          <div class="level-name">Pré-Escola</div>
+          <div class="level-desc">Preparação completa para o ensino fundamental. Letramento, matemática, ciências e muito mais em um ambiente lúdico.</div>
         </div>
+        <div class="level-arrow">→</div>
+      </div>
+    </div>
+    <!-- Features -->
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem;margin-top:4rem;" class="features-grid">
+      <div class="reveal" style="text-align:center;padding:2rem;background:var(--lilac-50);border-radius:24px;border:1px solid var(--lilac-100);">
+        <div style="font-size:2.5rem;margin-bottom:1rem;">🍎</div>
+        <div style="font-family:'Fraunces',serif;font-size:1.1rem;font-weight:600;color:var(--text-dark);margin-bottom:0.5rem;">Alimentação Saudável</div>
+        <div style="font-size:13px;color:var(--text-light);line-height:1.6;">Cardápio nutritivo e balanceado, preparado na escola todos os dias.</div>
+      </div>
+      <div class="reveal reveal-delay-1" style="text-align:center;padding:2rem;background:var(--green-50);border-radius:24px;border:1px solid var(--green-100);">
+        <div style="font-size:2.5rem;margin-bottom:1rem;">👩‍🏫</div>
+        <div style="font-family:'Fraunces',serif;font-size:1.1rem;font-weight:600;color:var(--text-dark);margin-bottom:0.5rem;">Equipe Especializada</div>
+        <div style="font-size:13px;color:var(--text-light);line-height:1.6;">Pedagogos, psicopedagogos e especialistas em desenvolvimento infantil.</div>
+      </div>
+      <div class="reveal reveal-delay-2" style="text-align:center;padding:2rem;background:var(--lilac-50);border-radius:24px;border:1px solid var(--lilac-100);">
+        <div style="font-size:2.5rem;margin-bottom:1rem;">📱</div>
+        <div style="font-family:'Fraunces',serif;font-size:1.1rem;font-weight:600;color:var(--text-dark);margin-bottom:0.5rem;">App dos Pais</div>
+        <div style="font-size:13px;color:var(--text-light);line-height:1.6;">Acompanhe o dia a dia, fotos e comunicados em tempo real.</div>
+      </div>
+      <div class="reveal reveal-delay-3" style="text-align:center;padding:2rem;background:var(--green-50);border-radius:24px;border:1px solid var(--green-100);">
+        <div style="font-size:2.5rem;margin-bottom:1rem;">🛡️</div>
+        <div style="font-family:'Fraunces',serif;font-size:1.1rem;font-weight:600;color:var(--text-dark);margin-bottom:0.5rem;">Segurança Total</div>
+        <div style="font-size:13px;color:var(--text-light);line-height:1.6;">Câmeras, controle de acesso e equipe treinada em primeiros socorros.</div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- PRINCÍPIOS -->
+<!-- PRINCIPLES -->
 <section id="principios">
-  <div class="container">
-    <div style="text-align:center">
-      <div class="section-tag reveal" style="justify-content:center">Nossos pilares</div>
-      <h2 class="section-title reveal reveal-delay-1">Princípios que <em>nos guiam</em></h2>
-      <p class="section-sub reveal reveal-delay-2" style="margin:0 auto 0">Tudo que fazemos na UNI é fundamentado em valores que acreditamos serem essenciais para uma infância plena e feliz.</p>
+  <div class="section-inner">
+    <div class="principles-header reveal">
+      <div class="section-tag">⭐ Nossos Princípios</div>
+      <h2 class="section-title">Os pilares que nos <em style="color:var(--green-300);font-style:italic;font-family:'Fraunces',serif;">guiam</em></h2>
+      <p class="section-subtitle">Cada decisão que tomamos é fundamentada em valores que acreditamos ser essenciais para a formação humana.</p>
     </div>
-    <div class="princ-grid">
-      <div class="princ-card reveal">
-        <div class="princ-icon pi1">🌸</div>
-        <h4>Afetividade</h4>
-        <p>O vínculo afetivo é a base de toda aprendizagem. Cada criança é acolhida com amor genuíno e respeito incondicional.</p>
+    <div class="principles-grid">
+      <div class="principle-card reveal">
+        <div class="principle-icon" style="background:rgba(136,51,255,0.15);">💜</div>
+        <div class="principle-name">Afeto & Acolhimento</div>
+        <div class="principle-desc">Acreditamos que o amor e o vínculo seguro são a base de todo aprendizado. Cada criança é acolhida como única e especial.</div>
       </div>
-      <div class="princ-card reveal reveal-delay-1">
-        <div class="princ-icon pi2">🌿</div>
-        <h4>Sustentabilidade</h4>
-        <p>Educamos para a consciência ambiental desde cedo, formando cidadãos que cuidam do planeta com responsabilidade.</p>
+      <div class="principle-card reveal reveal-delay-1">
+        <div class="principle-icon" style="background:rgba(45,181,45,0.15);">🌱</div>
+        <div class="principle-name">Desenvolvimento Integral</div>
+        <div class="principle-desc">Cuidamos do desenvolvimento cognitivo, emocional, físico e social. A criança é muito mais do que conteúdo curricular.</div>
       </div>
-      <div class="princ-card reveal reveal-delay-2">
-        <div class="princ-icon pi3">🎨</div>
-        <h4>Criatividade</h4>
-        <p>Estimulamos o pensamento criativo e a expressão artística como ferramentas fundamentais de desenvolvimento humano.</p>
+      <div class="principle-card reveal reveal-delay-2">
+        <div class="principle-icon" style="background:rgba(255,187,51,0.15);">🎨</div>
+        <div class="principle-name">Ludicidade & Criatividade</div>
+        <div class="principle-desc">Aprender brincando é a nossa filosofia. A brincadeira é a linguagem da infância e o melhor veículo do saber.</div>
       </div>
-      <div class="princ-card reveal reveal-delay-3">
-        <div class="princ-icon pi4">🤲</div>
-        <h4>Inclusão</h4>
-        <p>Acreditamos na diversidade como riqueza. Cada criança é única e nossa escola celebra todas as diferenças com alegria.</p>
+      <div class="principle-card reveal">
+        <div class="principle-icon" style="background:rgba(255,100,100,0.15);">🤝</div>
+        <div class="principle-name">Família & Parceria</div>
+        <div class="principle-desc">A família é co-autora da educação. Mantemos uma comunicação aberta, transparente e amorosa com todos.</div>
+      </div>
+      <div class="principle-card reveal reveal-delay-1">
+        <div class="principle-icon" style="background:rgba(100,180,255,0.15);">🌍</div>
+        <div class="principle-name">Sustentabilidade</div>
+        <div class="principle-desc">Ensinamos desde cedo a cuidar do planeta. Horta, reciclagem e consciência ambiental fazem parte do currículo.</div>
+      </div>
+      <div class="principle-card reveal reveal-delay-2">
+        <div class="principle-icon" style="background:rgba(255,150,200,0.15);">✨</div>
+        <div class="principle-name">Excelência & Inovação</div>
+        <div class="principle-desc">Estamos sempre aprendendo, pesquisando e inovando. Nossa equipe é formada e capacitada continuamente.</div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- PROJETOS -->
+<!-- TOUR 360 -->
+<section id="tour">
+  <div class="tour-inner">
+    <div class="tour-visual reveal">
+      <div class="tour-frame">
+        <img src="https://images.unsplash.com/photo-1600821986515-3ef5b0f29f39?w=800&q=80" alt="Tour Virtual UNI">
+        <a href="#tour" class="tour-play-btn">▶️</a>
+        <div class="tour-badge-360">
+          <span class="deg">360</span>
+          <span>°</span>
+        </div>
+      </div>
+      <div class="tour-rooms">
+        <div class="tour-room-chip">🏫 Entrada</div>
+        <div class="tour-room-chip">📚 Salas de Aula</div>
+        <div class="tour-room-chip">🍽️ Refeitório</div>
+        <div class="tour-room-chip">🌳 Área Verde</div>
+        <div class="tour-room-chip">🎭 Sala de Arte</div>
+        <div class="tour-room-chip">🎵 Sala de Música</div>
+        <div class="tour-room-chip">⚽ Playground</div>
+        <div class="tour-room-chip">📖 Biblioteca</div>
+      </div>
+    </div>
+    <div class="reveal reveal-delay-1">
+      <div class="section-tag">🎥 Tour Virtual 360°</div>
+      <h2 class="section-title">Conheça nossa escola <em style="color:var(--lilac-500);font-style:italic;font-family:'Fraunces',serif;">sem sair de casa</em></h2>
+      <p style="font-size:17px;color:var(--text-mid);line-height:1.75;margin:1.5rem 0 2rem;">
+        Explore cada cantinho da UNI com nosso tour virtual em 360°. Veja as salas, a área de recreação, o refeitório e muito mais. Um espaço pensado para encantar crianças e tranquilizar famílias.
+      </p>
+      <div style="display:flex;flex-direction:column;gap:1rem;margin-bottom:2.5rem;">
+        <div style="display:flex;gap:12px;align-items:center;">
+          <div style="width:44px;height:44px;background:var(--lilac-100);border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;">🌿</div>
+          <div>
+            <strong style="display:block;font-size:15px;color:var(--text-dark);">Espaços verdes abundantes</strong>
+            <span style="font-size:13px;color:var(--text-light);">2.500m² de área para brincadeiras ao ar livre</span>
+          </div>
+        </div>
+        <div style="display:flex;gap:12px;align-items:center;">
+          <div style="width:44px;height:44px;background:var(--green-100);border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;">🎨</div>
+          <div>
+            <strong style="display:block;font-size:15px;color:var(--text-dark);">Salas temáticas e especializadas</strong>
+            <span style="font-size:13px;color:var(--text-light);">Arte, música, ciências e muito mais</span>
+          </div>
+        </div>
+        <div style="display:flex;gap:12px;align-items:center;">
+          <div style="width:44px;height:44px;background:var(--lilac-100);border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;">🔒</div>
+          <div>
+            <strong style="display:block;font-size:15px;color:var(--text-dark);">Segurança em cada detalhe</strong>
+            <span style="font-size:13px;color:var(--text-light);">Câmeras, portão eletrônico e controle de entrada</span>
+          </div>
+        </div>
+      </div>
+      <a href="#contato" class="btn-primary">
+        <span>📅 Agendar visita presencial</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
 <section id="projetos">
-  <div class="container">
-    <div class="section-tag reveal">Em andamento</div>
-    <h2 class="section-title reveal reveal-delay-1">Projetos que <em>transformam</em></h2>
-    <p class="section-sub reveal reveal-delay-2">Nossos projetos pedagógicos conectam o aprendizado com a vida real, despertando o interesse genuíno das crianças.</p>
-    <div class="proj-grid">
-      <div class="proj-card reveal">
-        <div class="proj-img p1">🌱</div>
-        <div class="proj-body">
-          <div class="proj-cat">Ciências</div>
-          <h4>Horta Mágica</h4>
-          <p>As crianças plantam, cuidam e colhem. Aprendendo sobre natureza, alimentação saudável e responsabilidade.</p>
+  <div class="section-inner">
+    <div class="projects-header">
+      <div>
+        <div class="section-tag reveal">🎨 Projetos Pedagógicos</div>
+        <h2 class="section-title reveal reveal-delay-1">Aprender com <em style="color:var(--lilac-500);font-style:italic;font-family:'Fraunces',serif;">propósito</em></h2>
+      </div>
+      <a href="#blog" class="btn-secondary reveal">Ver todos os projetos →</a>
+    </div>
+    <div class="projects-grid">
+      <div class="project-card reveal">
+        <img src="https://plus.unsplash.com/premium_photo-1681842149009-a040e02cadf2?w=1000&q=80" alt="Projeto Natureza">
+        <div class="project-overlay">
+          <span class="project-tag">🌱 Meio Ambiente</span>
+          <div class="project-name">Guardiões da Natureza</div>
         </div>
       </div>
-      <div class="proj-card reveal reveal-delay-1">
-        <div class="proj-img p2">🎭</div>
-        <div class="proj-body">
-          <div class="proj-cat">Artes</div>
-          <h4>Teatro da Vida</h4>
-          <p>Desenvolvimento da expressão oral, criatividade e trabalho em equipe através do teatro e artes cênicas.</p>
+      <div class="project-card reveal reveal-delay-1">
+        <img src="https://plus.unsplash.com/premium_photo-1663089374587-6b1fe2fa4ae0?w=600&q=80" alt="Projeto Arte">
+        <div class="project-overlay">
+          <span class="project-tag">🎨 Arte</span>
+          <div class="project-name">Pequenos Artistas</div>
         </div>
       </div>
-      <div class="proj-card reveal reveal-delay-2">
-        <div class="proj-img p3">🔢</div>
-        <div class="proj-body">
-          <div class="proj-cat">STEM</div>
-          <h4>Pequenos Cientistas</h4>
-          <p>Experimentos simples e divertidos que despertam a curiosidade científica e o raciocínio lógico.</p>
+      <div class="project-card reveal reveal-delay-2">
+        <img src="https://plus.unsplash.com/premium_photo-1661394973596-adfeaf7cef69?w=600&q=80" alt="Projeto Música">
+        <div class="project-overlay">
+          <span class="project-tag">🎵 Música</span>
+          <div class="project-name">Sons e Histórias</div>
         </div>
       </div>
-      <div class="proj-card reveal">
-        <div class="proj-img p4">🌍</div>
-        <div class="proj-body">
-          <div class="proj-cat">Cidadania</div>
-          <h4>Meu Mundo, Nossa Escola</h4>
-          <p>Projeto de consciência ambiental e cidadania, educando para um futuro mais sustentável e justo.</p>
-        </div>
-      </div>
-      <div class="proj-card reveal reveal-delay-1">
-        <div class="proj-img p5">📖</div>
-        <div class="proj-body">
-          <div class="proj-cat">Letramento</div>
-          <h4>Clube dos Livrinhos</h4>
-          <p>Incentivo à leitura desde cedo, com contação de histórias, criação de livros e clubes literários.</p>
-        </div>
-      </div>
-      <div class="proj-card reveal reveal-delay-2">
-        <div class="proj-img p6">🎵</div>
-        <div class="proj-body">
-          <div class="proj-cat">Música</div>
-          <h4>Mundo Sonoro</h4>
-          <p>Musicalização infantil que desenvolve ritmo, coordenação, expressão e sensibilidade artística.</p>
+      <div class="project-card reveal reveal-delay-3">
+        <img src="https://images.unsplash.com/photo-1758685734201-72662f1a368d?w=1000&q=80" alt="Projeto Ciências">
+        <div class="project-overlay">
+          <span class="project-tag">🔬 Ciências</span>
+          <div class="project-name">Cientistas em Formação</div>
         </div>
       </div>
     </div>
@@ -842,54 +1482,116 @@
 
 <!-- BLOG -->
 <section id="blog">
-  <div class="container">
-    <div style="display:flex; justify-content:space-between; align-items:flex-end; flex-wrap:wrap; gap:1rem">
-      <div>
-        <div class="section-tag reveal">Novidades</div>
-        <h2 class="section-title reveal reveal-delay-1">Blog & <em>Artigos</em></h2>
-      </div>
-      <a href="#blog" class="btn-secondary reveal" style="flex-shrink:0">Ver todos os posts</a>
+  <div class="section-inner">
+    <div style="text-align:center;">
+      <div class="section-tag reveal">📰 Blog UNI</div>
+      <h2 class="section-title reveal reveal-delay-1">Inspirações e <em style="color:var(--lilac-500);font-style:italic;font-family:'Fraunces',serif;">descobertas</em></h2>
+      <p class="section-subtitle reveal reveal-delay-2" style="margin:0 auto;">Conteúdos sobre educação infantil, desenvolvimento, dicas para pais e muito mais.</p>
     </div>
     <div class="blog-grid">
-      <div class="blog-card featured reveal">
-        <div class="blog-img bi1">📚</div>
+      <div class="blog-card reveal">
+        <div class="blog-img">
+          <img src="https://images.unsplash.com/photo-1717689410647-ccef636c0dd8?w=600&q=80" alt="Blog">
+        </div>
         <div class="blog-body">
-          <div class="blog-tag">Desenvolvimento infantil</div>
-          <h4>Como o brincar livre transforma o desenvolvimento cognitivo das crianças</h4>
-          <p>Pesquisas recentes mostram que o tempo de brincadeira não estruturada é essencial para o desenvolvimento da criatividade, resolução de problemas e inteligência emocional.</p>
+          <div class="blog-cat"><span class="blog-cat-dot"></span> Desenvolvimento</div>
+          <h3 class="blog-title">Como o brincar livre desenvolve a inteligência emocional</h3>
+          <p class="blog-excerpt">Descubra por que o tempo não estruturado é fundamental para crianças de 2 a 6 anos e como ele molda o cérebro...</p>
           <div class="blog-meta">
-            <div class="blog-avatar">👩</div>
-            <span>Profa. Ana Lima</span>
-            <span>·</span>
-            <span>15 jan 2025</span>
+            <img src="https://i.pravatar.cc/150?img=47" alt="Autora" class="blog-avatar">
+            <div>
+              <div class="blog-author">Dra. Ana Lima</div>
+              <div class="blog-date">15 de Março, 2025</div>
+            </div>
           </div>
         </div>
       </div>
       <div class="blog-card reveal reveal-delay-1">
-        <div class="blog-img bi2">🥦</div>
+        <div class="blog-img">
+          <img src="https://images.unsplash.com/photo-1516627145497-ae6968895b74?w=600&q=80" alt="Blog">
+        </div>
         <div class="blog-body">
-          <div class="blog-tag">Nutrição</div>
-          <h4>Alimentação saudável na creche: dicas práticas para as famílias</h4>
-          <p>A nutricionista da UNI compartilha estratégias para tornar a alimentação saudável atraente e prazerosa para os pequenos.</p>
+          <div class="blog-cat"><span class="blog-cat-dot"></span> Para Famílias</div>
+          <h3 class="blog-title">10 dicas para tornar a rotina matinal mais tranquila com seu filho</h3>
+          <p class="blog-excerpt">A manhã não precisa ser um campo de batalha! Veja estratégias práticas que transformam esse momento...</p>
           <div class="blog-meta">
-            <div class="blog-avatar">👩‍⚕️</div>
-            <span>Nutri. Carla Melo</span>
-            <span>·</span>
-            <span>8 jan 2025</span>
+            <img src="https://i.pravatar.cc/150?img=32" alt="Autora" class="blog-avatar">
+            <div>
+              <div class="blog-author">Profa. Carla Mendes</div>
+              <div class="blog-date">8 de Março, 2025</div>
+            </div>
           </div>
         </div>
       </div>
       <div class="blog-card reveal reveal-delay-2">
-        <div class="blog-img bi3">🎨</div>
+        <div class="blog-img">
+          <img src="https://plus.unsplash.com/premium_photo-1683147681023-fe99f8746987?w=600&q=80" alt="Blog">
+        </div>
         <div class="blog-body">
-          <div class="blog-tag">Pedagogia</div>
-          <h4>Arte como linguagem: por que a expressão artística é tão importante</h4>
-          <p>A arte permite que as crianças expressem emoções, desenvolvam a motricidade e aprendam a comunicar ideias de forma criativa.</p>
+          <div class="blog-cat"><span class="blog-cat-dot"></span> Pedagogia</div>
+          <h3 class="blog-title">Aprendizagem baseada em projetos: o que é e por que funciona</h3>
+          <p class="blog-excerpt">A metodologia de projetos tem transformado a educação infantil ao redor do mundo. Entenda como aplicamos...</p>
           <div class="blog-meta">
-            <div class="blog-avatar">👨‍🎨</div>
-            <span>Prof. Bruno Arte</span>
-            <span>·</span>
-            <span>2 jan 2025</span>
+            <img src="https://i.pravatar.cc/150?img=56" alt="Autora" class="blog-avatar">
+            <div>
+              <div class="blog-author">Coord. Mariana Souza</div>
+              <div class="blog-date">1 de Março, 2025</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:3rem;" class="reveal">
+      <a href="#blog" class="btn-secondary">📖 Ler mais artigos</a>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="social-proof">
+  <div class="social-inner">
+    <div class="section-tag" style="display:inline-flex;margin-bottom:0.5rem;" >💬 O que as famílias dizem</div>
+    <h2 class="section-title reveal">Histórias que nos <em style="color:var(--lilac-500);font-style:italic;font-family:'Fraunces',serif;">emocionam</em></h2>
+    <div class="testimonials">
+      <div class="testi-card reveal">
+        <div class="quote-icon">"</div>
+        <div class="testi-stars">
+          <span class="testi-star">★</span><span class="testi-star">★</span><span class="testi-star">★</span><span class="testi-star">★</span><span class="testi-star">★</span>
+        </div>
+        <p class="testi-text">Minha filha acordava animadíssima para ir à escola. Isso nunca tinha acontecido antes. A UNI transformou nossa relação com a educação.</p>
+        <div class="testi-author">
+          <img src="https://i.pravatar.cc/150?img=5" alt="" class="testi-avatar">
+          <div>
+            <div class="testi-name">Fernanda Costa</div>
+            <div class="testi-role">Mãe da Sofia, 4 anos</div>
+          </div>
+        </div>
+      </div>
+      <div class="testi-card reveal reveal-delay-1">
+        <div class="quote-icon">"</div>
+        <div class="testi-stars">
+          <span class="testi-star">★</span><span class="testi-star">★</span><span class="testi-star">★</span><span class="testi-star">★</span><span class="testi-star">★</span>
+        </div>
+        <p class="testi-text">A equipe pedagógica é excepcional. Sinto que meu filho está em boas mãos e isso me permite trabalhar com tranquilidade. Recomendo muito!</p>
+        <div class="testi-author">
+          <img src="https://i.pravatar.cc/150?img=12" alt="" class="testi-avatar">
+          <div>
+            <div class="testi-name">Ricardo Alves</div>
+            <div class="testi-role">Pai do Miguel, 3 anos</div>
+          </div>
+        </div>
+      </div>
+      <div class="testi-card reveal reveal-delay-2">
+        <div class="quote-icon">"</div>
+        <div class="testi-stars">
+          <span class="testi-star">★</span><span class="testi-star">★</span><span class="testi-star">★</span><span class="testi-star">★</span><span class="testi-star">★</span>
+        </div>
+        <p class="testi-text">O app dos pais é incrível! Recebo fotos e atualizações o dia todo. Ver meu filho sorrindo e aprendendo me enche de gratidão pela escola UNI.</p>
+        <div class="testi-author">
+          <img src="https://i.pravatar.cc/150?img=25" alt="" class="testi-avatar">
+          <div>
+            <div class="testi-name">Juliana Martins</div>
+            <div class="testi-role">Mãe do Pedro, 2 anos</div>
           </div>
         </div>
       </div>
@@ -897,210 +1599,366 @@
   </div>
 </section>
 
-<!-- TOUR 360 -->
-<section id="tour">
-  <div class="container">
-    <div class="section-tag reveal">Conheça nossa escola</div>
-    <h2 class="section-title reveal reveal-delay-1">Tour <em>360°</em></h2>
-    <div class="tour-wrap reveal reveal-delay-2">
-      <div>
-        <h2>Explore nossa escola<br>de onde você estiver</h2>
-        <p>Faça um tour virtual completo pela UNI. Conheça nossas salas, áreas externas, refeitório, playground e todos os espaços pensados para o bem-estar e desenvolvimento das crianças.</p>
-        <div class="tour-rooms">
-          <div class="tour-room"><span class="icon">🍼</span> Berçário</div>
-          <div class="tour-room"><span class="icon">🎨</span> Ateliê de Arte</div>
-          <div class="tour-room"><span class="icon">📚</span> Biblioteca</div>
-          <div class="tour-room"><span class="icon">🌿</span> Jardim</div>
-          <div class="tour-room"><span class="icon">🍽️</span> Refeitório</div>
-          <div class="tour-room"><span class="icon">🛝</span> Playground</div>
+<!-- INSTITUCIONAL -->
+<section id="institucional">
+  <div class="inst-inner">
+    <div style="text-align:center;margin-bottom:2rem;">
+      <div class="section-tag reveal">🏛️ Institucional</div>
+      <h2 class="section-title reveal reveal-delay-1">Nossa história,<br><em style="color:var(--lilac-500);font-style:italic;font-family:'Fraunces',serif;">nossa identidade</em></h2>
+    </div>
+    <div class="inst-grid">
+      <div class="inst-images reveal">
+        <div class="inst-img-main">
+          <img src="https://plus.unsplash.com/premium_photo-1667520263477-0af7d9c33d67" alt="Escola UNI">
+        </div>
+        <div class="inst-img-secondary">
+          <img src="https://plus.unsplash.com/premium_photo-1661270519761-5fe8e63bda9c?w=400&q=80" alt="Crianças UNI">
+        </div>
+        <div class="inst-badge">
+          <div class="inst-badge-icon">🏆</div>
+          <div>
+            <strong style="display:block;font-size:15px;color:var(--text-dark);">Escola Premiada</strong>
+            <span style="font-size:12px;color:var(--text-light);">Melhor Escola Infantil 2025</span>
+          </div>
         </div>
       </div>
-      <div class="tour-visual" onclick="alert('Tour 360° em breve disponível! Entre em contato para agendar uma visita presencial.')">
-        <div class="tour-360">360°</div>
-        <p>Clique para iniciar o tour virtual</p>
-        <p style="font-size:0.78rem; opacity:0.5;">Qualidade 4K · Visualização imersiva</p>
+      <div class="reveal reveal-delay-1">
+        <p style="font-size:17px;color:var(--text-mid);line-height:1.8;margin-bottom:1.5rem;">
+          A <strong style="color:var(--lilac-600);">UNI Educação Infantil</strong> nasceu de um sonho: criar um lugar onde cada criança pudesse se descobrir, se expressar e crescer com alegria. Fundada há mais de 12 anos por educadoras apaixonadas, nos tornamos referência em educação de qualidade.
+        </p>
+        <p style="font-size:17px;color:var(--text-mid);line-height:1.8;margin-bottom:2.5rem;">
+          Nosso método une o melhor das pedagogias ativas com o calor humano que toda criança merece. Aqui, cada sorriso é uma conquista e cada lágrima é acolhida com amor.
+        </p>
+        <div class="inst-values">
+          <div class="inst-value">
+            <div class="inst-value-icon" style="background:var(--lilac-100);">🎯</div>
+            <div class="inst-value-text">
+              <strong>Missão</strong>
+              <span>Proporcionar uma educação integral, amorosa e inovadora que respeite a individualidade de cada criança.</span>
+            </div>
+          </div>
+          <div class="inst-value">
+            <div class="inst-value-icon" style="background:var(--green-100);">👁️</div>
+            <div class="inst-value-text">
+              <strong>Visão</strong>
+              <span>Ser reconhecida como escola de referência em bem-estar infantil e excelência pedagógica.</span>
+            </div>
+          </div>
+          <div class="inst-value">
+            <div class="inst-value-icon" style="background:var(--lilac-100);">💎</div>
+            <div class="inst-value-text">
+              <strong>Valores</strong>
+              <span>Amor, respeito, criatividade, responsabilidade, inclusão e sustentabilidade.</span>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- CONTATO -->
+<!-- SOCIAL MEDIA -->
+<section id="redes">
+  <div class="section-inner">
+    <div style="text-align:center;">
+      <div class="section-tag reveal">📱 Redes Sociais</div>
+      <h2 class="section-title reveal reveal-delay-1">Siga a <em style="color:var(--lilac-500);font-style:italic;font-family:'Fraunces',serif;">UNI</em> nas redes</h2>
+      <p class="section-subtitle reveal reveal-delay-2" style="margin:0 auto;">Fique por dentro do dia a dia, projetos, dicas e novidades! Nossas redes estão sempre cheias de alegria.</p>
+    </div>
+    <div class="social-channels">
+      <a href="#" class="social-channel sc-instagram reveal">
+        <div class="social-icon">📸</div>
+        <div class="social-name">Instagram</div>
+        <div class="social-handle">@uni.infantil</div>
+        <div class="social-followers">12.4k seguidores</div>
+      </a>
+      <a href="#" class="social-channel sc-youtube reveal reveal-delay-1">
+        <div class="social-icon">▶️</div>
+        <div class="social-name">YouTube</div>
+        <div class="social-handle">UNI Escola</div>
+        <div class="social-followers">4.8k inscritos</div>
+      </a>
+      <a href="#" class="social-channel sc-facebook reveal reveal-delay-2">
+        <div class="social-icon">👥</div>
+        <div class="social-name">Facebook</div>
+        <div class="social-handle">/escolauni</div>
+        <div class="social-followers">8.2k curtidas</div>
+      </a>
+      <a href="#" class="social-channel sc-whatsapp reveal reveal-delay-3">
+        <div class="social-icon">💬</div>
+        <div class="social-name">WhatsApp</div>
+        <div class="social-handle">Canal Oficial</div>
+        <div class="social-followers">Fale conosco!</div>
+      </a>
+    </div>
+    <!-- Instagram Grid Preview -->
+    <div style="margin-top:3rem;display:grid;grid-template-columns:repeat(6,1fr);gap:8px;border-radius:24px;overflow:hidden;" class="reveal">
+      <img src="https://plus.unsplash.com/premium_photo-1661376840742-b2f37ddf3a34?w=300&q=80" style="width:100%;aspect-ratio:1;object-fit:cover;" alt="">
+      <img src="https://images.unsplash.com/photo-1590479773265-7464e5d48118?w=300&q=80" style="width:100%;aspect-ratio:1;object-fit:cover;" alt="">
+      <img src="https://images.unsplash.com/photo-1526976668912-1a811878dd37?w=300&q=80" style="width:100%;aspect-ratio:1;object-fit:cover;" alt="">
+      <img src="https://images.unsplash.com/photo-1543269865-cbf427effbad?w=300&q=80" style="width:100%;aspect-ratio:1;object-fit:cover;" alt="">
+      <img src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=300&q=80" style="width:100%;aspect-ratio:1;object-fit:cover;" alt="">
+      <img src="https://images.unsplash.com/photo-1596461404969-9ae70f2830c1?w=300&q=80" style="width:100%;aspect-ratio:1;object-fit:cover;" alt="">
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
 <section id="contato">
-  <div class="container">
-    <div class="section-tag reveal">Fale conosco</div>
-    <h2 class="section-title reveal reveal-delay-1">Venha fazer parte<br>da <em>família UNI</em></h2>
-    <div class="contato-grid">
-      <div class="contato-info reveal">
-        <h3>Entre em contato</h3>
-        <div class="info-item">
-          <div class="info-icon">📍</div>
-          <div>
-            <h4>Endereço</h4>
-            <p>Rua das Flores, 123 — Jardim Primavera<br>São Paulo, SP — 01234-567</p>
+  <div class="contact-inner">
+    <div class="contact-left">
+      <div class="section-tag reveal">✉️ Contato</div>
+      <h2 class="section-title reveal reveal-delay-1">Venha fazer parte<br>da <em style="color:var(--green-300);font-style:italic;font-family:'Fraunces',serif;">família UNI</em></h2>
+      <p class="section-subtitle reveal reveal-delay-2">Adoraríamos conhecer sua família! Agende uma visita, tire suas dúvidas ou solicite informações sobre matrículas.</p>
+      <div class="contact-infos">
+        <div class="contact-info reveal">
+          <div class="ci-icon">📍</div>
+          <div class="ci-text">
+            <strong>Endereço</strong>
+            <span>Rua das Flores, 1234 - Jardim Primavera<br>São Paulo - SP, 01234-567</span>
           </div>
         </div>
-        <div class="info-item">
-          <div class="info-icon">📞</div>
-          <div>
-            <h4>Telefone / WhatsApp</h4>
-            <p>(11) 9 9999-9999</p>
+        <div class="contact-info reveal reveal-delay-1">
+          <div class="ci-icon">📞</div>
+          <div class="ci-text">
+            <strong>Telefone / WhatsApp</strong>
+            <span>(11) 99999-8888</span>
           </div>
         </div>
-        <div class="info-item">
-          <div class="info-icon">✉️</div>
-          <div>
-            <h4>E-mail</h4>
-            <p>contato@escolauni.com.br</p>
+        <div class="contact-info reveal reveal-delay-2">
+          <div class="ci-icon">📧</div>
+          <div class="ci-text">
+            <strong>E-mail</strong>
+            <span>contato@escolauni.com.br</span>
           </div>
         </div>
-        <div class="info-item">
-          <div class="info-icon">🕐</div>
-          <div>
-            <h4>Horário de funcionamento</h4>
-            <p>Segunda a sexta: 7h às 18h30<br>Secretaria: 8h às 17h</p>
-          </div>
-        </div>
-        <div>
-          <p style="font-size:0.82rem;color:#7a6a9a;margin-bottom:0.8rem;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;">Redes sociais</p>
-          <div class="social-row">
-            <a href="#" class="social-btn sb-ig" title="Instagram">📸</a>
-            <a href="#" class="social-btn sb-fb" title="Facebook">👍</a>
-            <a href="#" class="social-btn sb-yt" title="YouTube">▶️</a>
-            <a href="#" class="social-btn sb-wa" title="WhatsApp">💬</a>
-            <a href="#" class="social-btn sb-tt" title="TikTok">🎵</a>
+        <div class="contact-info reveal reveal-delay-3">
+          <div class="ci-icon">🕐</div>
+          <div class="ci-text">
+            <strong>Horário de Funcionamento</strong>
+            <span>Segunda a Sexta: 7h às 18h<br>Sábados: 8h às 12h (eventos)</span>
           </div>
         </div>
       </div>
-      <div class="form-card reveal reveal-delay-1">
-        <h3 style="font-family:var(--font-display);font-size:1.5rem;font-weight:800;margin-bottom:1.5rem;">Agende uma visita</h3>
-        <div class="form-row">
-          <div class="form-group">
-            <label>Nome completo</label>
-            <input type="text" placeholder="Seu nome">
-          </div>
-          <div class="form-group">
-            <label>Telefone</label>
-            <input type="tel" placeholder="(11) 9 0000-0000">
-          </div>
+    </div>
+    <div class="contact-form reveal reveal-delay-1">
+      <div class="form-title">💌 Envie uma mensagem</div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Nome completo</label>
+          <input type="text" class="form-input" placeholder="Seu nome">
         </div>
         <div class="form-group">
-          <label>E-mail</label>
-          <input type="email" placeholder="seu@email.com">
-        </div>
-        <div class="form-row">
-          <div class="form-group">
-            <label>Idade do(a) filho(a)</label>
-            <select>
-              <option>Selecione...</option>
-              <option>0–6 meses</option>
-              <option>7–12 meses</option>
-              <option>1–2 anos</option>
-              <option>2–3 anos</option>
-              <option>4–5 anos</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label>Turno de interesse</label>
-            <select>
-              <option>Selecione...</option>
-              <option>Manhã</option>
-              <option>Tarde</option>
-              <option>Integral</option>
-            </select>
-          </div>
+          <label class="form-label">Telefone / WhatsApp</label>
+          <input type="tel" class="form-input" placeholder="(11) 99999-9999">
         </div>
         <div class="form-group">
-          <label>Mensagem (opcional)</label>
-          <textarea placeholder="Alguma dúvida ou informação adicional?"></textarea>
+          <label class="form-label">E-mail</label>
+          <input type="email" class="form-input" placeholder="seu@email.com">
         </div>
-        <button class="btn-primary" style="width:100%;font-size:0.95rem;padding:1rem" onclick="handleForm()">
-          ✨ Enviar mensagem
-        </button>
-        <p style="font-size:0.75rem;color:#a08abb;text-align:center;margin-top:0.8rem">Retornamos em até 24 horas nos dias úteis.</p>
+        <div class="form-group">
+          <label class="form-label">Idade da criança</label>
+          <input type="text" class="form-input" placeholder="Ex: 2 anos">
+        </div>
+        <div class="form-group full">
+          <label class="form-label">Interesse</label>
+          <select class="form-select">
+            <option value="">Selecione uma opção...</option>
+            <option>Berçário (0 a 1 ano)</option>
+            <option>Maternal I (1 a 2 anos)</option>
+            <option>Maternal II (2 a 3 anos)</option>
+            <option>Pré-Escola I (4 anos)</option>
+            <option>Pré-Escola II (5 anos)</option>
+            <option>Pré-Escola III (6 anos)</option>
+            <option>Informações Gerais</option>
+          </select>
+        </div>
+        <div class="form-group full">
+          <label class="form-label">Mensagem</label>
+          <textarea class="form-textarea" placeholder="Olá! Gostaria de saber mais sobre..."></textarea>
+        </div>
       </div>
+      <button class="form-btn" onclick="handleFormSubmit(this)">
+        🚀 Enviar mensagem
+      </button>
     </div>
   </div>
 </section>
 
 <!-- FOOTER -->
 <footer>
-  <div class="container">
-    <div class="footer-grid">
+  <div class="footer-inner">
+    <div class="footer-top">
       <div class="footer-brand">
-        <div class="logo">UNI<span>.</span></div>
-        <p>"Cuidar é compromisso, aprender é prazer e ensinar é propósito."<br><br>Formando crianças felizes, curiosas e preparadas para um mundo cheio de possibilidades.</p>
-        <div class="social-row">
-          <a href="#" class="social-btn sb-ig" title="Instagram">📸</a>
-          <a href="#" class="social-btn sb-fb" title="Facebook">👍</a>
-          <a href="#" class="social-btn sb-yt" title="YouTube">▶️</a>
-          <a href="#" class="social-btn sb-wa" title="WhatsApp">💬</a>
+        <div class="nav-logo" style="margin-bottom:1rem;">
+          <div class="logo-mark">U</div>
+          <div class="logo-text">
+            <span class="logo-name">UNI</span>
+            <span class="logo-sub">Educação Infantil</span>
+          </div>
+        </div>
+        <p class="footer-slogan">"Cuidar é compromisso, aprender é prazer e ensinar é propósito."</p>
+        <div class="footer-socials">
+          <a href="#" class="footer-social">📸</a>
+          <a href="#" class="footer-social">▶️</a>
+          <a href="#" class="footer-social">👥</a>
+          <a href="#" class="footer-social">💬</a>
         </div>
       </div>
       <div class="footer-col">
-        <h5>A Escola</h5>
-        <a href="#institucional">Institucional</a>
-        <a href="#principios">Princípios</a>
-        <a href="#projetos">Projetos</a>
-        <a href="#tour">Tour 360°</a>
+        <h4>Escola</h4>
+        <ul>
+          <li><a href="#educacao">Berçário</a></li>
+          <li><a href="#educacao">Maternal</a></li>
+          <li><a href="#educacao">Pré-Escola</a></li>
+          <li><a href="#tour">Tour 360°</a></li>
+          <li><a href="#institucional">Institucional</a></li>
+        </ul>
       </div>
       <div class="footer-col">
-        <h5>Educação</h5>
-        <a href="#educacao">Berçário</a>
-        <a href="#educacao">Creche</a>
-        <a href="#educacao">Pré-Escola</a>
-        <a href="#educacao">Metodologia</a>
+        <h4>Conteúdo</h4>
+        <ul>
+          <li><a href="#blog">Blog</a></li>
+          <li><a href="#projetos">Projetos</a></li>
+          <li><a href="#principios">Princípios</a></li>
+          <li><a href="#redes">Redes Sociais</a></li>
+        </ul>
       </div>
       <div class="footer-col">
-        <h5>Contato</h5>
-        <a href="#contato">Agende uma visita</a>
-        <a href="#blog">Blog</a>
-        <a href="mailto:contato@escolauni.com.br">E-mail</a>
-        <a href="tel:+5511999999999">WhatsApp</a>
+        <h4>Contato</h4>
+        <ul>
+          <li><a href="#contato">Fale Conosco</a></li>
+          <li><a href="#contato">Matrículas 2025</a></li>
+          <li><a href="#contato">Agende uma Visita</a></li>
+          <li><a href="tel:11999998888">(11) 99999-8888</a></li>
+        </ul>
       </div>
     </div>
     <div class="footer-bottom">
-      <p>© 2025 Escola UNI — Todos os direitos reservados</p>
-      <p>Feito com 💜 para as famílias e crianças da UNI</p>
+      <span class="footer-copy">© 2025 UNI Educação Infantil. Todos os direitos reservados.</span>
+      <span class="footer-love">Feito com <span>♥</span> para as crianças</span>
     </div>
   </div>
 </footer>
 
+<!-- FLOATING ACTIONS -->
+<div class="fab-group">
+  <a href="https://wa.me/5511999998888" class="fab fab-whatsapp" title="WhatsApp">💬</a>
+  <button class="fab fab-up" onclick="scrollToTop()" title="Voltar ao topo" style="border:none;cursor:none;">↑</button>
+</div>
+
 <script>
-  // NAV SCROLL
-  window.addEventListener('scroll', () => {
-    const nav = document.getElementById('navbar');
-    nav.classList.toggle('scrolled', window.scrollY > 50);
+  // CURSOR
+  const cursor = document.getElementById('cursor');
+  const follower = document.getElementById('cursorFollower');
+  let mouseX = 0, mouseY = 0;
+  let followerX = 0, followerY = 0;
+
+  document.addEventListener('mousemove', (e) => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+    cursor.style.transform = `translate(${mouseX - 8}px, ${mouseY - 8}px)`;
   });
 
-  // MOBILE MENU
-  function toggleMenu() {
-    const menu = document.getElementById('mobileMenu');
-    menu.classList.toggle('open');
+  function animateCursor() {
+    followerX += (mouseX - followerX - 20) * 0.12;
+    followerY += (mouseY - followerY - 20) * 0.12;
+    follower.style.transform = `translate(${followerX}px, ${followerY}px)`;
+    requestAnimationFrame(animateCursor);
+  }
+  animateCursor();
+
+  document.querySelectorAll('a, button, .level-card, .blog-card, .testi-card, .social-channel, .tour-room-chip, .project-card').forEach(el => {
+    el.addEventListener('mouseenter', () => {
+      cursor.style.transform += ' scale(1.5)';
+      cursor.style.background = 'var(--green-500)';
+      follower.style.opacity = '0.3';
+    });
+    el.addEventListener('mouseleave', () => {
+      cursor.style.background = 'var(--lilac-500)';
+      follower.style.opacity = '0.6';
+    });
+  });
+
+  // NAVBAR SCROLL
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    navbar.classList.toggle('scrolled', window.scrollY > 50);
+    // Progress bar
+    const scrollPercent = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+    document.getElementById('progressBar').style.width = scrollPercent + '%';
+  });
+
+  // MOBILE NAV
+  let mobileOpen = false;
+  function toggleMobileNav() {
+    mobileOpen = !mobileOpen;
+    document.getElementById('mobileNav').classList.toggle('open', mobileOpen);
+    document.getElementById('mobileOverlay').classList.toggle('open', mobileOpen);
+    const h1 = document.getElementById('h1');
+    const h2 = document.getElementById('h2');
+    const h3 = document.getElementById('h3');
+    if (mobileOpen) {
+      h1.style.transform = 'translateY(7px) rotate(45deg)';
+      h2.style.opacity = '0';
+      h3.style.transform = 'translateY(-7px) rotate(-45deg)';
+    } else {
+      h1.style.transform = ''; h2.style.opacity = ''; h3.style.transform = '';
+    }
+  }
+  function closeMobileNav() {
+    mobileOpen = false;
+    document.getElementById('mobileNav').classList.remove('open');
+    document.getElementById('mobileOverlay').classList.remove('open');
+    document.getElementById('h1').style.transform = '';
+    document.getElementById('h2').style.opacity = '';
+    document.getElementById('h3').style.transform = '';
   }
 
   // SCROLL REVEAL
   const reveals = document.querySelectorAll('.reveal');
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        e.target.classList.add('visible');
-        observer.unobserve(e.target);
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        revealObserver.unobserve(entry.target);
       }
     });
-  }, { threshold: 0.1 });
-  reveals.forEach(el => observer.observe(el));
+  }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+  reveals.forEach(r => revealObserver.observe(r));
+
+  // SCROLL TO TOP
+  function scrollToTop() {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
 
   // FORM SUBMIT
-  function handleForm() {
-    const btn = event.currentTarget;
-    btn.textContent = '✅ Mensagem enviada!';
-    btn.style.background = 'var(--green-500)';
+  function handleFormSubmit(btn) {
+    btn.textContent = '✅ Mensagem enviada com sucesso!';
+    btn.style.background = 'linear-gradient(135deg, var(--green-500), var(--green-600))';
+    btn.disabled = true;
     setTimeout(() => {
-      btn.textContent = '✨ Enviar mensagem';
+      btn.textContent = '🚀 Enviar mensagem';
       btn.style.background = '';
-    }, 3000);
+      btn.disabled = false;
+    }, 4000);
+  }
+
+  // HERO PARALLAX
+  window.addEventListener('scroll', () => {
+    const scrolled = window.scrollY;
+    const heroBg = document.querySelector('.hero-bg');
+    if (heroBg) heroBg.style.transform = `translateY(${scrolled * 0.3}px)`;
+  });
+
+  // FEATURES GRID responsive fix
+  const featuresGrid = document.querySelector('.features-grid');
+  if (featuresGrid && window.innerWidth <= 768) {
+    featuresGrid.style.gridTemplateColumns = '1fr 1fr';
+  }
+  if (featuresGrid && window.innerWidth <= 480) {
+    featuresGrid.style.gridTemplateColumns = '1fr';
   }
 </script>
-
 </body>
 </html>
