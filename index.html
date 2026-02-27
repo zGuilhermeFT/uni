@@ -1,0 +1,1106 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UNI — Escola de Educação Infantil</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500;600&family=Caveat:wght@600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --lilac-50: #f5f0ff;
+    --lilac-100: #ede5ff;
+    --lilac-200: #d8c8ff;
+    --lilac-300: #bf9eff;
+    --lilac-400: #a370ff;
+    --lilac-500: #8a4fff;
+    --lilac-600: #7335e8;
+    --lilac-700: #5e23c5;
+    --lilac-800: #4c1da0;
+    --lilac-900: #3d1880;
+    --green-50: #edfdf4;
+    --green-100: #d1fae5;
+    --green-200: #a0f0c8;
+    --green-300: #5ddba0;
+    --green-400: #2ec87e;
+    --green-500: #10b862;
+    --green-600: #059650;
+    --green-700: #047840;
+    --green-800: #065f34;
+    --green-900: #064e2c;
+    --cream: #fdf9f3;
+    --dark: #1a0a2e;
+    --font-display: 'Playfair Display', serif;
+    --font-body: 'DM Sans', sans-serif;
+    --font-accent: 'Caveat', cursive;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  
+  html { scroll-behavior: smooth; }
+  
+  body {
+    font-family: var(--font-body);
+    background: var(--cream);
+    color: var(--dark);
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1rem 2.5rem;
+    background: rgba(253,249,243,0.85);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid rgba(163,112,255,0.15);
+    transition: all 0.3s;
+  }
+  nav.scrolled {
+    padding: 0.6rem 2.5rem;
+    background: rgba(253,249,243,0.97);
+    box-shadow: 0 2px 30px rgba(122,53,232,0.1);
+  }
+  .nav-logo {
+    font-family: var(--font-display);
+    font-size: 2rem;
+    font-weight: 900;
+    color: var(--lilac-700);
+    letter-spacing: -1px;
+    text-decoration: none;
+  }
+  .nav-logo span { color: var(--green-500); }
+  .nav-links {
+    display: flex; gap: 0.2rem; list-style: none; align-items: center;
+  }
+  .nav-links a {
+    font-size: 0.82rem; font-weight: 500; letter-spacing: 0.04em;
+    color: var(--dark); text-decoration: none;
+    padding: 0.45rem 0.75rem; border-radius: 99px;
+    transition: all 0.2s;
+    text-transform: uppercase;
+  }
+  .nav-links a:hover { background: var(--lilac-100); color: var(--lilac-700); }
+  .nav-cta {
+    background: var(--lilac-600) !important;
+    color: white !important;
+    padding: 0.5rem 1.2rem !important;
+  }
+  .nav-cta:hover { background: var(--lilac-700) !important; transform: translateY(-1px); }
+  .hamburger {
+    display: none; flex-direction: column; gap: 5px; cursor: pointer;
+    padding: 4px;
+  }
+  .hamburger span {
+    width: 24px; height: 2px;
+    background: var(--lilac-700); border-radius: 2px;
+    transition: all 0.3s;
+    display: block;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: grid; grid-template-columns: 1fr 1fr;
+    align-items: center;
+    padding: 8rem 2.5rem 4rem;
+    position: relative; overflow: hidden;
+  }
+  .hero-bg {
+    position: absolute; inset: 0; z-index: 0;
+  }
+  .hero-blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.35;
+    animation: floatBlob 8s ease-in-out infinite;
+  }
+  .blob1 { width: 500px; height: 500px; background: var(--lilac-300); top: -100px; right: -100px; }
+  .blob2 { width: 350px; height: 350px; background: var(--green-200); bottom: 50px; left: -80px; animation-delay: 3s; }
+  .blob3 { width: 250px; height: 250px; background: var(--lilac-200); top: 200px; right: 300px; animation-delay: 5s; }
+  @keyframes floatBlob {
+    0%,100% { transform: translate(0,0) scale(1); }
+    33% { transform: translate(20px,-15px) scale(1.05); }
+    66% { transform: translate(-10px,20px) scale(0.95); }
+  }
+  .hero-content { position: relative; z-index: 1; max-width: 600px; }
+  .hero-tag {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    background: var(--lilac-100); border: 1px solid var(--lilac-200);
+    color: var(--lilac-700); font-size: 0.75rem; font-weight: 600;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    padding: 0.4rem 0.9rem; border-radius: 99px;
+    margin-bottom: 1.5rem;
+    animation: fadeUp 0.6s ease both;
+  }
+  .hero-tag::before { content: '✦'; font-size: 0.6rem; }
+  .hero h1 {
+    font-family: var(--font-display);
+    font-size: clamp(3rem, 6vw, 5.5rem);
+    font-weight: 900; line-height: 1.0;
+    color: var(--dark);
+    margin-bottom: 1rem;
+    animation: fadeUp 0.6s 0.15s ease both;
+  }
+  .hero h1 em { color: var(--lilac-600); font-style: italic; }
+  .hero-slogan {
+    font-family: var(--font-accent);
+    font-size: 1.4rem; color: var(--green-600);
+    margin-bottom: 1.8rem; line-height: 1.5;
+    animation: fadeUp 0.6s 0.3s ease both;
+  }
+  .hero-desc {
+    font-size: 1rem; color: #5a4a7a; line-height: 1.7;
+    margin-bottom: 2.5rem; max-width: 480px;
+    animation: fadeUp 0.6s 0.45s ease both;
+  }
+  .hero-btns {
+    display: flex; gap: 1rem; flex-wrap: wrap;
+    animation: fadeUp 0.6s 0.6s ease both;
+  }
+  .btn-primary {
+    background: var(--lilac-600); color: white;
+    padding: 0.85rem 2rem; border-radius: 99px;
+    font-weight: 600; font-size: 0.9rem;
+    text-decoration: none; border: none; cursor: pointer;
+    transition: all 0.25s;
+    box-shadow: 0 4px 20px rgba(115,53,232,0.35);
+  }
+  .btn-primary:hover { background: var(--lilac-700); transform: translateY(-2px); box-shadow: 0 8px 30px rgba(115,53,232,0.45); }
+  .btn-secondary {
+    background: transparent; color: var(--lilac-700);
+    padding: 0.85rem 2rem; border-radius: 99px;
+    font-weight: 600; font-size: 0.9rem;
+    text-decoration: none; border: 2px solid var(--lilac-300);
+    cursor: pointer; transition: all 0.25s;
+  }
+  .btn-secondary:hover { background: var(--lilac-50); border-color: var(--lilac-500); }
+  .hero-visual {
+    position: relative; z-index: 1;
+    display: flex; justify-content: center; align-items: center;
+    animation: fadeUp 0.8s 0.3s ease both;
+  }
+  .hero-card-main {
+    width: 380px; height: 460px;
+    background: linear-gradient(135deg, var(--lilac-500) 0%, var(--lilac-700) 100%);
+    border-radius: 40px 40px 40px 10px;
+    display: flex; flex-direction: column;
+    justify-content: flex-end; padding: 2rem;
+    box-shadow: 0 30px 80px rgba(94,35,197,0.35);
+    position: relative; overflow: hidden;
+  }
+  .hero-card-main::before {
+    content: '';
+    position: absolute; top: -60px; right: -60px;
+    width: 200px; height: 200px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 50%;
+  }
+  .hero-card-emoji {
+    font-size: 5rem; position: absolute; top: 2rem; left: 2rem;
+    animation: bounce 2s ease-in-out infinite;
+  }
+  @keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+  .hero-card-main h3 {
+    font-family: var(--font-display); color: white;
+    font-size: 1.5rem; margin-bottom: 0.5rem;
+  }
+  .hero-card-main p { color: rgba(255,255,255,0.75); font-size: 0.85rem; }
+  .hero-stat {
+    position: absolute; background: white;
+    border-radius: 18px; padding: 1rem 1.3rem;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.12);
+  }
+  .stat-tl { top: 20px; left: -30px; }
+  .stat-br { bottom: 60px; right: -30px; }
+  .hero-stat .num {
+    font-family: var(--font-display); font-weight: 900;
+    font-size: 1.8rem; color: var(--lilac-600);
+  }
+  .hero-stat .lbl { font-size: 0.72rem; color: #7a6a9a; font-weight: 500; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── SECTION BASE ── */
+  section { padding: 6rem 2.5rem; }
+  .section-tag {
+    display: inline-flex; align-items: center; gap: 0.4rem;
+    font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--green-600);
+    margin-bottom: 0.8rem;
+  }
+  .section-tag::before { content: ''; width: 20px; height: 2px; background: var(--green-400); border-radius: 2px; }
+  .section-title {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 4vw, 3.2rem);
+    font-weight: 800; line-height: 1.15;
+    color: var(--dark); margin-bottom: 1rem;
+  }
+  .section-title em { color: var(--lilac-600); font-style: italic; }
+  .section-sub {
+    font-size: 1rem; color: #6a5a8a; line-height: 1.7;
+    max-width: 560px;
+  }
+  .container { max-width: 1200px; margin: 0 auto; }
+
+  /* ── MARQUEE ── */
+  .marquee-wrap {
+    background: var(--lilac-700); overflow: hidden;
+    padding: 1rem 0;
+  }
+  .marquee-track {
+    display: flex; gap: 3rem; align-items: center;
+    animation: marquee 20s linear infinite;
+    white-space: nowrap;
+  }
+  .marquee-track span {
+    color: var(--lilac-200); font-size: 0.85rem; font-weight: 500;
+    letter-spacing: 0.05em; flex-shrink: 0;
+  }
+  .marquee-track .dot { color: var(--green-400); font-size: 1.2rem; }
+  @keyframes marquee { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+
+  /* ── INSTITUCIONAL ── */
+  #institucional { background: white; }
+  .inst-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; }
+  .inst-img-wrap { position: relative; }
+  .inst-img-main {
+    width: 100%; aspect-ratio: 4/5;
+    background: linear-gradient(160deg, var(--lilac-200) 0%, var(--green-100) 100%);
+    border-radius: 30px 30px 30px 5px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 8rem;
+    box-shadow: 0 20px 60px rgba(122,53,232,0.2);
+    overflow: hidden;
+  }
+  .inst-bubble {
+    position: absolute; background: var(--green-400);
+    color: white; border-radius: 20px; padding: 1rem 1.4rem;
+    font-weight: 700; font-size: 0.85rem;
+  }
+  .inst-bubble.b1 { bottom: -20px; left: -20px; background: var(--lilac-600); }
+  .inst-bubble.b2 { top: -20px; right: -20px; background: var(--green-500); }
+  .inst-values { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 2rem; }
+  .inst-val {
+    background: var(--lilac-50); border: 1px solid var(--lilac-100);
+    border-radius: 16px; padding: 1.2rem;
+    transition: all 0.25s;
+  }
+  .inst-val:hover { background: var(--lilac-100); transform: translateY(-3px); }
+  .inst-val .icon { font-size: 1.8rem; margin-bottom: 0.5rem; }
+  .inst-val h4 { font-weight: 700; font-size: 0.9rem; color: var(--lilac-700); margin-bottom: 0.3rem; }
+  .inst-val p { font-size: 0.8rem; color: #7a6a9a; line-height: 1.5; }
+
+  /* ── EDUCAÇÃO CARDS ── */
+  #educacao { background: var(--lilac-50); }
+  .edu-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-top: 3rem; }
+  .edu-card {
+    border-radius: 24px; padding: 2rem;
+    position: relative; overflow: hidden;
+    transition: all 0.3s;
+    cursor: pointer;
+  }
+  .edu-card:hover { transform: translateY(-8px); box-shadow: 0 20px 50px rgba(0,0,0,0.12); }
+  .edu-card.creche { background: linear-gradient(135deg, #fde8ff 0%, #e8d5ff 100%); border: 1px solid #e0c0ff; }
+  .edu-card.pre { background: linear-gradient(135deg, #d5f5e8 0%, #c0eedc 100%); border: 1px solid #a0e0c0; }
+  .edu-card.special { background: linear-gradient(135deg, var(--lilac-600) 0%, var(--lilac-800) 100%); border: none; color: white; }
+  .edu-card .age {
+    font-family: var(--font-display); font-size: 3.5rem; font-weight: 900;
+    opacity: 0.15; position: absolute; top: 1rem; right: 1.5rem;
+    line-height: 1;
+  }
+  .edu-card .emoji { font-size: 2.5rem; margin-bottom: 1rem; }
+  .edu-card h3 { font-family: var(--font-display); font-size: 1.5rem; font-weight: 800; margin-bottom: 0.5rem; }
+  .edu-card .sub { font-size: 0.78rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; opacity: 0.7; margin-bottom: 0.8rem; }
+  .edu-card p { font-size: 0.87rem; line-height: 1.65; opacity: 0.85; }
+  .edu-card .tag-list { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 1rem; }
+  .edu-card .tag {
+    background: rgba(255,255,255,0.4); font-size: 0.72rem;
+    font-weight: 600; padding: 0.25rem 0.7rem; border-radius: 99px;
+  }
+  .edu-card.special .tag { background: rgba(255,255,255,0.2); color: white; }
+
+  /* ── PRINCÍPIOS ── */
+  #principios { background: white; }
+  .princ-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; margin-top: 3rem; }
+  .princ-card {
+    text-align: center; padding: 2.5rem 1.5rem;
+    border-radius: 24px;
+    background: var(--cream); border: 1px solid rgba(163,112,255,0.15);
+    transition: all 0.3s;
+    position: relative; overflow: hidden;
+  }
+  .princ-card::before {
+    content: '';
+    position: absolute; bottom: -40px; right: -40px;
+    width: 100px; height: 100px;
+    background: var(--lilac-100); border-radius: 50%;
+    transition: all 0.4s;
+  }
+  .princ-card:hover::before { width: 200px; height: 200px; }
+  .princ-card:hover { transform: translateY(-5px); border-color: var(--lilac-300); }
+  .princ-icon {
+    width: 64px; height: 64px; border-radius: 20px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.8rem; margin: 0 auto 1.2rem;
+  }
+  .pi1 { background: linear-gradient(135deg, var(--lilac-100), var(--lilac-200)); }
+  .pi2 { background: linear-gradient(135deg, var(--green-100), var(--green-200)); }
+  .pi3 { background: linear-gradient(135deg, #ffecd2, #ffd6a5); }
+  .pi4 { background: linear-gradient(135deg, #fce4ec, #f8bbd0); }
+  .princ-card h4 { font-family: var(--font-display); font-weight: 800; font-size: 1.1rem; margin-bottom: 0.6rem; color: var(--dark); position: relative; z-index: 1; }
+  .princ-card p { font-size: 0.83rem; color: #7a6a9a; line-height: 1.6; position: relative; z-index: 1; }
+
+  /* ── PROJETOS ── */
+  #projetos { background: var(--dark); color: white; overflow: hidden; }
+  #projetos .section-title { color: white; }
+  #projetos .section-sub { color: rgba(255,255,255,0.6); }
+  .proj-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.5rem; margin-top: 3rem; }
+  .proj-card {
+    border-radius: 20px; overflow: hidden;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    transition: all 0.3s; cursor: pointer;
+  }
+  .proj-card:hover { transform: scale(1.02); border-color: var(--lilac-400); }
+  .proj-img {
+    height: 180px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 4rem;
+  }
+  .proj-img.p1 { background: linear-gradient(135deg, var(--lilac-700), var(--lilac-500)); }
+  .proj-img.p2 { background: linear-gradient(135deg, var(--green-700), var(--green-500)); }
+  .proj-img.p3 { background: linear-gradient(135deg, #b45309, #d97706); }
+  .proj-img.p4 { background: linear-gradient(135deg, #0e7490, #06b6d4); }
+  .proj-img.p5 { background: linear-gradient(135deg, #be185d, #ec4899); }
+  .proj-img.p6 { background: linear-gradient(135deg, var(--lilac-800), var(--dark)); }
+  .proj-body { padding: 1.3rem; }
+  .proj-cat { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--green-400); margin-bottom: 0.4rem; }
+  .proj-body h4 { font-family: var(--font-display); font-weight: 700; font-size: 1.1rem; margin-bottom: 0.4rem; }
+  .proj-body p { font-size: 0.8rem; color: rgba(255,255,255,0.55); line-height: 1.6; }
+
+  /* ── BLOG ── */
+  #blog { background: var(--lilac-50); }
+  .blog-grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 1.5rem; margin-top: 3rem; }
+  .blog-card {
+    background: white; border-radius: 20px; overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+    transition: all 0.3s;
+  }
+  .blog-card:hover { transform: translateY(-5px); box-shadow: 0 12px 40px rgba(122,53,232,0.15); }
+  .blog-img {
+    height: 180px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 3.5rem;
+  }
+  .blog-card.featured .blog-img { height: 240px; font-size: 5rem; }
+  .bi1 { background: linear-gradient(135deg, var(--lilac-100), var(--lilac-200)); }
+  .bi2 { background: linear-gradient(135deg, var(--green-50), var(--green-100)); }
+  .bi3 { background: linear-gradient(135deg, #fff3cd, #ffe0a0); }
+  .blog-body { padding: 1.4rem; }
+  .blog-tag { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--lilac-600); margin-bottom: 0.5rem; }
+  .blog-body h4 { font-family: var(--font-display); font-weight: 800; font-size: 1.1rem; margin-bottom: 0.5rem; color: var(--dark); line-height: 1.3; }
+  .blog-card.featured .blog-body h4 { font-size: 1.4rem; }
+  .blog-body p { font-size: 0.82rem; color: #7a6a9a; line-height: 1.6; margin-bottom: 1rem; }
+  .blog-meta { display: flex; align-items: center; gap: 0.5rem; font-size: 0.75rem; color: #a08abb; }
+  .blog-avatar { width: 28px; height: 28px; border-radius: 50%; background: var(--lilac-200); display: flex; align-items: center; justify-content: center; font-size: 0.8rem; }
+
+  /* ── TOUR 360 ── */
+  #tour { background: white; }
+  .tour-wrap {
+    background: linear-gradient(135deg, var(--lilac-700) 0%, var(--dark) 100%);
+    border-radius: 32px; padding: 4rem;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 3rem;
+    align-items: center; color: white; margin-top: 3rem;
+  }
+  .tour-wrap h2 { font-family: var(--font-display); font-size: 2.5rem; font-weight: 900; margin-bottom: 1rem; }
+  .tour-wrap p { color: rgba(255,255,255,0.7); line-height: 1.7; margin-bottom: 2rem; }
+  .tour-visual {
+    aspect-ratio: 4/3;
+    background: rgba(255,255,255,0.1);
+    border-radius: 20px;
+    border: 2px dashed rgba(255,255,255,0.3);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    gap: 1rem; cursor: pointer;
+    transition: all 0.3s;
+    text-align: center;
+  }
+  .tour-visual:hover { background: rgba(255,255,255,0.15); border-color: var(--green-400); }
+  .tour-360 {
+    width: 80px; height: 80px; border-radius: 50%;
+    background: var(--green-400);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.8rem; font-weight: 900; color: white;
+    font-family: var(--font-display);
+    animation: spin360 4s linear infinite;
+  }
+  @keyframes spin360 { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
+  .tour-visual p { color: rgba(255,255,255,0.7); font-size: 0.9rem; margin: 0; }
+  .tour-rooms { display: grid; grid-template-columns: 1fr 1fr; gap: 0.7rem; }
+  .tour-room {
+    background: rgba(255,255,255,0.1); border-radius: 12px;
+    padding: 0.8rem 1rem;
+    display: flex; align-items: center; gap: 0.6rem;
+    font-size: 0.82rem; cursor: pointer; transition: all 0.2s;
+  }
+  .tour-room:hover { background: rgba(255,255,255,0.2); }
+  .tour-room .icon { font-size: 1.2rem; }
+
+  /* ── CONTATO ── */
+  #contato { background: var(--lilac-50); }
+  .contato-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; margin-top: 3rem; }
+  .contato-info h3 { font-family: var(--font-display); font-size: 1.8rem; font-weight: 800; margin-bottom: 1.5rem; }
+  .info-item { display: flex; gap: 1rem; margin-bottom: 1.5rem; align-items: flex-start; }
+  .info-icon {
+    width: 48px; height: 48px; border-radius: 14px;
+    background: var(--lilac-100); display: flex; align-items: center;
+    justify-content: center; font-size: 1.3rem; flex-shrink: 0;
+  }
+  .info-item h4 { font-weight: 700; font-size: 0.85rem; color: var(--lilac-700); margin-bottom: 0.2rem; }
+  .info-item p { font-size: 0.88rem; color: #7a6a9a; }
+  .social-row { display: flex; gap: 0.8rem; margin-top: 2rem; }
+  .social-btn {
+    width: 44px; height: 44px; border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.2rem; text-decoration: none;
+    transition: all 0.25s;
+  }
+  .sb-ig { background: linear-gradient(135deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); color: white; }
+  .sb-fb { background: #1877f2; color: white; }
+  .sb-yt { background: #ff0000; color: white; }
+  .sb-wa { background: #25d366; color: white; }
+  .sb-tt { background: #000; color: white; }
+  .social-btn:hover { transform: scale(1.15) translateY(-3px); box-shadow: 0 8px 20px rgba(0,0,0,0.2); }
+  .form-card {
+    background: white; border-radius: 24px; padding: 2.5rem;
+    box-shadow: 0 8px 40px rgba(122,53,232,0.1);
+  }
+  .form-group { margin-bottom: 1.2rem; }
+  .form-group label { display: block; font-size: 0.8rem; font-weight: 600; color: var(--lilac-700); margin-bottom: 0.4rem; letter-spacing: 0.05em; text-transform: uppercase; }
+  .form-group input, .form-group textarea, .form-group select {
+    width: 100%; padding: 0.75rem 1rem;
+    border: 2px solid var(--lilac-100); border-radius: 12px;
+    font-family: var(--font-body); font-size: 0.9rem;
+    color: var(--dark); background: var(--cream);
+    transition: all 0.2s; outline: none;
+  }
+  .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
+    border-color: var(--lilac-400); background: white;
+    box-shadow: 0 0 0 4px rgba(163,112,255,0.15);
+  }
+  .form-group textarea { height: 120px; resize: vertical; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--dark); color: white;
+    padding: 5rem 2.5rem 2rem;
+  }
+  .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 3rem; margin-bottom: 4rem; }
+  .footer-brand .logo { font-family: var(--font-display); font-size: 2.5rem; font-weight: 900; color: white; }
+  .footer-brand .logo span { color: var(--green-400); }
+  .footer-brand p { color: rgba(255,255,255,0.5); font-size: 0.87rem; line-height: 1.7; margin: 1rem 0; }
+  .footer-col h5 { font-weight: 700; font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--lilac-300); margin-bottom: 1.2rem; }
+  .footer-col a { display: block; color: rgba(255,255,255,0.55); text-decoration: none; font-size: 0.87rem; margin-bottom: 0.6rem; transition: color 0.2s; }
+  .footer-col a:hover { color: white; }
+  .footer-bottom {
+    border-top: 1px solid rgba(255,255,255,0.08);
+    padding-top: 1.5rem;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .footer-bottom p { color: rgba(255,255,255,0.35); font-size: 0.8rem; }
+
+  /* ── MOBILE MENU ── */
+  .mobile-menu {
+    display: none; position: fixed; inset: 0; z-index: 999;
+    background: white; padding: 6rem 2rem 2rem;
+    flex-direction: column; gap: 0.5rem;
+  }
+  .mobile-menu.open { display: flex; }
+  .mobile-menu a {
+    font-size: 1.1rem; font-weight: 600; color: var(--dark);
+    text-decoration: none; padding: 0.8rem 1rem;
+    border-radius: 12px; transition: all 0.2s;
+  }
+  .mobile-menu a:hover { background: var(--lilac-50); color: var(--lilac-700); }
+
+  /* ── SCROLL REVEAL ── */
+  .reveal {
+    opacity: 0; transform: translateY(30px);
+    transition: all 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+  .reveal-delay-1 { transition-delay: 0.1s; }
+  .reveal-delay-2 { transition-delay: 0.2s; }
+  .reveal-delay-3 { transition-delay: 0.3s; }
+  .reveal-delay-4 { transition-delay: 0.4s; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 1024px) {
+    .edu-grid { grid-template-columns: 1fr 1fr; }
+    .princ-grid { grid-template-columns: 1fr 1fr; }
+    .proj-grid { grid-template-columns: 1fr 1fr; }
+    .footer-grid { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 768px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { display: none; }
+    .hamburger { display: flex; }
+    .hero { grid-template-columns: 1fr; padding: 7rem 1.5rem 4rem; text-align: center; }
+    .hero-visual { display: none; }
+    .hero-btns { justify-content: center; }
+    .hero-slogan { font-size: 1.1rem; }
+    section { padding: 4rem 1.5rem; }
+    .inst-grid { grid-template-columns: 1fr; gap: 2rem; }
+    .inst-img-wrap { display: none; }
+    .edu-grid { grid-template-columns: 1fr; }
+    .princ-grid { grid-template-columns: 1fr 1fr; }
+    .proj-grid { grid-template-columns: 1fr; }
+    .blog-grid { grid-template-columns: 1fr; }
+    .tour-wrap { grid-template-columns: 1fr; padding: 2rem; }
+    .contato-grid { grid-template-columns: 1fr; gap: 2rem; }
+    .footer-grid { grid-template-columns: 1fr; gap: 2rem; }
+    .footer-bottom { flex-direction: column; gap: 0.5rem; text-align: center; }
+    .form-row { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 480px) {
+    .princ-grid { grid-template-columns: 1fr; }
+    .hero h1 { font-size: 2.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a href="#" class="nav-logo">UNI<span>.</span></a>
+  <ul class="nav-links">
+    <li><a href="#institucional">Institucional</a></li>
+    <li><a href="#educacao">Educação</a></li>
+    <li><a href="#principios">Princípios</a></li>
+    <li><a href="#projetos">Projetos</a></li>
+    <li><a href="#blog">Blog</a></li>
+    <li><a href="#tour">Tour 360°</a></li>
+    <li><a href="#contato" class="nav-cta">Contato</a></li>
+  </ul>
+  <div class="hamburger" id="hamburger" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#institucional" onclick="toggleMenu()">Institucional</a>
+  <a href="#educacao" onclick="toggleMenu()">Educação Infantil</a>
+  <a href="#principios" onclick="toggleMenu()">Princípios</a>
+  <a href="#projetos" onclick="toggleMenu()">Projetos</a>
+  <a href="#blog" onclick="toggleMenu()">Blog</a>
+  <a href="#tour" onclick="toggleMenu()">Tour 360°</a>
+  <a href="#contato" onclick="toggleMenu()">Contato</a>
+</div>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+  <div class="hero-bg">
+    <div class="hero-blob blob1"></div>
+    <div class="hero-blob blob2"></div>
+    <div class="hero-blob blob3"></div>
+  </div>
+  <div class="hero-content">
+    <div class="hero-tag">Escola de Educação Infantil</div>
+    <h1>Onde cada<br><em>infância</em> floresce</h1>
+    <p class="hero-slogan">"Cuidar é compromisso, aprender é prazer<br>e ensinar é propósito"</p>
+    <p class="hero-desc">Na UNI, acreditamos que os primeiros anos são a base de tudo. Um ambiente acolhedor, estimulante e cheio de amor para que cada criança se desenvolva com liberdade e alegria.</p>
+    <div class="hero-btns">
+      <a href="#contato" class="btn-primary">Agende uma visita</a>
+      <a href="#tour" class="btn-secondary">Conheça nossa escola</a>
+    </div>
+  </div>
+  <div class="hero-visual">
+    <div class="hero-stat stat-tl">
+      <div class="num">15+</div>
+      <div class="lbl">Anos de história</div>
+    </div>
+    <div class="hero-card-main">
+      <div class="hero-card-emoji">🌱</div>
+      <h3>Aprender com alegria</h3>
+      <p>Metodologia lúdica e afetuosa</p>
+    </div>
+    <div class="hero-stat stat-br">
+      <div class="num">98%</div>
+      <div class="lbl">Satisfação das famílias</div>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-wrap">
+  <div class="marquee-track">
+    <span>🌟 Educação com propósito</span><span class="dot">✦</span>
+    <span>🌱 Infância plena</span><span class="dot">✦</span>
+    <span>💜 Cuidado genuíno</span><span class="dot">✦</span>
+    <span>🎨 Criatividade em cada dia</span><span class="dot">✦</span>
+    <span>🧩 Desenvolvimento integral</span><span class="dot">✦</span>
+    <span>🌈 Diversidade e inclusão</span><span class="dot">✦</span>
+    <span>🏫 Ambiente seguro e acolhedor</span><span class="dot">✦</span>
+    <span>📚 Metodologia ativa</span><span class="dot">✦</span>
+    <!-- duplicar para looping infinito -->
+    <span>🌟 Educação com propósito</span><span class="dot">✦</span>
+    <span>🌱 Infância plena</span><span class="dot">✦</span>
+    <span>💜 Cuidado genuíno</span><span class="dot">✦</span>
+    <span>🎨 Criatividade em cada dia</span><span class="dot">✦</span>
+    <span>🧩 Desenvolvimento integral</span><span class="dot">✦</span>
+    <span>🌈 Diversidade e inclusão</span><span class="dot">✦</span>
+    <span>🏫 Ambiente seguro e acolhedor</span><span class="dot">✦</span>
+    <span>📚 Metodologia ativa</span><span class="dot">✦</span>
+  </div>
+</div>
+
+<!-- INSTITUCIONAL -->
+<section id="institucional">
+  <div class="container">
+    <div class="inst-grid">
+      <div class="inst-img-wrap reveal">
+        <div class="inst-img-main">🏫</div>
+        <div class="inst-bubble b1">💜 Fundada em 2008</div>
+        <div class="inst-bubble b2">✅ MEC Aprovado</div>
+      </div>
+      <div>
+        <div class="section-tag reveal">Quem somos</div>
+        <h2 class="section-title reveal reveal-delay-1">Uma escola pensada <em>para crianças</em></h2>
+        <p class="section-sub reveal reveal-delay-2">A UNI nasceu do sonho de criar um espaço onde cada criança é vista como um ser único, capaz, curioso e cheio de potencial. Nossa equipe multidisciplinar é apaixonada pelo que faz e acredita que os primeiros anos são os mais importantes da vida.</p>
+        <div class="inst-values reveal reveal-delay-3">
+          <div class="inst-val">
+            <div class="icon">💜</div>
+            <h4>Missão</h4>
+            <p>Oferecer educação infantil de excelência com afeto, segurança e estímulo ao desenvolvimento integral.</p>
+          </div>
+          <div class="inst-val">
+            <div class="icon">🌟</div>
+            <h4>Visão</h4>
+            <p>Ser referência em educação infantil, reconhecida pela qualidade pedagógica e pelo vínculo com as famílias.</p>
+          </div>
+          <div class="inst-val">
+            <div class="icon">🌱</div>
+            <h4>Valores</h4>
+            <p>Respeito, afetividade, inclusão, criatividade e compromisso com cada família que confia em nós.</p>
+          </div>
+          <div class="inst-val">
+            <div class="icon">🤝</div>
+            <h4>Família</h4>
+            <p>Parceria real e transparente com as famílias, porque educação se faz em conjunto.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EDUCAÇÃO INFANTIL -->
+<section id="educacao">
+  <div class="container">
+    <div class="section-tag reveal">Nossos segmentos</div>
+    <h2 class="section-title reveal reveal-delay-1">Educação para <em>cada etapa</em></h2>
+    <p class="section-sub reveal reveal-delay-2">Cada fase do desenvolvimento merece cuidado e atenção específica. Nossa proposta pedagógica é construída para cada faixa etária.</p>
+    <div class="edu-grid">
+      <div class="edu-card creche reveal">
+        <div class="age">0-3</div>
+        <div class="emoji">🍼</div>
+        <div class="sub">Berçário & Creche</div>
+        <h3>Primeiros Passos</h3>
+        <p>Do berçário ao maternal, oferecemos um ambiente seguro, amoroso e estimulante para os bebês explorarem o mundo com confiança e afeto.</p>
+        <div class="tag-list">
+          <span class="tag">0–12 meses</span>
+          <span class="tag">Maternal I</span>
+          <span class="tag">Maternal II</span>
+        </div>
+      </div>
+      <div class="edu-card pre reveal reveal-delay-1">
+        <div class="age">4-5</div>
+        <div class="emoji">📚</div>
+        <div class="sub">Pré-Escola</div>
+        <h3>Descobrindo o Mundo</h3>
+        <p>Na pré-escola, a criança aprofunda sua curiosidade, desenvolve a autonomia e prepara-se de forma lúdica e prazerosa para os próximos desafios.</p>
+        <div class="tag-list">
+          <span class="tag">Jardim I</span>
+          <span class="tag">Jardim II</span>
+          <span class="tag">Alfabetização</span>
+        </div>
+      </div>
+      <div class="edu-card special reveal reveal-delay-2">
+        <div class="age">✦</div>
+        <div class="emoji">🎯</div>
+        <div class="sub">Diferenciais UNI</div>
+        <h3>Nossa Metodologia</h3>
+        <p>Aprendizagem baseada em projetos, pedagogia Reggio Emilia e metodologias ativas que colocam a criança no centro do processo de aprendizagem.</p>
+        <div class="tag-list">
+          <span class="tag">Bilíngue</span>
+          <span class="tag">Reggio Emilia</span>
+          <span class="tag">STEM</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRINCÍPIOS -->
+<section id="principios">
+  <div class="container">
+    <div style="text-align:center">
+      <div class="section-tag reveal" style="justify-content:center">Nossos pilares</div>
+      <h2 class="section-title reveal reveal-delay-1">Princípios que <em>nos guiam</em></h2>
+      <p class="section-sub reveal reveal-delay-2" style="margin:0 auto 0">Tudo que fazemos na UNI é fundamentado em valores que acreditamos serem essenciais para uma infância plena e feliz.</p>
+    </div>
+    <div class="princ-grid">
+      <div class="princ-card reveal">
+        <div class="princ-icon pi1">🌸</div>
+        <h4>Afetividade</h4>
+        <p>O vínculo afetivo é a base de toda aprendizagem. Cada criança é acolhida com amor genuíno e respeito incondicional.</p>
+      </div>
+      <div class="princ-card reveal reveal-delay-1">
+        <div class="princ-icon pi2">🌿</div>
+        <h4>Sustentabilidade</h4>
+        <p>Educamos para a consciência ambiental desde cedo, formando cidadãos que cuidam do planeta com responsabilidade.</p>
+      </div>
+      <div class="princ-card reveal reveal-delay-2">
+        <div class="princ-icon pi3">🎨</div>
+        <h4>Criatividade</h4>
+        <p>Estimulamos o pensamento criativo e a expressão artística como ferramentas fundamentais de desenvolvimento humano.</p>
+      </div>
+      <div class="princ-card reveal reveal-delay-3">
+        <div class="princ-icon pi4">🤲</div>
+        <h4>Inclusão</h4>
+        <p>Acreditamos na diversidade como riqueza. Cada criança é única e nossa escola celebra todas as diferenças com alegria.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJETOS -->
+<section id="projetos">
+  <div class="container">
+    <div class="section-tag reveal">Em andamento</div>
+    <h2 class="section-title reveal reveal-delay-1">Projetos que <em>transformam</em></h2>
+    <p class="section-sub reveal reveal-delay-2">Nossos projetos pedagógicos conectam o aprendizado com a vida real, despertando o interesse genuíno das crianças.</p>
+    <div class="proj-grid">
+      <div class="proj-card reveal">
+        <div class="proj-img p1">🌱</div>
+        <div class="proj-body">
+          <div class="proj-cat">Ciências</div>
+          <h4>Horta Mágica</h4>
+          <p>As crianças plantam, cuidam e colhem. Aprendendo sobre natureza, alimentação saudável e responsabilidade.</p>
+        </div>
+      </div>
+      <div class="proj-card reveal reveal-delay-1">
+        <div class="proj-img p2">🎭</div>
+        <div class="proj-body">
+          <div class="proj-cat">Artes</div>
+          <h4>Teatro da Vida</h4>
+          <p>Desenvolvimento da expressão oral, criatividade e trabalho em equipe através do teatro e artes cênicas.</p>
+        </div>
+      </div>
+      <div class="proj-card reveal reveal-delay-2">
+        <div class="proj-img p3">🔢</div>
+        <div class="proj-body">
+          <div class="proj-cat">STEM</div>
+          <h4>Pequenos Cientistas</h4>
+          <p>Experimentos simples e divertidos que despertam a curiosidade científica e o raciocínio lógico.</p>
+        </div>
+      </div>
+      <div class="proj-card reveal">
+        <div class="proj-img p4">🌍</div>
+        <div class="proj-body">
+          <div class="proj-cat">Cidadania</div>
+          <h4>Meu Mundo, Nossa Escola</h4>
+          <p>Projeto de consciência ambiental e cidadania, educando para um futuro mais sustentável e justo.</p>
+        </div>
+      </div>
+      <div class="proj-card reveal reveal-delay-1">
+        <div class="proj-img p5">📖</div>
+        <div class="proj-body">
+          <div class="proj-cat">Letramento</div>
+          <h4>Clube dos Livrinhos</h4>
+          <p>Incentivo à leitura desde cedo, com contação de histórias, criação de livros e clubes literários.</p>
+        </div>
+      </div>
+      <div class="proj-card reveal reveal-delay-2">
+        <div class="proj-img p6">🎵</div>
+        <div class="proj-body">
+          <div class="proj-cat">Música</div>
+          <h4>Mundo Sonoro</h4>
+          <p>Musicalização infantil que desenvolve ritmo, coordenação, expressão e sensibilidade artística.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BLOG -->
+<section id="blog">
+  <div class="container">
+    <div style="display:flex; justify-content:space-between; align-items:flex-end; flex-wrap:wrap; gap:1rem">
+      <div>
+        <div class="section-tag reveal">Novidades</div>
+        <h2 class="section-title reveal reveal-delay-1">Blog & <em>Artigos</em></h2>
+      </div>
+      <a href="#blog" class="btn-secondary reveal" style="flex-shrink:0">Ver todos os posts</a>
+    </div>
+    <div class="blog-grid">
+      <div class="blog-card featured reveal">
+        <div class="blog-img bi1">📚</div>
+        <div class="blog-body">
+          <div class="blog-tag">Desenvolvimento infantil</div>
+          <h4>Como o brincar livre transforma o desenvolvimento cognitivo das crianças</h4>
+          <p>Pesquisas recentes mostram que o tempo de brincadeira não estruturada é essencial para o desenvolvimento da criatividade, resolução de problemas e inteligência emocional.</p>
+          <div class="blog-meta">
+            <div class="blog-avatar">👩</div>
+            <span>Profa. Ana Lima</span>
+            <span>·</span>
+            <span>15 jan 2025</span>
+          </div>
+        </div>
+      </div>
+      <div class="blog-card reveal reveal-delay-1">
+        <div class="blog-img bi2">🥦</div>
+        <div class="blog-body">
+          <div class="blog-tag">Nutrição</div>
+          <h4>Alimentação saudável na creche: dicas práticas para as famílias</h4>
+          <p>A nutricionista da UNI compartilha estratégias para tornar a alimentação saudável atraente e prazerosa para os pequenos.</p>
+          <div class="blog-meta">
+            <div class="blog-avatar">👩‍⚕️</div>
+            <span>Nutri. Carla Melo</span>
+            <span>·</span>
+            <span>8 jan 2025</span>
+          </div>
+        </div>
+      </div>
+      <div class="blog-card reveal reveal-delay-2">
+        <div class="blog-img bi3">🎨</div>
+        <div class="blog-body">
+          <div class="blog-tag">Pedagogia</div>
+          <h4>Arte como linguagem: por que a expressão artística é tão importante</h4>
+          <p>A arte permite que as crianças expressem emoções, desenvolvam a motricidade e aprendam a comunicar ideias de forma criativa.</p>
+          <div class="blog-meta">
+            <div class="blog-avatar">👨‍🎨</div>
+            <span>Prof. Bruno Arte</span>
+            <span>·</span>
+            <span>2 jan 2025</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TOUR 360 -->
+<section id="tour">
+  <div class="container">
+    <div class="section-tag reveal">Conheça nossa escola</div>
+    <h2 class="section-title reveal reveal-delay-1">Tour <em>360°</em></h2>
+    <div class="tour-wrap reveal reveal-delay-2">
+      <div>
+        <h2>Explore nossa escola<br>de onde você estiver</h2>
+        <p>Faça um tour virtual completo pela UNI. Conheça nossas salas, áreas externas, refeitório, playground e todos os espaços pensados para o bem-estar e desenvolvimento das crianças.</p>
+        <div class="tour-rooms">
+          <div class="tour-room"><span class="icon">🍼</span> Berçário</div>
+          <div class="tour-room"><span class="icon">🎨</span> Ateliê de Arte</div>
+          <div class="tour-room"><span class="icon">📚</span> Biblioteca</div>
+          <div class="tour-room"><span class="icon">🌿</span> Jardim</div>
+          <div class="tour-room"><span class="icon">🍽️</span> Refeitório</div>
+          <div class="tour-room"><span class="icon">🛝</span> Playground</div>
+        </div>
+      </div>
+      <div class="tour-visual" onclick="alert('Tour 360° em breve disponível! Entre em contato para agendar uma visita presencial.')">
+        <div class="tour-360">360°</div>
+        <p>Clique para iniciar o tour virtual</p>
+        <p style="font-size:0.78rem; opacity:0.5;">Qualidade 4K · Visualização imersiva</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTATO -->
+<section id="contato">
+  <div class="container">
+    <div class="section-tag reveal">Fale conosco</div>
+    <h2 class="section-title reveal reveal-delay-1">Venha fazer parte<br>da <em>família UNI</em></h2>
+    <div class="contato-grid">
+      <div class="contato-info reveal">
+        <h3>Entre em contato</h3>
+        <div class="info-item">
+          <div class="info-icon">📍</div>
+          <div>
+            <h4>Endereço</h4>
+            <p>Rua das Flores, 123 — Jardim Primavera<br>São Paulo, SP — 01234-567</p>
+          </div>
+        </div>
+        <div class="info-item">
+          <div class="info-icon">📞</div>
+          <div>
+            <h4>Telefone / WhatsApp</h4>
+            <p>(11) 9 9999-9999</p>
+          </div>
+        </div>
+        <div class="info-item">
+          <div class="info-icon">✉️</div>
+          <div>
+            <h4>E-mail</h4>
+            <p>contato@escolauni.com.br</p>
+          </div>
+        </div>
+        <div class="info-item">
+          <div class="info-icon">🕐</div>
+          <div>
+            <h4>Horário de funcionamento</h4>
+            <p>Segunda a sexta: 7h às 18h30<br>Secretaria: 8h às 17h</p>
+          </div>
+        </div>
+        <div>
+          <p style="font-size:0.82rem;color:#7a6a9a;margin-bottom:0.8rem;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;">Redes sociais</p>
+          <div class="social-row">
+            <a href="#" class="social-btn sb-ig" title="Instagram">📸</a>
+            <a href="#" class="social-btn sb-fb" title="Facebook">👍</a>
+            <a href="#" class="social-btn sb-yt" title="YouTube">▶️</a>
+            <a href="#" class="social-btn sb-wa" title="WhatsApp">💬</a>
+            <a href="#" class="social-btn sb-tt" title="TikTok">🎵</a>
+          </div>
+        </div>
+      </div>
+      <div class="form-card reveal reveal-delay-1">
+        <h3 style="font-family:var(--font-display);font-size:1.5rem;font-weight:800;margin-bottom:1.5rem;">Agende uma visita</h3>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Nome completo</label>
+            <input type="text" placeholder="Seu nome">
+          </div>
+          <div class="form-group">
+            <label>Telefone</label>
+            <input type="tel" placeholder="(11) 9 0000-0000">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>E-mail</label>
+          <input type="email" placeholder="seu@email.com">
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Idade do(a) filho(a)</label>
+            <select>
+              <option>Selecione...</option>
+              <option>0–6 meses</option>
+              <option>7–12 meses</option>
+              <option>1–2 anos</option>
+              <option>2–3 anos</option>
+              <option>4–5 anos</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Turno de interesse</label>
+            <select>
+              <option>Selecione...</option>
+              <option>Manhã</option>
+              <option>Tarde</option>
+              <option>Integral</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Mensagem (opcional)</label>
+          <textarea placeholder="Alguma dúvida ou informação adicional?"></textarea>
+        </div>
+        <button class="btn-primary" style="width:100%;font-size:0.95rem;padding:1rem" onclick="handleForm()">
+          ✨ Enviar mensagem
+        </button>
+        <p style="font-size:0.75rem;color:#a08abb;text-align:center;margin-top:0.8rem">Retornamos em até 24 horas nos dias úteis.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="logo">UNI<span>.</span></div>
+        <p>"Cuidar é compromisso, aprender é prazer e ensinar é propósito."<br><br>Formando crianças felizes, curiosas e preparadas para um mundo cheio de possibilidades.</p>
+        <div class="social-row">
+          <a href="#" class="social-btn sb-ig" title="Instagram">📸</a>
+          <a href="#" class="social-btn sb-fb" title="Facebook">👍</a>
+          <a href="#" class="social-btn sb-yt" title="YouTube">▶️</a>
+          <a href="#" class="social-btn sb-wa" title="WhatsApp">💬</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h5>A Escola</h5>
+        <a href="#institucional">Institucional</a>
+        <a href="#principios">Princípios</a>
+        <a href="#projetos">Projetos</a>
+        <a href="#tour">Tour 360°</a>
+      </div>
+      <div class="footer-col">
+        <h5>Educação</h5>
+        <a href="#educacao">Berçário</a>
+        <a href="#educacao">Creche</a>
+        <a href="#educacao">Pré-Escola</a>
+        <a href="#educacao">Metodologia</a>
+      </div>
+      <div class="footer-col">
+        <h5>Contato</h5>
+        <a href="#contato">Agende uma visita</a>
+        <a href="#blog">Blog</a>
+        <a href="mailto:contato@escolauni.com.br">E-mail</a>
+        <a href="tel:+5511999999999">WhatsApp</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 Escola UNI — Todos os direitos reservados</p>
+      <p>Feito com 💜 para as famílias e crianças da UNI</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // NAV SCROLL
+  window.addEventListener('scroll', () => {
+    const nav = document.getElementById('navbar');
+    nav.classList.toggle('scrolled', window.scrollY > 50);
+  });
+
+  // MOBILE MENU
+  function toggleMenu() {
+    const menu = document.getElementById('mobileMenu');
+    menu.classList.toggle('open');
+  }
+
+  // SCROLL REVEAL
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  reveals.forEach(el => observer.observe(el));
+
+  // FORM SUBMIT
+  function handleForm() {
+    const btn = event.currentTarget;
+    btn.textContent = '✅ Mensagem enviada!';
+    btn.style.background = 'var(--green-500)';
+    setTimeout(() => {
+      btn.textContent = '✨ Enviar mensagem';
+      btn.style.background = '';
+    }, 3000);
+  }
+</script>
+
+</body>
+</html>
