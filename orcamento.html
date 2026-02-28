@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Proposta Comercial — UNI Educação Infantil</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,300;1,9..144,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --lilac-50: #f5f0ff;
+  --lilac-100: #ede0ff;
+  --lilac-200: #d8c0ff;
+  --lilac-300: #be96ff;
+  --lilac-400: #a066ff;
+  --lilac-500: #8833ff;
+  --lilac-600: #7a22ef;
+  --lilac-700: #6518cc;
+  --lilac-800: #5214a8;
+  --green-400: #4dc94d;
+  --green-500: #2db52d;
+  --green-600: #1e9e1e;
+  --cream: #fffdf5;
+  --warm-white: #fdfbf7;
+  --text-dark: #1a0a2e;
+  --text-mid: #4a3570;
+  --text-light: #8b7aaa;
+  --gold: #f5a623;
+  --gold-light: #fef3dc;
+}
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--warm-white);
+  color: var(--text-dark);
+  overflow-x: hidden;
+  line-height: 1.6;
+}
+
+/* SCROLLBAR */
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: var(--lilac-50); }
+::-webkit-scrollbar-thumb { background: var(--lilac-400); border-radius: 3px; }
+
+/* FLOATING BG */
+.bg-blob {
+  position: fixed; pointer-events: none; z-index: 0;
+  border-radius: 50%; opacity: 0.07; filter: blur(80px);
+  animation: floatBlob 12s ease-in-out infinite alternate;
+}
+.blob-1 { width: 600px; height: 600px; background: var(--lilac-500); top: -200px; right: -200px; }
+.blob-2 { width: 500px; height: 500px; background: var(--green-500); bottom: -150px; left: -150px; animation-delay: -6s; }
+.blob-3 { width: 300px; height: 300px; background: var(--gold); top: 50%; left: 30%; animation-delay: -3s; }
+@keyframes floatBlob {
+  0% { transform: translate(0, 0) scale(1); }
+  100% { transform: translate(30px, -30px) scale(1.05); }
+}
+
+/* NOISE TEXTURE */
+body::before {
+  content: '';
+  position: fixed; inset: 0; z-index: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none; opacity: 0.4;
+}
+
+/* WRAPPER */
+.container { position: relative; z-index: 1; max-width: 1100px; margin: 0 auto; padding: 0 1.5rem; }
+
+/* HEADER */
+header {
+  padding: 3rem 1.5rem 0;
+  position: relative; z-index: 1;
+}
+.header-inner {
+  max-width: 1100px; margin: 0 auto;
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: 1.5rem;
+}
+.logo-mark {
+  width: 52px; height: 52px;
+  background: linear-gradient(135deg, var(--lilac-500), var(--green-500));
+  border-radius: 18px; display: flex; align-items: center; justify-content: center;
+  font-family: 'Fraunces', serif; font-weight: 700; font-size: 24px; color: white;
+  box-shadow: 0 8px 28px rgba(136,51,255,0.35);
+  position: relative; overflow: hidden; flex-shrink: 0;
+}
+.logo-mark::after {
+  content: '';
+  position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+  background: linear-gradient(45deg, transparent 40%, rgba(255,255,255,0.25) 50%, transparent 60%);
+  animation: shimmer 3s infinite;
+}
+@keyframes shimmer { 0% { transform: translateX(-100%) rotate(45deg); } 100% { transform: translateX(100%) rotate(45deg); } }
+.logo-group { display: flex; align-items: center; gap: 14px; }
+.logo-name { font-family: 'Fraunces', serif; font-size: 26px; font-weight: 700; color: var(--text-dark); line-height: 1; }
+.logo-sub { font-size: 10px; color: var(--text-light); letter-spacing: 0.18em; text-transform: uppercase; font-weight: 500; }
+
+.header-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--lilac-50); border: 1.5px solid var(--lilac-200);
+  border-radius: 50px; padding: 8px 18px;
+  font-size: 13px; font-weight: 600; color: var(--text-mid);
+}
+.header-badge .dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--green-500); box-shadow: 0 0 0 3px rgba(45,181,45,0.25);
+  animation: pulse 2s infinite;
+}
+@keyframes pulse { 0%,100% { box-shadow: 0 0 0 3px rgba(45,181,45,0.25); } 50% { box-shadow: 0 0 0 6px rgba(45,181,45,0.1); } }
+
+/* HERO SECTION */
+.hero {
+  padding: 5rem 1.5rem 4rem;
+  text-align: center;
+  position: relative; z-index: 1;
+}
+.hero-tag {
+  display: inline-block;
+  background: linear-gradient(135deg, var(--lilac-100), var(--green-50, #f0faf0));
+  border: 1.5px solid var(--lilac-200);
+  border-radius: 50px; padding: 6px 20px;
+  font-size: 12px; font-weight: 600;
+  color: var(--text-mid); letter-spacing: 0.1em; text-transform: uppercase;
+  margin-bottom: 2rem;
+}
+.hero h1 {
+  font-family: 'Fraunces', serif;
+  font-size: clamp(2.4rem, 6vw, 4.2rem);
+  font-weight: 700; line-height: 1.08;
+  color: var(--text-dark); margin-bottom: 1.5rem;
+}
+.hero h1 em { font-style: italic; color: var(--lilac-500); }
+.hero-sub {
+  font-size: clamp(1rem, 2.5vw, 1.15rem);
+  color: var(--text-mid); max-width: 560px; margin: 0 auto 1.5rem;
+  font-weight: 400; line-height: 1.7;
+}
+.hero-date {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 13px; color: var(--text-light); font-weight: 500;
+}
+.divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--lilac-200), transparent);
+  margin: 3rem auto; max-width: 600px;
+}
+
+/* SECTION TITLE */
+.section-label {
+  display: flex; align-items: center; gap: 12px; margin-bottom: 0.75rem;
+}
+.section-label span {
+  font-size: 11px; font-weight: 700; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--text-light);
+}
+.section-label::before {
+  content: '';
+  display: block; width: 28px; height: 2px;
+  background: linear-gradient(90deg, var(--lilac-500), var(--green-500));
+  border-radius: 2px;
+}
+.section-title {
+  font-family: 'Fraunces', serif;
+  font-size: clamp(1.8rem, 4vw, 2.6rem);
+  font-weight: 700; color: var(--text-dark); line-height: 1.2;
+  margin-bottom: 0.75rem;
+}
+.section-desc {
+  font-size: 1rem; color: var(--text-mid); line-height: 1.7; max-width: 580px;
+}
+
+/* PLANS GRID */
+.plans-section { padding: 2rem 1.5rem 5rem; position: relative; z-index: 1; }
+.plans-header { margin-bottom: 3.5rem; }
+.plans-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  align-items: start;
+}
+
+/* PLAN CARD */
+.plan-card {
+  background: white;
+  border-radius: 28px;
+  padding: 2.5rem 2rem;
+  border: 2px solid transparent;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.3s ease;
+  box-shadow: 0 4px 30px rgba(136,51,255,0.06);
+}
+.plan-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 60px rgba(136,51,255,0.15);
+}
+
+/* Plan 1 - Essencial */
+.plan-1 { border-color: var(--lilac-100); }
+.plan-1:hover { border-color: var(--lilac-300); }
+
+/* Plan 2 - Avançado */
+.plan-2 {
+  border-color: var(--lilac-500);
+  background: linear-gradient(160deg, #fdfbff 0%, #f8f0ff 100%);
+}
+.plan-2::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 4px;
+  background: linear-gradient(90deg, var(--lilac-500), var(--lilac-300), var(--green-400));
+}
+
+/* Plan 3 - Premium */
+.plan-3 {
+  border-color: var(--gold);
+  background: linear-gradient(160deg, #fffdf5 0%, #fef9ec 100%);
+}
+.plan-3::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 4px;
+  background: linear-gradient(90deg, var(--gold), #f7c96e, var(--green-500));
+}
+
+.plan-badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 5px 14px; border-radius: 50px;
+  font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+  margin-bottom: 1.5rem;
+}
+.badge-1 { background: var(--lilac-50); color: var(--text-mid); border: 1.5px solid var(--lilac-200); }
+.badge-2 {
+  background: linear-gradient(135deg, var(--lilac-500), var(--lilac-700));
+  color: white;
+  box-shadow: 0 4px 16px rgba(136,51,255,0.35);
+}
+.badge-3 {
+  background: linear-gradient(135deg, var(--gold), #e8931a);
+  color: white;
+  box-shadow: 0 4px 16px rgba(245,166,35,0.4);
+}
+
+.plan-name {
+  font-family: 'Fraunces', serif;
+  font-size: 1.6rem; font-weight: 700; color: var(--text-dark);
+  line-height: 1.1; margin-bottom: 0.5rem;
+}
+.plan-desc {
+  font-size: 0.9rem; color: var(--text-light); line-height: 1.6; margin-bottom: 2rem;
+}
+
+.plan-price-block { margin-bottom: 2rem; }
+.plan-price-label { font-size: 12px; color: var(--text-light); font-weight: 500; margin-bottom: 4px; }
+.plan-price {
+  display: flex; align-items: baseline; gap: 4px;
+}
+.price-currency {
+  font-family: 'Fraunces', serif;
+  font-size: 1.4rem; font-weight: 400; color: var(--text-mid); margin-bottom: 4px;
+}
+.price-amount {
+  font-family: 'Fraunces', serif;
+  font-size: 3.2rem; font-weight: 700; line-height: 1;
+}
+.price-cents { font-size: 1.2rem; font-weight: 600; margin-bottom: 6px; }
+.price-1 .price-amount { color: var(--text-dark); }
+.price-2 .price-amount { color: var(--lilac-600); }
+.price-3 .price-amount { color: #c47f00; }
+.price-note { font-size: 12px; color: var(--text-light); font-weight: 500; margin-top: 4px; }
+
+.plan-cta {
+  display: block; width: 100%; padding: 14px 24px;
+  border-radius: 50px; border: none; cursor: pointer;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.95rem; font-weight: 600; letter-spacing: 0.02em;
+  text-align: center; text-decoration: none;
+  transition: all 0.25s ease; margin-bottom: 2rem;
+}
+.cta-1 {
+  background: var(--lilac-50);
+  color: var(--text-mid);
+  border: 2px solid var(--lilac-200);
+}
+.cta-1:hover { background: var(--lilac-100); border-color: var(--lilac-400); color: var(--lilac-700); }
+.cta-2 {
+  background: linear-gradient(135deg, var(--lilac-500), var(--lilac-700));
+  color: white;
+  box-shadow: 0 8px 28px rgba(136,51,255,0.4);
+}
+.cta-2:hover { transform: translateY(-2px); box-shadow: 0 14px 40px rgba(136,51,255,0.5); }
+.cta-3 {
+  background: linear-gradient(135deg, var(--gold), #e8931a);
+  color: white;
+  box-shadow: 0 8px 28px rgba(245,166,35,0.4);
+}
+.cta-3:hover { transform: translateY(-2px); box-shadow: 0 14px 40px rgba(245,166,35,0.55); }
+
+.plan-features-title {
+  font-size: 11px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.15em; color: var(--text-light); margin-bottom: 1rem;
+}
+.plan-features { list-style: none; display: flex; flex-direction: column; gap: 0.7rem; }
+.plan-features li {
+  display: flex; align-items: flex-start; gap: 12px;
+  font-size: 0.9rem; color: var(--text-mid); line-height: 1.5;
+}
+.feat-icon {
+  width: 20px; height: 20px; border-radius: 6px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; margin-top: 1px;
+}
+.feat-green { background: rgba(45,181,45,0.12); color: var(--green-600); }
+.feat-lilac { background: var(--lilac-50); color: var(--lilac-600); }
+.feat-gold { background: var(--gold-light); color: #b8680a; }
+
+.feat-strong { font-weight: 600; color: var(--text-dark); }
+
+/* PLAN SEPARATOR */
+.plan-sep {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--lilac-100), transparent);
+  margin: 1.5rem 0;
+}
+
+/* HIGHLIGHT BOX inside premium card */
+.highlight-box {
+  border-radius: 16px; padding: 1.2rem 1.4rem;
+  margin: 1.5rem 0;
+}
+.hl-lilac { background: var(--lilac-50); border: 1.5px solid var(--lilac-100); }
+.hl-gold { background: var(--gold-light); border: 1.5px solid rgba(245,166,35,0.3); }
+.highlight-box-title {
+  font-size: 11px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.13em; margin-bottom: 0.75rem;
+}
+.hl-lilac .highlight-box-title { color: var(--lilac-600); }
+.hl-gold .highlight-box-title { color: #9a6200; }
+.highlight-box ul { list-style: none; display: flex; flex-direction: column; gap: 0.55rem; }
+.highlight-box li {
+  display: flex; align-items: flex-start; gap: 10px;
+  font-size: 0.86rem; color: var(--text-mid); line-height: 1.5;
+}
+.highlight-box li::before { content: '✦'; flex-shrink: 0; font-size: 9px; margin-top: 4px; }
+.hl-lilac li::before { color: var(--lilac-500); }
+.hl-gold li::before { color: var(--gold); }
+
+/* MOST POPULAR RIBBON */
+.popular-ribbon {
+  position: absolute; top: 1.4rem; right: -0.5rem;
+  background: linear-gradient(135deg, var(--lilac-500), var(--lilac-700));
+  color: white; font-size: 10px; font-weight: 700;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  padding: 5px 18px 5px 14px;
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%, 8px 50%);
+}
+
+/* HOSTING NOTICE */
+.hosting-section {
+  position: relative; z-index: 1;
+  padding: 0 1.5rem 4rem;
+}
+.hosting-box {
+  max-width: 1100px; margin: 0 auto;
+  background: white; border-radius: 24px;
+  border: 2px solid var(--lilac-100);
+  padding: 2.5rem;
+  display: flex; gap: 2rem; align-items: flex-start;
+  flex-wrap: wrap;
+  box-shadow: 0 4px 30px rgba(136,51,255,0.06);
+}
+.hosting-icon {
+  width: 56px; height: 56px; border-radius: 18px;
+  background: linear-gradient(135deg, var(--lilac-100), var(--lilac-50));
+  border: 2px solid var(--lilac-200);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 26px; flex-shrink: 0;
+}
+.hosting-content { flex: 1; min-width: 200px; }
+.hosting-content h3 {
+  font-family: 'Fraunces', serif; font-size: 1.25rem; font-weight: 700;
+  color: var(--text-dark); margin-bottom: 0.6rem;
+}
+.hosting-content p {
+  font-size: 0.92rem; color: var(--text-mid); line-height: 1.7;
+}
+.hosting-content p strong { color: var(--text-dark); }
+.hosting-items {
+  display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 1.25rem;
+}
+.hosting-item {
+  display: flex; align-items: center; gap: 8px;
+  background: var(--lilac-50); border: 1.5px solid var(--lilac-100);
+  border-radius: 50px; padding: 7px 14px;
+  font-size: 0.85rem; color: var(--text-mid); font-weight: 500;
+}
+.hosting-item span { font-size: 14px; }
+
+/* COMPARISON SECTION */
+.compare-section { padding: 0 1.5rem 5rem; position: relative; z-index: 1; }
+.compare-header { max-width: 1100px; margin: 0 auto 2.5rem; }
+.compare-table {
+  max-width: 1100px; margin: 0 auto;
+  background: white; border-radius: 24px; overflow: hidden;
+  border: 2px solid var(--lilac-100);
+  box-shadow: 0 4px 30px rgba(136,51,255,0.06);
+}
+.compare-table table { width: 100%; border-collapse: collapse; }
+.compare-table thead tr {
+  background: linear-gradient(135deg, var(--lilac-50), white);
+  border-bottom: 2px solid var(--lilac-100);
+}
+.compare-table th {
+  padding: 1.25rem 1.5rem;
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 600; font-size: 0.85rem;
+  color: var(--text-dark); text-align: center;
+}
+.compare-table th:first-child { text-align: left; color: var(--text-light); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.1em; }
+.compare-table .th-best {
+  background: linear-gradient(135deg, var(--lilac-500), var(--lilac-700));
+  color: white !important;
+}
+.compare-table .th-gold {
+  background: linear-gradient(135deg, var(--gold), #e8931a);
+  color: white !important;
+}
+.compare-table tbody tr { border-bottom: 1px solid var(--lilac-50); transition: background 0.2s; }
+.compare-table tbody tr:hover { background: var(--lilac-50); }
+.compare-table tbody tr:last-child { border-bottom: none; }
+.compare-table td {
+  padding: 1rem 1.5rem; font-size: 0.9rem; color: var(--text-mid);
+  text-align: center; vertical-align: middle;
+}
+.compare-table td:first-child { text-align: left; color: var(--text-dark); font-weight: 500; }
+.check { color: var(--green-500); font-size: 1rem; font-weight: 700; }
+.cross { color: #ccc; font-size: 1rem; }
+.partial { color: var(--gold); font-size: 0.8rem; font-weight: 600; }
+
+/* FOOTER */
+footer {
+  position: relative; z-index: 1;
+  background: linear-gradient(160deg, var(--text-dark) 0%, #2a1250 100%);
+  padding: 4rem 1.5rem;
+  text-align: center;
+}
+footer .footer-logo {
+  display: flex; align-items: center; justify-content: center; gap: 14px; margin-bottom: 1.5rem;
+}
+footer .logo-mark-dark {
+  width: 44px; height: 44px; border-radius: 14px;
+  background: linear-gradient(135deg, var(--lilac-400), var(--green-400));
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Fraunces', serif; font-weight: 700; font-size: 20px; color: white;
+}
+footer h3 { font-family: 'Fraunces', serif; font-size: 1.4rem; color: white; }
+footer p { color: rgba(255,255,255,0.55); font-size: 0.9rem; line-height: 1.7; max-width: 480px; margin: 0 auto; }
+.footer-contact {
+  display: flex; justify-content: center; flex-wrap: wrap; gap: 1rem; margin: 2rem 0;
+}
+.footer-contact a {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(255,255,255,0.08); border: 1.5px solid rgba(255,255,255,0.15);
+  border-radius: 50px; padding: 10px 22px;
+  color: white; text-decoration: none; font-size: 0.9rem; font-weight: 500;
+  transition: all 0.2s ease;
+}
+.footer-contact a:hover { background: rgba(255,255,255,0.15); transform: translateY(-2px); }
+.footer-bottom {
+  margin-top: 3rem; padding-top: 2rem;
+  border-top: 1px solid rgba(255,255,255,0.1);
+  font-size: 0.8rem; color: rgba(255,255,255,0.35);
+}
+.footer-bottom a { color: rgba(255,255,255,0.5); }
+
+/* ANIMATIONS */
+.reveal {
+  opacity: 0; transform: translateY(30px);
+  transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.34,1.2,0.64,1);
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
+.reveal-d1 { transition-delay: 0.1s; }
+.reveal-d2 { transition-delay: 0.2s; }
+.reveal-d3 { transition-delay: 0.3s; }
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+  .plans-grid { grid-template-columns: 1fr; max-width: 480px; margin: 0 auto; }
+  .plan-card { padding: 2rem 1.75rem; }
+}
+@media (max-width: 700px) {
+  .hero { padding: 3.5rem 1.25rem 2.5rem; }
+  .hero h1 { font-size: 2.1rem; }
+  .header-inner { flex-direction: column; align-items: flex-start; }
+  .hosting-box { flex-direction: column; gap: 1.25rem; }
+  .compare-table { overflow-x: auto; }
+  .compare-table table { min-width: 500px; }
+}
+@media (max-width: 480px) {
+  header { padding: 2rem 1.25rem 0; }
+  .hero { padding: 2.5rem 1.25rem 2rem; }
+  .hero h1 { font-size: 1.85rem; }
+  .plan-card { padding: 1.75rem 1.5rem; }
+  .price-amount { font-size: 2.6rem; }
+  .footer-contact { flex-direction: column; align-items: center; }
+}
+</style>
+</head>
+<body>
+
+<!-- BG BLOBS -->
+<div class="bg-blob blob-1"></div>
+<div class="bg-blob blob-2"></div>
+<div class="bg-blob blob-3"></div>
+
+<!-- HEADER -->
+<header>
+  <div class="header-inner">
+    <div class="logo-group">
+      <div class="logo-mark">U</div>
+      <div>
+        <div class="logo-name">UNI</div>
+        <div class="logo-sub">Educação Infantil</div>
+      </div>
+    </div>
+    <div class="header-badge">
+      <div class="dot"></div>
+      Proposta Confidencial
+    </div>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-tag">✦ Proposta Comercial Exclusiva</div>
+  <h1>Seu site merece ser<br><em>tão especial</em> quanto a UNI</h1>
+  <p class="hero-sub">Desenvolvemos uma presença digital que transmite o carinho, a seriedade e o propósito que a UNI coloca em cada criança.</p>
+  <div class="hero-date">📅 Proposta válida por 30 dias · Março de 2026</div>
+</section>
+
+<!-- PLANS -->
+<section class="plans-section">
+  <div class="container">
+    <div class="plans-header reveal">
+      <div class="section-label"><span>Opções de investimento</span></div>
+      <h2 class="section-title">Escolha o plano ideal<br>para a UNI</h2>
+      <p class="section-desc">Três caminhos de evolução digital, cada um entregando o site <strong>hospedado e funcionando</strong> no domínio de vocês, pronto para uso desde o primeiro dia.</p>
+    </div>
+
+    <div class="plans-grid">
+
+      <!-- PLAN 1: Essencial -->
+      <div class="plan-card plan-1 reveal reveal-d1">
+        <div class="plan-badge badge-1">🌱 Essencial</div>
+        <div class="plan-name">Site Institucional</div>
+        <p class="plan-desc">Uma presença digital elegante e profissional que apresenta a escola com toda a beleza que ela merece.</p>
+
+        <div class="plan-price-block">
+          <div class="plan-price-label">Investimento único</div>
+          <div class="plan-price price-1">
+            <span class="price-currency">R$</span>
+            <span class="price-amount">3.500</span>
+          </div>
+          <div class="price-note">Pagamento à vista ou parcelado em até 3×</div>
+        </div>
+
+        <a href="#contato" class="plan-cta cta-1">Quero este plano →</a>
+
+        <div class="plan-features-title">O que está incluído</div>
+        <ul class="plan-features">
+          <li><span class="feat-icon feat-green">✓</span><div>Site estático completo com <span class="feat-strong">todas as seções</span> do protótipo</div></li>
+          <li><span class="feat-icon feat-green">✓</span><div>Design responsivo para celular, tablet e desktop</div></li>
+          <li><span class="feat-icon feat-green">✓</span><div>Formulário de contato funcional com envio por e-mail</div></li>
+          <li><span class="feat-icon feat-green">✓</span><div>Botão de WhatsApp flutuante</div></li>
+          <li><span class="feat-icon feat-green">✓</span><div>Animações e microinterações premium</div></li>
+          <li><span class="feat-icon feat-green">✓</span><div><span class="feat-strong">Hospedagem e configuração do domínio</span> incluídas no setup</div></li>
+          <li><span class="feat-icon feat-green">✓</span><div>HTTPS / SSL ativo e seguro</div></li>
+          <li><span class="feat-icon feat-green">✓</span><div>Otimizações básicas de velocidade e performance</div></li>
+          <li><span class="feat-icon feat-green">✓</span><div>Suporte técnico por 30 dias após entrega</div></li>
+        </ul>
+      </div>
+
+      <!-- PLAN 2: Avançado -->
+      <div class="plan-card plan-2 reveal reveal-d2">
+        <div class="popular-ribbon">⭐ Mais popular</div>
+        <div class="plan-badge badge-2">🚀 Avançado</div>
+        <div class="plan-name">Site + Blog</div>
+        <p class="plan-desc">Tudo do plano essencial, mais um blog completo para engajar famílias e fortalecer a relação com a comunidade escolar.</p>
+
+        <div class="plan-price-block">
+          <div class="plan-price-label">Investimento único</div>
+          <div class="plan-price price-2">
+            <span class="price-currency">R$</span>
+            <span class="price-amount">6.500</span>
+          </div>
+          <div class="price-note">Pagamento à vista ou parcelado em até 3×</div>
+        </div>
+
+        <a href="#contato" class="plan-cta cta-2">Quero este plano →</a>
+
+        <div class="plan-features-title">Tudo do Essencial, mais</div>
+        <ul class="plan-features">
+          <li><span class="feat-icon feat-lilac">✦</span><div><span class="feat-strong">Blog integrado</span> com listagem e páginas individuais de artigos</div></li>
+          <li><span class="feat-icon feat-lilac">✦</span><div>Categorias e tags para organizar conteúdo</div></li>
+          <li><span class="feat-icon feat-lilac">✦</span><div>Área de busca dentro do blog</div></li>
+        </ul>
+
+        <div class="plan-sep"></div>
+
+        <div class="highlight-box hl-lilac">
+          <div class="highlight-box-title">⚙️ Painel Administrativo</div>
+          <ul>
+            <li>Login seguro exclusivo para a escola</li>
+            <li>Editor visual para criar e publicar posts sem código</li>
+            <li>Upload de imagens e gerenciamento de mídia</li>
+            <li>Rascunhos, agendamento e publicação de artigos</li>
+            <li>Controle de quem pode acessar o painel</li>
+          </ul>
+        </div>
+
+        <ul class="plan-features" style="margin-top:1rem">
+          <li><span class="feat-icon feat-lilac">✦</span><div>Suporte técnico por 60 dias após entrega</div></li>
+        </ul>
+      </div>
+
+      <!-- PLAN 3: Premium -->
+      <div class="plan-card plan-3 reveal reveal-d3">
+        <div class="plan-badge badge-3">👑 Premium</div>
+        <div class="plan-name">Site + Blog +<br>SEO + Projetos</div>
+        <p class="plan-desc">A solução completa para a UNI ser encontrada no Google e mostrar toda a riqueza pedagógica dos seus projetos.</p>
+
+        <div class="plan-price-block">
+          <div class="plan-price-label">Investimento único</div>
+          <div class="plan-price price-3">
+            <span class="price-currency">R$</span>
+            <span class="price-amount">9.500</span>
+          </div>
+          <div class="price-note">Pagamento à vista ou parcelado em até 3×</div>
+        </div>
+
+        <a href="#contato" class="plan-cta cta-3">Quero este plano →</a>
+
+        <div class="plan-features-title">Tudo do Avançado, mais</div>
+
+        <div class="highlight-box hl-gold">
+          <div class="highlight-box-title">🔍 SEO Completo</div>
+          <ul>
+            <li>Otimização de meta tags, títulos e descrições para todos as páginas</li>
+            <li>Estrutura de URLs amigável para buscadores</li>
+            <li>Sitemap XML gerado e submetido automaticamente</li>
+            <li>Configuração de Schema / Rich Snippets (dados estruturados)</li>
+            <li>Otimização de imagens com alt text e compressão WebP</li>
+            <li>Performance técnica avançada (Core Web Vitals)</li>
+            <li>Relatório de SEO entregue no lançamento</li>
+          </ul>
+        </div>
+
+        <div class="highlight-box hl-lilac" style="margin-top:0.75rem">
+          <div class="highlight-box-title">🎨 Portfólio de Projetos</div>
+          <ul>
+            <li>Galeria de projetos pedagógicos com fotos e descrições</li>
+            <li>Páginas individuais por projeto com galeria de imagens</li>
+            <li>Filtro por faixa etária ou tema do projeto</li>
+            <li>Painel admin para cadastrar e editar projetos sem código</li>
+            <li>Upload de fotos e documentos diretamente no painel</li>
+          </ul>
+        </div>
+
+        <ul class="plan-features" style="margin-top:1rem">
+          <li><span class="feat-icon feat-gold">✦</span><div>Painel administrativo unificado para Blog <span class="feat-strong">e</span> Projetos</div></li>
+          <li><span class="feat-icon feat-gold">✦</span><div>Suporte técnico por 90 dias após entrega</div></li>
+        </ul>
+      </div>
+
+    </div><!-- /plans-grid -->
+  </div>
+</section>
+
+<!-- HOSTING NOTICE -->
+<section class="hosting-section">
+  <div class="hosting-box reveal">
+    <div class="hosting-icon">🏠</div>
+    <div class="hosting-content">
+      <h3>Sobre hospedagem e domínio</h3>
+      <p>
+        <strong>O setup inicial está incluído no investimento:</strong> vamos colocar o site no ar, configurar o domínio e ativar o SSL para vocês. Porém, os custos <strong>anuais recorrentes</strong> de hospedagem e domínio são de responsabilidade da UNI. Esses valores são cobrados diretamente pelos provedores, fora desta proposta.
+      </p>
+      <div class="hosting-items">
+        <div class="hosting-item"><span>🌐</span> Domínio .com.br: ~R$ 50–80/ano</div>
+        <div class="hosting-item"><span>☁️</span> Hospedagem: ~R$ 200–600/ano</div>
+        <div class="hosting-item"><span>🔒</span> SSL incluso no setup</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COMPARISON TABLE -->
+<section class="compare-section">
+  <div class="compare-header reveal">
+    <div class="section-label"><span>Comparativo</span></div>
+    <h2 class="section-title">Veja lado a lado</h2>
+    <p class="section-desc">Entenda exatamente o que cada plano entrega para tomar a melhor decisão.</p>
+  </div>
+
+  <div class="compare-table reveal">
+    <table>
+      <thead>
+        <tr>
+          <th></th>
+          <th>🌱 Essencial<br><small>R$ 3.500</small></th>
+          <th class="th-best">🚀 Avançado<br><small>R$ 6.500</small></th>
+          <th class="th-gold">👑 Premium<br><small>R$ 9.500</small></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Site institucional completo</td><td><span class="check">✓</span></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td></tr>
+        <tr><td>Design responsivo mobile</td><td><span class="check">✓</span></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td></tr>
+        <tr><td>Formulário de contato</td><td><span class="check">✓</span></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td></tr>
+        <tr><td>WhatsApp flutuante</td><td><span class="check">✓</span></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td></tr>
+        <tr><td>Animações e microinterações</td><td><span class="check">✓</span></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td></tr>
+        <tr><td>Setup de hospedagem e domínio</td><td><span class="check">✓</span></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td></tr>
+        <tr><td>Blog com artigos e categorias</td><td><span class="cross">✕</span></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td></tr>
+        <tr><td>Painel admin para Blog</td><td><span class="cross">✕</span></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td></tr>
+        <tr><td>Portfólio de Projetos</td><td><span class="cross">✕</span></td><td><span class="cross">✕</span></td><td><span class="check">✓</span></td></tr>
+        <tr><td>Painel admin para Projetos</td><td><span class="cross">✕</span></td><td><span class="cross">✕</span></td><td><span class="check">✓</span></td></tr>
+        <tr><td>SEO completo (meta, schema, sitemap)</td><td><span class="cross">✕</span></td><td><span class="cross">✕</span></td><td><span class="check">✓</span></td></tr>
+        <tr><td>Core Web Vitals otimizados</td><td><span class="partial">básico</span></td><td><span class="partial">básico</span></td><td><span class="check">✓</span></td></tr>
+        <tr><td>Suporte técnico pós-entrega</td><td>30 dias</td><td>60 dias</td><td>90 dias</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">
+    <div class="logo-mark-dark">U</div>
+    <h3>UNI · Educação Infantil</h3>
+  </div>
+  <p>Vamos conversar sobre o próximo passo? Estamos prontos para transformar o protótipo em um site real e incrível para a UNI.</p>
+  <div class="footer-contact">
+    <a href="mailto:contato@seusite.com">✉️ Enviar e-mail</a>
+    <a href="https://wa.me/5511999999999">💬 Chamar no WhatsApp</a>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2025 · Proposta confidencial preparada exclusivamente para <a href="#">UNI Escola de Educação Infantil</a></p>
+  </div>
+</footer>
+
+<script>
+  // SCROLL REVEAL
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        revealObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+  document.querySelectorAll('.reveal').forEach(r => revealObserver.observe(r));
+
+  // Stagger plan cards
+  document.querySelectorAll('.plan-card').forEach((card, i) => {
+    card.style.transitionDelay = (i * 0.12) + 's';
+  });
+</script>
+</body>
+</html>
