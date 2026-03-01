@@ -137,7 +137,7 @@ header { padding: 3rem 1.5rem 0; position: relative; z-index: 1; }
 .section-desc { font-size: 1rem; color: var(--text-mid); line-height: 1.7; max-width: 580px; }
 
 /* =============================================
-   PLANS GRID — alinhamento perfeito via subgrid
+   PLANS GRID — cards equalized with expand
    ============================================= */
 .plans-section { padding: 2rem 1.5rem 5rem; position: relative; z-index: 1; }
 .plans-header { margin-bottom: 3.5rem; }
@@ -149,7 +149,7 @@ header { padding: 3rem 1.5rem 0; position: relative; z-index: 1; }
   align-items: start;
 }
 
-/* Cada card usa subgrid para as linhas internas */
+/* Each card */
 .plan-card {
   background: white;
   border-radius: 28px;
@@ -158,35 +158,191 @@ header { padding: 3rem 1.5rem 0; position: relative; z-index: 1; }
   overflow: hidden;
   transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.3s ease;
   box-shadow: 0 4px 30px rgba(136,51,255,0.06);
-
-  /* Flexbox vertical para empurrar o conteúdo de features para baixo */
   display: flex;
   flex-direction: column;
 }
 .plan-card:hover { transform: translateY(-6px); box-shadow: 0 20px 60px rgba(136,51,255,0.15); }
 
-/* Blocos internos padrão */
+/* Fixed blocks always visible */
 .plan-header-block { padding: 2.5rem 2rem 0; }
 .plan-price-block { padding: 0 2rem 1.5rem; margin-top: 1.5rem; }
 .plan-cta-block { padding: 0 2rem 1.5rem; }
 
-/* Features crescem e preenchem espaço restante */
-.plan-body {
-  padding: 0 2rem 2.5rem;
-  flex: 1;
-  display: flex;
-  flex-direction: column;
+/* =============================================
+   COLLAPSIBLE BODY
+   ============================================= */
+.plan-body-wrapper {
+  position: relative;
+  overflow: hidden;
+  /* height animated via JS */
+  transition: height 0.65s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Plano 1 */
+.plan-body {
+  padding: 0 2rem 2.5rem;
+}
+
+/* The fade overlay at bottom of collapsed card */
+.plan-fade {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 120px;
+  pointer-events: none;
+  opacity: 1;
+  transition: opacity 0.45s ease;
+}
+.plan-1 .plan-fade {
+  background: linear-gradient(to bottom, rgba(255,255,255,0) 0%, rgba(255,255,255,0.85) 55%, rgba(255,255,255,1) 100%);
+}
+.plan-2 .plan-fade {
+  background: linear-gradient(to bottom, rgba(252,248,255,0) 0%, rgba(248,240,255,0.88) 55%, rgba(248,240,255,1) 100%);
+}
+.plan-3 .plan-fade {
+  background: linear-gradient(to bottom, rgba(255,253,245,0) 0%, rgba(254,249,236,0.88) 55%, rgba(254,249,236,1) 100%);
+}
+
+.plan-body-wrapper.is-expanded .plan-fade {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* See more button container */
+.plan-expand-btn-wrap {
+  padding: 0 2rem 2.5rem;
+  display: flex;
+  justify-content: center;
+  position: relative;
+  z-index: 2;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+/* Hide the button when expanded (card-level class) */
+.plan-card.is-expanded .plan-expand-btn-wrap {
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(8px);
+  height: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+.plan-expand-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 22px;
+  border-radius: 50px;
+  border: none;
+  cursor: pointer;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.88rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  transition: all 0.25s cubic-bezier(0.34,1.56,0.64,1);
+  position: relative;
+  overflow: hidden;
+}
+.plan-expand-btn::before {
+  content: '';
+  position: absolute; inset: 0;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+.plan-expand-btn:hover { transform: translateY(-2px) scale(1.04); }
+.plan-expand-btn:hover::before { opacity: 1; }
+
+.expand-btn-1 {
+  background: var(--lilac-50);
+  color: var(--lilac-700);
+  border: 1.5px solid var(--lilac-200);
+  box-shadow: 0 4px 16px rgba(136,51,255,0.1);
+}
+.expand-btn-1::before { background: linear-gradient(135deg, var(--lilac-100), var(--lilac-50)); }
+.expand-btn-1:hover { border-color: var(--lilac-400); box-shadow: 0 8px 24px rgba(136,51,255,0.2); }
+
+.expand-btn-2 {
+  background: linear-gradient(135deg, var(--lilac-500), var(--lilac-700));
+  color: white;
+  box-shadow: 0 6px 22px rgba(136,51,255,0.38);
+}
+.expand-btn-2::before { background: linear-gradient(135deg, var(--lilac-400), var(--lilac-600)); }
+.expand-btn-2:hover { box-shadow: 0 10px 32px rgba(136,51,255,0.52); }
+
+.expand-btn-3 {
+  background: linear-gradient(135deg, var(--gold), #e8931a);
+  color: white;
+  box-shadow: 0 6px 22px rgba(245,166,35,0.38);
+}
+.expand-btn-3::before { background: linear-gradient(135deg, #f7b833, var(--gold)); }
+.expand-btn-3:hover { box-shadow: 0 10px 32px rgba(245,166,35,0.52); }
+
+.expand-btn-arrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px; height: 18px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.25);
+  font-size: 10px;
+  transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1);
+}
+.plan-expand-btn:hover .expand-btn-arrow {
+  transform: translateY(2px);
+}
+
+/* Collapse button shown after expand */
+.plan-collapse-btn-wrap {
+  padding: 0 2rem 2rem;
+  display: flex;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-8px);
+  transition: opacity 0.4s ease 0.3s, transform 0.4s ease 0.3s;
+  height: 0;
+  overflow: hidden;
+}
+
+.plan-card.is-expanded .plan-collapse-btn-wrap {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+  height: auto;
+}
+
+.plan-collapse-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 18px;
+  border-radius: 50px;
+  border: 1.5px solid;
+  cursor: pointer;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 600;
+  background: transparent;
+  transition: all 0.2s ease;
+  opacity: 0.7;
+}
+.plan-collapse-btn:hover { opacity: 1; transform: translateY(-1px); }
+
+.collapse-btn-1 { color: var(--text-light); border-color: var(--lilac-200); }
+.collapse-btn-1:hover { color: var(--lilac-600); border-color: var(--lilac-400); }
+.collapse-btn-2 { color: var(--lilac-500); border-color: var(--lilac-300); }
+.collapse-btn-2:hover { color: var(--lilac-700); border-color: var(--lilac-500); }
+.collapse-btn-3 { color: #c47f00; border-color: rgba(245,166,35,0.4); }
+.collapse-btn-3:hover { color: #9a6200; border-color: var(--gold); }
+
+/* Plan 1 */
 .plan-1 { border-color: var(--lilac-100); }
 .plan-1:hover { border-color: var(--lilac-300); }
 
-/* Plano 2 */
+/* Plan 2 */
 .plan-2 { border-color: var(--lilac-500); background: linear-gradient(160deg, #fdfbff 0%, #f8f0ff 100%); }
 .plan-2::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: linear-gradient(90deg, var(--lilac-500), var(--lilac-300), var(--green-400)); }
 
-/* Plano 3 */
+/* Plan 3 */
 .plan-3 { border-color: var(--gold); background: linear-gradient(160deg, #fffdf5 0%, #fef9ec 100%); }
 .plan-3::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: linear-gradient(90deg, var(--gold), #f7c96e, var(--green-500)); }
 
@@ -314,6 +470,19 @@ footer p { color: rgba(255,255,255,0.55); font-size: 0.9rem; line-height: 1.7; m
 .reveal-d2 { transition-delay: 0.2s; }
 .reveal-d3 { transition-delay: 0.3s; }
 
+/* Content items fade in when expanded */
+.plan-body .plan-features li,
+.plan-body .highlight-box li,
+.plan-body .highlight-box,
+.plan-body .plan-sep {
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.plan-card:not(.is-expanded) .plan-body .plan-features li,
+.plan-card:not(.is-expanded) .plan-body .highlight-box li {
+  /* Items visible but blurred at end via fade overlay */
+}
+
 /* RESPONSIVE */
 @media (max-width: 960px) {
   .plans-grid { grid-template-columns: 1fr; max-width: 480px; margin: 0 auto; }
@@ -378,7 +547,7 @@ footer p { color: rgba(255,255,255,0.55); font-size: 0.9rem; line-height: 1.7; m
     <div class="plans-grid">
 
       <!-- PLAN 1: Essencial -->
-      <div class="plan-card plan-1 reveal reveal-d1">
+      <div class="plan-card plan-1 reveal reveal-d1" data-plan="1">
         <div class="plan-header-block">
           <div class="plan-badge badge-1">🌱 Essencial</div>
           <div class="plan-name">Site Institucional</div>
@@ -398,24 +567,27 @@ footer p { color: rgba(255,255,255,0.55); font-size: 0.9rem; line-height: 1.7; m
           <a href="https://wa.me/555492122069?text=Ol%C3%A1%2C+quero+aceitar+a+proposta+do+plano+Essencial+%E2%80%94+Site+Institucional+por+R%24+3.500.+Podemos+conversar%3F" target="_blank" class="plan-cta cta-1">Aceitar este plano →</a>
         </div>
 
-        <div class="plan-body">
-          <div class="plan-features-title">O que está incluído</div>
-          <ul class="plan-features">
-            <li><span class="feat-icon feat-green">✓</span><div>Site estático completo com <span class="feat-strong">todas as seções</span> do protótipo</div></li>
-            <li><span class="feat-icon feat-green">✓</span><div>Design responsivo para celular, tablet e desktop</div></li>
-            <li><span class="feat-icon feat-green">✓</span><div>Formulário de contato funcional com envio por e-mail</div></li>
-            <li><span class="feat-icon feat-green">✓</span><div>Botão de WhatsApp flutuante</div></li>
-            <li><span class="feat-icon feat-green">✓</span><div>Animações e microinterações premium</div></li>
-            <li><span class="feat-icon feat-green">✓</span><div><span class="feat-strong">Hospedagem e configuração do domínio</span> incluídas no setup</div></li>
-            <li><span class="feat-icon feat-green">✓</span><div>HTTPS / SSL ativo e seguro</div></li>
-            <li><span class="feat-icon feat-green">✓</span><div>Otimizações básicas de velocidade e performance</div></li>
-            <li><span class="feat-icon feat-green">✓</span><div>Suporte técnico por 30 dias após entrega</div></li>
-          </ul>
+        <!-- Body with no expand needed for plan 1 (shortest) -->
+        <div class="plan-body-wrapper" data-no-expand="true">
+          <div class="plan-body">
+            <div class="plan-features-title">O que está incluído</div>
+            <ul class="plan-features">
+              <li><span class="feat-icon feat-green">✓</span><div>Site estático completo com <span class="feat-strong">todas as seções</span> do protótipo</div></li>
+              <li><span class="feat-icon feat-green">✓</span><div>Design responsivo para celular, tablet e desktop</div></li>
+              <li><span class="feat-icon feat-green">✓</span><div>Formulário de contato funcional com envio por e-mail</div></li>
+              <li><span class="feat-icon feat-green">✓</span><div>Botão de WhatsApp flutuante</div></li>
+              <li><span class="feat-icon feat-green">✓</span><div>Animações e microinterações premium</div></li>
+              <li><span class="feat-icon feat-green">✓</span><div><span class="feat-strong">Hospedagem e configuração do domínio</span> incluídas no setup</div></li>
+              <li><span class="feat-icon feat-green">✓</span><div>HTTPS / SSL ativo e seguro</div></li>
+              <li><span class="feat-icon feat-green">✓</span><div>Otimizações básicas de velocidade e performance</div></li>
+              <li><span class="feat-icon feat-green">✓</span><div>Suporte técnico por 30 dias após entrega</div></li>
+            </ul>
+          </div>
         </div>
       </div>
 
       <!-- PLAN 2: Avançado -->
-      <div class="plan-card plan-2 reveal reveal-d2">
+      <div class="plan-card plan-2 reveal reveal-d2" data-plan="2">
         <div class="popular-ribbon">⭐ Mais popular</div>
 
         <div class="plan-header-block">
@@ -437,35 +609,51 @@ footer p { color: rgba(255,255,255,0.55); font-size: 0.9rem; line-height: 1.7; m
           <a href="https://wa.me/555492122069?text=Ol%C3%A1%2C+quero+aceitar+a+proposta+do+plano+Avan%C3%A7ado+%E2%80%94+Site+%2B+Blog+por+R%24+6.500.+Podemos+conversar%3F" target="_blank" class="plan-cta cta-2">Aceitar este plano →</a>
         </div>
 
-        <div class="plan-body">
-          <div class="plan-features-title">Tudo do Essencial, mais</div>
-          <ul class="plan-features">
-            <li><span class="feat-icon feat-lilac">✦</span><div><span class="feat-strong">Blog integrado</span> com listagem e páginas individuais de artigos</div></li>
-            <li><span class="feat-icon feat-lilac">✦</span><div>Categorias e tags para organizar conteúdo</div></li>
-            <li><span class="feat-icon feat-lilac">✦</span><div>Área de busca dentro do blog</div></li>
-          </ul>
+        <div class="plan-body-wrapper">
+          <div class="plan-body">
+            <div class="plan-features-title">Tudo do Essencial, mais</div>
+            <ul class="plan-features">
+              <li><span class="feat-icon feat-lilac">✦</span><div><span class="feat-strong">Blog integrado</span> com listagem e páginas individuais de artigos</div></li>
+              <li><span class="feat-icon feat-lilac">✦</span><div>Categorias e tags para organizar conteúdo</div></li>
+              <li><span class="feat-icon feat-lilac">✦</span><div>Área de busca dentro do blog</div></li>
+            </ul>
 
-          <div class="plan-sep"></div>
+            <div class="plan-sep"></div>
 
-          <div class="highlight-box hl-lilac">
-            <div class="highlight-box-title">⚙️ Painel Administrativo</div>
-            <ul>
-              <li>Login seguro exclusivo para a escola</li>
-              <li>Editor visual para criar e publicar posts sem código</li>
-              <li>Upload de imagens e gerenciamento de mídia</li>
-              <li>Rascunhos, agendamento e publicação de artigos</li>
-              <li>Controle de quem pode acessar o painel</li>
+            <div class="highlight-box hl-lilac">
+              <div class="highlight-box-title">⚙️ Painel Administrativo</div>
+              <ul>
+                <li>Login seguro exclusivo para a escola</li>
+                <li>Editor visual para criar e publicar posts sem código</li>
+                <li>Upload de imagens e gerenciamento de mídia</li>
+                <li>Rascunhos, agendamento e publicação de artigos</li>
+                <li>Controle de quem pode acessar o painel</li>
+              </ul>
+            </div>
+
+            <ul class="plan-features" style="margin-top:1rem">
+              <li><span class="feat-icon feat-lilac">✦</span><div>Suporte técnico por 45 dias após entrega</div></li>
             </ul>
           </div>
+          <div class="plan-fade"></div>
+        </div>
 
-          <ul class="plan-features" style="margin-top:1rem">
-            <li><span class="feat-icon feat-lilac">✦</span><div>Suporte técnico por 45 dias após entrega</div></li>
-          </ul>
+        <div class="plan-expand-btn-wrap">
+          <button class="plan-expand-btn expand-btn-2" onclick="expandCard(this)">
+            <span>Ver tudo incluído</span>
+            <span class="expand-btn-arrow">↓</span>
+          </button>
+        </div>
+
+        <div class="plan-collapse-btn-wrap">
+          <button class="plan-collapse-btn collapse-btn-2" onclick="collapseCard(this)">
+            ↑ Ver menos
+          </button>
         </div>
       </div>
 
       <!-- PLAN 3: Premium -->
-      <div class="plan-card plan-3 reveal reveal-d3">
+      <div class="plan-card plan-3 reveal reveal-d3" data-plan="3">
         <div class="plan-header-block">
           <div class="plan-badge badge-3">👑 Premium</div>
           <div class="plan-name">Site + Blog +<br>SEO + Projetos</div>
@@ -485,37 +673,53 @@ footer p { color: rgba(255,255,255,0.55); font-size: 0.9rem; line-height: 1.7; m
           <a href="https://wa.me/555492122069?text=Ol%C3%A1%2C+quero+aceitar+a+proposta+do+plano+Premium+%E2%80%94+Site+%2B+Blog+%2B+SEO+%2B+Projetos+por+R%24+9.500.+Podemos+conversar%3F" target="_blank" class="plan-cta cta-3">Aceitar este plano →</a>
         </div>
 
-        <div class="plan-body">
-          <div class="plan-features-title">Tudo do Avançado, mais</div>
+        <div class="plan-body-wrapper">
+          <div class="plan-body">
+            <div class="plan-features-title">Tudo do Avançado, mais</div>
 
-          <div class="highlight-box hl-gold">
-            <div class="highlight-box-title">🔍 SEO Completo</div>
-            <ul>
-              <li>Otimização de meta tags, títulos e descrições para todas as páginas</li>
-              <li>Estrutura de URLs amigável para buscadores</li>
-              <li>Sitemap XML gerado e submetido automaticamente</li>
-              <li>Configuração de Schema / Rich Snippets (dados estruturados)</li>
-              <li>Otimização de imagens com alt text e compressão WebP</li>
-              <li>Performance técnica avançada (Core Web Vitals)</li>
-              <li>Relatório de SEO entregue no lançamento</li>
+            <div class="highlight-box hl-gold">
+              <div class="highlight-box-title">🔍 SEO Completo</div>
+              <ul>
+                <li>Otimização de meta tags, títulos e descrições para todas as páginas</li>
+                <li>Estrutura de URLs amigável para buscadores</li>
+                <li>Sitemap XML gerado e submetido automaticamente</li>
+                <li>Configuração de Schema / Rich Snippets (dados estruturados)</li>
+                <li>Otimização de imagens com alt text e compressão WebP</li>
+                <li>Performance técnica avançada (Core Web Vitals)</li>
+                <li>Relatório de SEO entregue no lançamento</li>
+              </ul>
+            </div>
+
+            <div class="highlight-box hl-lilac">
+              <div class="highlight-box-title">🎨 Portfólio de Projetos</div>
+              <ul>
+                <li>Galeria de projetos pedagógicos com fotos e descrições</li>
+                <li>Páginas individuais por projeto com galeria de imagens</li>
+                <li>Filtro por faixa etária ou tema do projeto</li>
+                <li>Painel admin para cadastrar e editar projetos sem código</li>
+                <li>Upload de fotos e documentos diretamente no painel</li>
+              </ul>
+            </div>
+
+            <ul class="plan-features" style="margin-top:1rem">
+              <li><span class="feat-icon feat-gold">✦</span><div>Painel administrativo unificado para Blog <span class="feat-strong">e</span> Projetos</div></li>
+              <li><span class="feat-icon feat-gold">✦</span><div>Suporte técnico por 90 dias após entrega</div></li>
             </ul>
           </div>
+          <div class="plan-fade"></div>
+        </div>
 
-          <div class="highlight-box hl-lilac">
-            <div class="highlight-box-title">🎨 Portfólio de Projetos</div>
-            <ul>
-              <li>Galeria de projetos pedagógicos com fotos e descrições</li>
-              <li>Páginas individuais por projeto com galeria de imagens</li>
-              <li>Filtro por faixa etária ou tema do projeto</li>
-              <li>Painel admin para cadastrar e editar projetos sem código</li>
-              <li>Upload de fotos e documentos diretamente no painel</li>
-            </ul>
-          </div>
+        <div class="plan-expand-btn-wrap">
+          <button class="plan-expand-btn expand-btn-3" onclick="expandCard(this)">
+            <span>Ver tudo incluído</span>
+            <span class="expand-btn-arrow">↓</span>
+          </button>
+        </div>
 
-          <ul class="plan-features" style="margin-top:1rem">
-            <li><span class="feat-icon feat-gold">✦</span><div>Painel administrativo unificado para Blog <span class="feat-strong">e</span> Projetos</div></li>
-            <li><span class="feat-icon feat-gold">✦</span><div>Suporte técnico por 90 dias após entrega</div></li>
-          </ul>
+        <div class="plan-collapse-btn-wrap">
+          <button class="plan-collapse-btn collapse-btn-3" onclick="collapseCard(this)">
+            ↑ Ver menos
+          </button>
         </div>
       </div>
 
@@ -586,7 +790,7 @@ footer p { color: rgba(255,255,255,0.55); font-size: 0.9rem; line-height: 1.7; m
   </div>
   <p>Vamos conversar sobre o próximo passo? Estamos prontos para transformar o protótipo em um site real e incrível para a UNI.</p>
   <div class="footer-contact">
-    <a href="mailto:guilhermemineft@gmail.com">✉️ Enviar e-mail</a>
+    <a href="/cdn-cgi/l/email-protection#8deaf8e4e1e5e8ffe0e8e0e4e3e8ebf9cdeae0ece4e1a3eee2e0">✉️ Enviar e-mail</a>
     <a href="https://wa.me/555492122069">💬 Chamar no WhatsApp</a>
   </div>
   <div class="footer-bottom">
@@ -595,6 +799,9 @@ footer p { color: rgba(255,255,255,0.55); font-size: 0.9rem; line-height: 1.7; m
 </footer>
 
 <script>
+  // =====================================================
+  // REVEAL ON SCROLL
+  // =====================================================
   const revealObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
@@ -605,8 +812,101 @@ footer p { color: rgba(255,255,255,0.55); font-size: 0.9rem; line-height: 1.7; m
   }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
   document.querySelectorAll('.reveal').forEach(r => revealObserver.observe(r));
 
-  document.querySelectorAll('.plan-card').forEach((card, i) => {
-    card.style.transitionDelay = (i * 0.12) + 's';
+  // =====================================================
+  // EQUALISE CARD HEIGHTS
+  // Strategy: measure card-1 total height → for cards 2&3,
+  // temporarily zero out their body wrapper to measure
+  // the "non-body" height, then set wrapper height =
+  // card1Height - nonBodyHeight so total matches card-1.
+  // =====================================================
+
+  function initCards() {
+    const card1 = document.querySelector('.plan-card.plan-1');
+    const card2 = document.querySelector('.plan-card.plan-2');
+    const card3 = document.querySelector('.plan-card.plan-3');
+    if (!card1 || !card2 || !card3) return;
+
+    // Ensure wrappers start at auto so we can measure full height
+    [card2, card3].forEach(card => {
+      const w = card.querySelector('.plan-body-wrapper');
+      if (w) {
+        w.style.transition = 'none';
+        w.style.height = 'auto';
+        w.style.overflow = 'hidden';
+      }
+    });
+
+    // Force layout
+    document.body.offsetHeight;
+
+    // Target = card-1 total height
+    const targetH = card1.offsetHeight;
+
+    [card2, card3].forEach(card => {
+      const wrapper = card.querySelector('.plan-body-wrapper');
+      if (!wrapper) return;
+
+      // Save full expanded height
+      const fullH = wrapper.scrollHeight;
+      wrapper.dataset.fullHeight = fullH;
+
+      // Measure how tall the card is WITHOUT the body wrapper
+      wrapper.style.height = '0px';
+      document.body.offsetHeight; // force reflow
+      const withoutBodyH = card.offsetHeight;
+
+      // Collapsed body height = target - everything else
+      const collapsedBodyH = Math.max(60, targetH - withoutBodyH);
+      wrapper.dataset.collapsedHeight = collapsedBodyH;
+
+      // Set to collapsed height
+      wrapper.style.height = collapsedBodyH + 'px';
+
+      // Re-enable transitions after a tick
+      setTimeout(() => { wrapper.style.transition = ''; }, 60);
+    });
+  }
+
+  function expandCard(btn) {
+    const card = btn.closest('.plan-card');
+    const wrapper = card.querySelector('.plan-body-wrapper');
+    if (!wrapper) return;
+
+    const fullH = parseInt(wrapper.dataset.fullHeight);
+    wrapper.style.height = fullH + 'px';
+    wrapper.classList.add('is-expanded');
+    card.classList.add('is-expanded');
+  }
+
+  function collapseCard(btn) {
+    const card = btn.closest('.plan-card');
+    const wrapper = card.querySelector('.plan-body-wrapper');
+    if (!wrapper) return;
+
+    const collapsedH = parseInt(wrapper.dataset.collapsedHeight);
+    wrapper.style.height = collapsedH + 'px';
+    wrapper.classList.remove('is-expanded');
+    card.classList.remove('is-expanded');
+
+    setTimeout(() => {
+      card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }, 100);
+  }
+
+  window.addEventListener('load', () => setTimeout(initCards, 200));
+
+  let resizeTimer;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => {
+      document.querySelectorAll('.plan-card').forEach(c => c.classList.remove('is-expanded'));
+      document.querySelectorAll('.plan-body-wrapper').forEach(w => {
+        w.style.transition = 'none';
+        w.classList.remove('is-expanded');
+        w.style.height = 'auto';
+      });
+      setTimeout(initCards, 50);
+    }, 250);
   });
 </script>
 </body>
